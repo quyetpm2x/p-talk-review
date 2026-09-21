@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./vite.config.ts"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/lessons/index.ts","./src/lessons/validate.ts","./src/lib/leitner.ts","./src/lib/picker.ts","./src/lib/progress.ts","./src/lib/recognition.ts","./src/lib/recorder.ts","./src/lib/scoring.ts","./src/lib/shuffle.ts","./src/lib/speech.ts","./tests/leitner.test.ts","./tests/picker.test.ts","./tests/progress.test.ts","./tests/scoring.test.ts","./tests/validate.test.ts","./vite.config.ts"],"version":"5.9.3"}
