@@ -1,0 +1,248 @@
+{
+  "id": "level2-01",
+  "level": 2,
+  "number": 1,
+  "title": "Meeting Again",
+  "titleVi": "Gặp lại người quen",
+  "objectives": [
+    "Nhận ra & chào lại: nhận ra người quen và chào hỏi tự nhiên.",
+    "Hỏi thăm & cập nhật: hỏi thăm và kể lại tin tức của mình.",
+    "Kết thúc khéo & giữ liên lạc: khép lại cuộc trò chuyện và hẹn gặp lại."
+  ],
+  "groups": [
+    { "id": "greet", "en": "Recognizing", "vi": "Nhận ra & chào", "icon": "👋", "order": 1 },
+    { "id": "surprise", "en": "Surprise", "vi": "Bày tỏ bất ngờ", "icon": "😲", "order": 2 },
+    { "id": "catchup", "en": "Catching up", "vi": "Hỏi thăm", "icon": "💬", "order": 3 },
+    { "id": "news", "en": "Sharing news", "vi": "Cập nhật về mình", "icon": "📰", "order": 4 },
+    { "id": "wrap", "en": "Wrapping up", "vi": "Kết thúc & giữ liên lạc", "icon": "🔗", "order": 5 }
+  ],
+  "phrases": [
+    { "id": "g1", "group": "greet", "en": "Long time no see!", "vi": "Lâu lắm không gặp!", "blank": "see", "situation": "Gặp lại một người bạn cũ sau nhiều năm — câu chào đầu tiên bật ra." },
+    { "id": "g2", "group": "greet", "en": "I almost didn't recognize you!", "vi": "Suýt không nhận ra cậu!", "blank": "recognize", "situation": "Bạn cũ trông khác hẳn (tóc mới, gầy đi nhiều), bạn thốt lên." },
+    { "id": "g3", "group": "greet", "en": "You haven't changed a bit!", "synonym": "You look exactly the same.", "vi": "Chẳng đổi tí nào!", "blank": "changed", "situation": "Bạn cũ trông vẫn y như hồi xưa, bạn khen một câu." },
+    { "id": "g4", "group": "greet", "en": "It's been ages!", "synonym": "It's been a long time.", "vi": "Lâu ơi là lâu!", "blank": "ages", "situation": "Muốn nhấn mạnh rằng hai người đã rất, rất lâu không gặp." },
+    { "id": "g5", "group": "greet", "en": "It's so good to see you again!", "synonym": "I'm so happy to see you.", "vi": "Mừng quá được gặp lại!", "blank": "good", "situation": "Bày tỏ niềm vui thật lòng khi gặp lại người quen." },
+
+    { "id": "s1", "group": "surprise", "en": "What are the odds!", "synonym": "What a coincidence!", "vi": "Trùng hợp ghê!", "intensity": 3, "note": "Bất ngờ nhất — khả năng gặp nhau cực nhỏ (~1%).", "blank": "odds", "situation": "Tình cờ gặp đồng nghiệp cũ ở một thành phố xa lạ bên nước ngoài." },
+    { "id": "s2", "group": "surprise", "en": "What a small world!", "vi": "Trái đất tròn thật!", "blank": "small", "situation": "Phát hiện người mới quen hoá ra là bạn thân của anh họ mình." },
+    { "id": "s3", "group": "surprise", "en": "No way!", "vi": "Không thể nào!", "intensity": 2, "note": "Bất ngờ vừa.", "blank": "way", "situation": "Nghe bạn cũ kể vừa bỏ việc để mở công ty riêng — khó tin quá." },
+    { "id": "s4", "group": "surprise", "en": "I can't believe it's you!", "vi": "Không ngờ là cậu!", "blank": "believe", "situation": "Nhận ra người đứng trước mặt chính là bạn thân thời cấp 3." },
+    { "id": "s5", "group": "surprise", "en": "Fancy running into you here!", "synonym": "I didn't expect to see you here.", "vi": "Ngờ đâu gặp cậu ở đây!", "intensity": 1, "note": "Hơi bất ngờ một chút.", "blank": "running", "situation": "Gặp hàng xóm cũ ở siêu thị gần nhà mới — hơi bất ngờ một chút." },
+
+    { "id": "c1", "group": "catchup", "en": "How have you been?", "synonym": "How are you?", "vi": "Dạo này sao?", "blank": "been", "situation": "Hỏi thăm chung chung cuộc sống, sức khoẻ của người lâu không gặp." },
+    { "id": "c2", "group": "catchup", "en": "What have you been up to?", "synonym": "What are you doing these days?", "vi": "Bao lâu nay làm gì?", "blank": "up", "situation": "Muốn biết thời gian qua bạn cũ đã bận rộn với những việc gì." },
+    { "id": "c3", "group": "catchup", "en": "How's life treating you?", "synonym": "How is everything?", "vi": "Dạo này ổn không?", "blank": "treating", "situation": "Hỏi thăm thân mật, vui vẻ xem cuộc sống của bạn có suôn sẻ không." },
+    { "id": "c4", "group": "catchup", "en": "How's the family?", "vi": "Gia đình thế nào?", "blank": "family", "situation": "Hỏi thăm bố mẹ, vợ con của người quen." },
+    { "id": "c5", "group": "catchup", "en": "What's new with you?", "vi": "Có gì mới không?", "blank": "new", "situation": "Hỏi xem gần đây người kia có tin tức gì mới." },
+
+    { "id": "n1", "group": "news", "en": "Believe it or not, ...", "synonym": "You won't believe this, ...", "vi": "Tin được không, ...", "blank": "Believe", "situation": "Mở đầu khi sắp kể một tin bất ngờ về bản thân." },
+    { "id": "n2", "group": "news", "en": "You'll never guess what — ...", "synonym": "I have surprising news — ...", "vi": "Đoán không ra đâu — ...", "blank": "guess", "situation": "Muốn làm người nghe tò mò trước khi kể tin." },
+    { "id": "n3", "group": "news", "en": "I've got some big news ...", "vi": "Tôi có tin lớn đây ...", "blank": "news", "situation": "Chuẩn bị báo một tin quan trọng: sắp cưới, đổi việc, chuyển nhà." },
+    { "id": "n4", "group": "news", "en": "Actually, ...", "vi": "Thật ra thì, ...", "blank": "Actually", "situation": "Kể sự thật khác với điều người kia đang nghĩ (\"Cậu vẫn ở ngân hàng à?\" — \"...\")." },
+    { "id": "n5", "group": "news", "en": "Same old, same old.", "synonym": "Nothing new.", "vi": "Vẫn vậy thôi.", "blank": "old", "situation": "Được hỏi \"Có gì mới không?\" nhưng cuộc sống chẳng thay đổi gì." },
+
+    { "id": "w1", "group": "wrap", "en": "We should catch up properly.", "synonym": "We should meet and talk more.", "vi": "Phải hẹn nói chuyện đàng hoàng.", "blank": "properly", "situation": "Đang vội, muốn hẹn một buổi khác để nói chuyện lâu hơn." },
+    { "id": "w2", "group": "wrap", "en": "Let's not leave it so long.", "synonym": "Let's not wait so long again.", "vi": "Đừng để lâu thế nữa.", "blank": "long", "situation": "Nhắc nhau lần sau đừng để lâu như vậy mới gặp lại." },
+    { "id": "w3", "group": "wrap", "en": "Are you on Zalo?", "vi": "Cậu có Zalo không?", "blank": "Zalo", "situation": "Muốn kết nối với nhau qua ứng dụng nhắn tin." },
+    { "id": "w4", "group": "wrap", "en": "Give me your number.", "vi": "Cho tớ xin số.", "blank": "number", "situation": "Xin số điện thoại để giữ liên lạc." },
+    { "id": "w5", "group": "wrap", "en": "We'll sort out a day.", "synonym": "We'll pick a day.", "vi": "Mình hẹn ngày sau.", "blank": "sort", "situation": "Chưa chốt được ngày gặp, hứa sẽ thống nhất sau." }
+  ],
+  "extraPhrases": [
+    { "id": "x1", "en": "Time really does fly!", "vi": "Thời gian trôi nhanh thật", "source": "Mission 3", "blank": "fly" },
+    { "id": "x2", "en": "My family still asks after you.", "vi": "Cả nhà tôi vẫn hay hỏi thăm cậu", "source": "Mission 3", "blank": "asks" },
+    { "id": "x3", "en": "It's so nice to see a familiar face.", "vi": "Mừng khi gặp lại người quen", "source": "Mission 3", "blank": "familiar" },
+    { "id": "x4", "en": "You should drop by if you're ever in the area.", "vi": "Ghé qua nếu ngang đây nhé", "source": "Mission 3", "blank": "drop" },
+    { "id": "x5", "en": "That night's a bit hazy, to be honest.", "vi": "Thú thật tối đó tôi nhớ mang máng", "source": "Mission 4", "blank": "hazy" },
+    { "id": "x6", "en": "We're both friends of the bride.", "vi": "Bọn tôi đều là bạn của cô dâu", "source": "Mission 4", "blank": "bride" },
+    { "id": "x7", "en": "You look familiar — have we met before?", "vi": "Trông quen quen, mình gặp nhau chưa nhỉ?", "source": "Mission 4", "blank": "familiar" },
+    { "id": "x8", "en": "How do you know the groom?", "vi": "Cậu quen chú rể kiểu gì?", "source": "Mission 4", "blank": "groom" },
+    { "id": "x9", "en": "We keep bumping into each other at her events!", "vi": "Cứ gặp nhau hoài ở mấy dịp của cô ấy", "source": "Mission 4", "blank": "bumping" },
+    { "id": "x10", "en": "We shared that tiny apartment back in college.", "vi": "Hồi đại học ở chung phòng nhỏ đó", "source": "Mission 5", "blank": "shared" },
+    { "id": "x11", "en": "Do you still hear from the others?", "vi": "Còn tin tức mấy đứa kia không?", "source": "Mission 5", "blank": "hear" },
+    { "id": "x12", "en": "We really fell out of touch, didn't we?", "vi": "Mình bặt tin nhau thật nhỉ", "source": "Mission 5", "blank": "touch" },
+    { "id": "x13", "en": "It's been way too long!", "vi": "Lâu quá rồi!", "source": "Mission 5", "blank": "way" },
+    { "id": "x14", "en": "It's been a minute.", "vi": "Lâu ghê rồi nhỉ", "source": "Mission 5", "blank": "minute" },
+    { "id": "x15", "en": "Do you remember that time when ...?", "vi": "Cậu còn nhớ hồi ... không?", "source": "Mission 5", "blank": "remember" },
+    { "id": "x16", "en": "We completely lost touch after graduation.", "vi": "Mất liên lạc hẳn sau khi ra trường", "source": "Mission 6", "blank": "lost" },
+    { "id": "x17", "en": "We go way back.", "vi": "Quen nhau từ lâu lắm rồi", "source": "Mission 6", "blank": "back" },
+    { "id": "x18", "en": "I became a nurse — the hours are long, but it suits me.", "vi": "Tôi làm y tá — giờ giấc dài nhưng hợp tôi", "source": "Mission 6", "blank": "suits" },
+    { "id": "x19", "en": "You haven't aged a day!", "vi": "Trông chẳng già đi tí nào!", "source": "Mission 6", "blank": "aged" },
+    { "id": "x20", "en": "We should have a proper reunion.", "vi": "Phải họp mặt tử tế mới được", "source": "Mission 6", "blank": "reunion" }
+  ],
+  "dialogues": [
+    {
+      "title": "Running into an old schoolmate",
+      "setting": "at a café",
+      "lines": [
+        { "speaker": "A", "text": "Mai? Is that you?", "toolkit": [] },
+        { "speaker": "B", "text": "Oh my gosh — Hùng! Long time no see!", "toolkit": ["Long time no see!"] },
+        { "speaker": "A", "text": "I know — it must be years! What are you doing here?", "toolkit": [] },
+        { "speaker": "B", "text": "I just moved to this neighborhood last month. I come here every day now.", "toolkit": [] },
+        { "speaker": "A", "text": "No way, we're basically neighbors! Are you still at the bank?", "toolkit": ["No way"] },
+        { "speaker": "B", "text": "No, I changed jobs — I work for a tech company now. How about you?", "toolkit": [] },
+        { "speaker": "A", "text": "Same job, but I got promoted — I'm a manager now.", "toolkit": [] },
+        { "speaker": "B", "text": "That's great, congrats! We should grab a coffee and catch up properly.", "toolkit": ["catch up properly"] },
+        { "speaker": "A", "text": "Definitely. Here's my number — text me this weekend!", "toolkit": [] },
+        { "speaker": "B", "text": "Will do. So good to see you, Hùng!", "toolkit": ["So good to see you"] }
+      ],
+      "newWords": [
+        { "en": "we're basically neighbors", "meaning": "we live very close now", "vi": "coi như hàng xóm luôn" }
+      ]
+    },
+    {
+      "title": "Bumping into a former colleague",
+      "setting": "on the street",
+      "lines": [
+        { "speaker": "A", "text": "Hold on... Tuấn? From PTALK?", "toolkit": [] },
+        { "speaker": "B", "text": "Linh! What are the odds! It's been ages — how have you been?", "toolkit": ["What are the odds!", "It's been ages", "how have you been?"] },
+        { "speaker": "A", "text": "Really good, thanks! Are you still in marketing?", "toolkit": [] },
+        { "speaker": "B", "text": "Actually, I finally decided to start my own business last year.", "toolkit": ["Actually"] },
+        { "speaker": "A", "text": "No way — good for you! That takes guts.", "toolkit": ["No way"] },
+        { "speaker": "B", "text": "Thanks! It's a lot of work, but I don't regret it. What about you — still at PTALK?", "toolkit": [] },
+        { "speaker": "A", "text": "Still there, but I'm leading the team now. Lots more responsibility.", "toolkit": [] },
+        { "speaker": "B", "text": "That's great, you earned it. You always worked harder than the rest of us.", "toolkit": [] },
+        { "speaker": "A", "text": "Ha, you're too kind. Look, we really should catch up properly — are you on Zalo?", "toolkit": ["catch up properly", "are you on Zalo?"] },
+        { "speaker": "B", "text": "Of course. Send me a message, and let's not leave it so long this time.", "toolkit": ["let's not leave it so long"] }
+      ],
+      "newWords": [
+        { "en": "that takes guts", "meaning": "that's brave", "vi": "cần dũng cảm lắm" },
+        { "en": "you earned it", "meaning": "you deserve it", "vi": "cậu xứng đáng mà" }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "title": "Seeing an old neighbor who moved away",
+      "level": "nhẹ",
+      "situation": "You bump into an old neighbor you haven't seen since you moved across town years ago.",
+      "kickoff": "Wait — Hoa? Is that really you? You used to live next door to us!",
+      "goals": [
+        "Recognize each other and show your surprise.",
+        "Catch up — ask how they and the family have been.",
+        "Share one piece of your own news.",
+        "Wrap up warmly and agree to keep in touch."
+      ],
+      "hints": [
+        { "en": "Time really does fly!", "vi": "Thời gian trôi nhanh thật" },
+        { "en": "My family still asks after you.", "vi": "Cả nhà tôi vẫn hay hỏi thăm cậu" },
+        { "en": "It's so nice to see a familiar face.", "vi": "Mừng khi gặp lại người quen" },
+        { "en": "You should drop by if you're ever in the area.", "vi": "Ghé qua nếu ngang đây nhé" }
+      ]
+    },
+    {
+      "title": "Meeting an acquaintance — at a wedding",
+      "level": "thường",
+      "situation": "You're both at Tâm's wedding. You run into someone you met once — at Tâm's birthday a while ago — but neither remembers it perfectly. (Tâm is the bride.)",
+      "kickoff": "Hi! Aren't you Tâm's cousin? I think we met at her birthday.",
+      "goals": [
+        "Work out how you know each other.",
+        "Catch up — how they've been, and how each of you knows the couple.",
+        "Show surprise at bumping into each other again.",
+        "Wrap up and make a plan (grab a drink / swap contacts)."
+      ],
+      "hints": [
+        { "en": "That night's a bit hazy, to be honest.", "vi": "Thú thật tối đó tôi nhớ mang máng" },
+        { "en": "We're both friends of the bride.", "vi": "Bọn tôi đều là bạn của cô dâu" },
+        { "en": "You look familiar — have we met before?", "vi": "Trông quen quen, mình gặp nhau chưa nhỉ?" },
+        { "en": "How do you know the groom?", "vi": "Cậu quen chú rể kiểu gì?" },
+        { "en": "We keep bumping into each other at her events!", "vi": "Cứ gặp nhau hoài ở mấy dịp của cô ấy" }
+      ]
+    },
+    {
+      "title": "Running into an old roommate",
+      "level": "thường",
+      "situation": "You run into a former roommate from your student days — you shared a tiny apartment back then.",
+      "kickoff": "Phương? No way — we shared that tiny apartment near Bách Khoa, right?",
+      "goals": [
+        "Recognize each other and show your surprise.",
+        "Catch up on work and life.",
+        "Share some big news — a job change, a move, getting married...",
+        "Wrap up and swap contacts to meet properly."
+      ],
+      "hints": [
+        { "en": "We shared that tiny apartment back in college.", "vi": "Hồi đại học ở chung phòng nhỏ đó" },
+        { "en": "Do you still hear from the others?", "vi": "Còn tin tức mấy đứa kia không?" },
+        { "en": "We really fell out of touch, didn't we?", "vi": "Mình bặt tin nhau thật nhỉ" },
+        { "en": "It's been way too long!", "vi": "Lâu quá rồi!" },
+        { "en": "It's been a minute.", "vi": "Lâu ghê rồi nhỉ" },
+        { "en": "Do you remember that time when ...?", "vi": "Cậu còn nhớ hồi ... không?" }
+      ]
+    },
+    {
+      "title": "Reconnecting with an old university friend",
+      "level": "tổng hợp",
+      "situation": "You run into a university friend you completely lost touch with — it's been about six years.",
+      "kickoff": "Quân? Wow — I haven't seen you since university! How long has it been?",
+      "goals": [
+        "Show surprise and recognize each other.",
+        "Catch up — what you've each been doing (jobs, life).",
+        "Share your own news.",
+        "Wrap up and make a firm plan so you don't lose touch again."
+      ],
+      "hints": [
+        { "en": "We completely lost touch after graduation.", "vi": "Mất liên lạc hẳn sau khi ra trường" },
+        { "en": "We go way back.", "vi": "Quen nhau từ lâu lắm rồi" },
+        { "en": "I became a nurse — the hours are long, but it suits me.", "vi": "Tôi làm y tá — giờ giấc dài nhưng hợp tôi" },
+        { "en": "You haven't aged a day!", "vi": "Trông chẳng già đi tí nào!" },
+        { "en": "We should have a proper reunion.", "vi": "Phải họp mặt tử tế mới được" }
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "title": "used to + V — việc/thói quen trong quá khứ, nay không còn",
+      "notes": [
+        "You used to live next door. (trước kia ở cạnh, giờ thì không)",
+        "Phủ định: didn't use to... · Hỏi: Did you use to...?"
+      ],
+      "exercises": [
+        { "type": "choice", "q": "Hoa ___ live next door to us, but she moved away.", "options": ["used to", "uses to", "is used to"], "answer": 0, "explain": "Việc trong quá khứ, nay không còn → used to + V nguyên mẫu." },
+        { "type": "choice", "q": "I ___ like coffee, but now I love it.", "options": ["didn't use to", "didn't used to", "wasn't use to"], "answer": 0, "explain": "Phủ định dùng did → động từ về nguyên mẫu: didn't use to (không có -d)." },
+        { "type": "choice", "q": "___ you use to work at the bank?", "options": ["Did", "Do", "Were"], "answer": 0, "explain": "Câu hỏi: Did you use to...?" },
+        { "type": "input", "q": "We ___ share a tiny apartment near Bách Khoa. (trước kia ở chung, giờ thì không — điền 2 từ)", "answers": ["used to"], "explain": "We used to share... = trước kia ở chung." },
+        { "type": "choice", "q": "Câu nào nghĩa là \"Trước đây tôi làm ở ngân hàng, giờ thì không\"?", "options": ["I used to work at a bank.", "I work at a bank.", "I'm used to working at a bank."], "answer": 0, "explain": "used to + V = thói quen/việc trong quá khứ. (be used to + V-ing nghĩa là \"quen với\" — khác nghĩa.)" }
+      ]
+    },
+    {
+      "title": "Thì hiện tại hoàn thành trong câu xã giao (have/has + V3)",
+      "notes": [
+        "It's been ages! · How have you been? · I haven't seen you since university! · You haven't changed a bit!",
+        "Nối quá khứ → hiện tại (từ lúc đó đến giờ); dùng cho các câu chào khi lâu ngày gặp lại — cứ học nguyên cụm."
+      ],
+      "exercises": [
+        { "type": "choice", "q": "It's ___ ages!", "options": ["been", "be", "being"], "answer": 0, "explain": "It's been = It has been (has + V3)." },
+        { "type": "choice", "q": "How ___ you been?", "options": ["have", "did", "are"], "answer": 0, "explain": "How have you been? — have + been (V3 của be)." },
+        { "type": "choice", "q": "I haven't ___ you since university!", "options": ["seen", "saw", "see"], "answer": 0, "explain": "haven't + V3: see → saw → seen." },
+        { "type": "input", "q": "You haven't ___ a bit! (change)", "answers": ["changed"], "explain": "haven't + V3: change → changed." },
+        { "type": "choice", "q": "Gặp lại bạn cũ sau 5 năm, câu hỏi thăm tự nhiên nhất là:", "options": ["How have you been?", "How were you?", "How do you be?"], "answer": 0, "explain": "How have you been? hỏi về cả khoảng thời gian từ lần gặp trước đến giờ." }
+      ]
+    },
+    {
+      "title": "have got = 've got = have — nghĩa \"có\" (sở hữu)",
+      "notes": [
+        "I've got some big news. = I have some big news. · I've got a big family. = I have a big family.",
+        "'ve got là dạng rút gọn của have got; nghĩa là \"có\", KHÔNG phải hiện tại hoàn thành (đừng nhầm với mục b)."
+      ],
+      "exercises": [
+        { "type": "choice", "q": "\"I've got some big news.\" = ?", "options": ["I have some big news.", "I had some big news.", "I got some big news yesterday."], "answer": 0, "explain": "'ve got = have (có)." },
+        { "type": "choice", "q": "Trong \"I've got a big family\", 've got nghĩa là:", "options": ["có (sở hữu)", "đã nhận được (hiện tại hoàn thành)", "đã lấy (quá khứ)"], "answer": 0, "explain": "have got = have = có. Không phải hiện tại hoàn thành." },
+        { "type": "choice", "q": "She ___ got two kids.", "options": ["has", "have", "is"], "answer": 0, "explain": "Ngôi thứ 3 số ít: she has got = she's got." },
+        { "type": "choice", "q": "\"Have you got a minute?\" nghĩa là:", "options": ["Cậu rảnh một phút không?", "Cậu đã lấy một phút chưa?", "Cậu có đồng hồ không?"], "answer": 0, "explain": "Have you got...? = Do you have...? — cậu có (thời gian) không?" },
+        { "type": "input", "q": "I ___ got some big news! (điền have ở dạng rút gọn, có dấu ')", "answers": ["'ve", "have"], "explain": "I've got = I have got = I have." }
+      ]
+    },
+    {
+      "title": "Hỏi tình hình hiện nay với these days",
+      "notes": [
+        "What are you doing these days? = dạo này cậu làm gì? (giai đoạn hiện tại, không phải đúng lúc nói)",
+        "Khác với What do you do? = hỏi nghề nghiệp."
+      ],
+      "exercises": [
+        { "type": "choice", "q": "What are you doing ___?", "options": ["these days", "this days", "those day"], "answer": 0, "explain": "these days = dạo này (days số nhiều → these)." },
+        { "type": "choice", "q": "\"What are you doing these days?\" hỏi về:", "options": ["Việc bạn làm dạo gần đây", "Việc bạn đang làm đúng lúc này", "Kế hoạch năm sau"], "answer": 0, "explain": "these days = giai đoạn hiện tại, không phải đúng lúc nói." },
+        { "type": "choice", "q": "Muốn hỏi nghề nghiệp của ai đó, bạn hỏi:", "options": ["What do you do?", "What are you doing these days?", "What did you do?"], "answer": 0, "explain": "What do you do? = Bạn làm nghề gì?" },
+        { "type": "input", "q": "What are you doing these ___? (dạo này)", "answers": ["days"], "explain": "these days = dạo này." }
+      ]
+    }
+  ]
+}
