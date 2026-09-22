@@ -4,6 +4,7 @@ import { QUESTION_GAMES } from './questions'
 import { shuffle } from '../lib/shuffle'
 import type { Item } from '../lib/picker'
 import { Feedback } from '../components/Feedback'
+import { AutoNext, AUTO_DELAY } from '../components/AutoNext'
 
 const MIX = ['quiz', 'listen', 'sort', 'situation', 'synonym', 'scramble', 'fill']
 const LIVES = 3
@@ -28,7 +29,9 @@ export function Challenge({ lesson, items, pool, record, finish }: CustomGamePro
   const [answered, setAnswered] = useState<null | 'ok' | 'bad' | 'timeout'>(null)
   const limit = TIME[q.game.id] ?? TIME.default
   const [left, setLeft] = useState(limit)
-  const stats = useRef({ correct: 0, wrong: [] as Item[] })
+  const stats = useRef({ correct: 0, wrong: [] as Item[], answers: [] as { item: Item; correct: boolean }[] })
+  const start = useRef(Date.now())
+  const scoreRef = useRef(0)
   const livesRef = useRef(lives)
   livesRef.current = lives
 
@@ -45,10 +48,12 @@ export function Challenge({ lesson, items, pool, record, finish }: CustomGamePro
   function handle(correct: boolean, points: number, timeout = false) {
     if (answered) return
     record(q.item.id, correct)
+    stats.current.answers.push({ item: q.item, correct })
     if (correct) {
       const c = combo + 1
       setCombo(c)
-      setScore((s) => s + points * (c >= 5 ? 2 : 1) + left)
+      scoreRef.current += points * (c >= 5 ? 2 : 1) + left
+      setScore(scoreRef.current)
       stats.current.correct++
       setAnswered('ok')
     } else {
@@ -62,7 +67,7 @@ export function Challenge({ lesson, items, pool, record, finish }: CustomGamePro
   const next = () => {
     const count = n + 1
     if (livesRef.current <= 0 || count >= MAX_Q) {
-      finish({ score, correct: stats.current.correct, total: count, wrong: stats.current.wrong })
+      finish({ score: scoreRef.current, correct: stats.current.correct, total: count, wrong: stats.current.wrong, answers: stats.current.answers, seconds: Math.round((Date.now() - start.current) / 1000) })
       return
     }
     const nq = makeQ()
@@ -95,11 +100,8 @@ export function Challenge({ lesson, items, pool, record, finish }: CustomGamePro
       </fieldset>
       {answered === 'timeout' && <Feedback ok={false} answer={<span lang="en">⏰ Hết giờ! {q.item.en} — {q.item.vi}</span>} />}
       {answered && (
-        <div className="sticky-bottom">
-          <button className="btn btn-primary btn-block" onClick={next}>
-            {lives <= 0 ? 'Hết mạng — xem kết quả' : n + 1 >= MAX_Q ? 'Xem kết quả' : 'Tiếp tục →'}
-          </button>
-        </div>
+        <AutoNext key={`next-${n}`} ms={answered === 'ok' ? AUTO_DELAY.ok : AUTO_DELAY.bad} onNext={next}
+          label={lives <= 0 ? 'Hết mạng — xem thống kê' : n + 1 >= MAX_Q ? 'Xem thống kê' : 'Sang câu tiếp'} />
       )}
     </div>
   )

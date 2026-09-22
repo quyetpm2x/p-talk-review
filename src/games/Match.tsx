@@ -61,7 +61,7 @@ export function Match({ lesson, items, record, finish }: CustomGameProps) {
             setMissed(new Set())
           } else {
             const total = Math.floor((Date.now() - start.current) / 1000) + penalty
-            finish({ score: Math.max(0, 300 - total), correct: correctCount.current, total: rounds.flat().length, wrong: allWrong.current })
+            finish({ score: Math.max(0, 300 - total), correct: correctCount.current, total: rounds.flat().length, wrong: allWrong.current, seconds: total })
           }
         }, 450)
       }

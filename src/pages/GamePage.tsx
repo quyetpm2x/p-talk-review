@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getLesson } from '../lessons'
 import { getGame } from '../games/registry'
@@ -21,6 +21,9 @@ export function GamePage() {
   const [run, setRun] = useState(0)
   const [result, setResult] = useState<(FinishResult & { prevBest: number }) | null>(null)
   const [fixed, setFixed] = useState<Item[] | undefined>()
+
+  // Lên đầu trang khi mở trang thống kê hoặc bắt đầu lượt mới
+  useEffect(() => { window.scrollTo(0, 0) }, [result, run])
 
   const { items, pool } = useMemo(() => {
     if (!lesson || !def) return { items: [], pool: [] }
@@ -64,9 +67,11 @@ export function GamePage() {
           <ResultScreen
             score={result.score}
             best={fixed ? undefined : Math.max(result.prevBest, result.score)}
-            total={def.id === 'match' ? undefined : result.total}
+            total={result.total}
             correct={result.correct}
             wrong={result.wrong}
+            answers={result.answers}
+            seconds={result.seconds}
             onRetry={() => restart()}
             onReviewWrong={def.Question ? () => restart(result.wrong) : undefined}
             onExit={() => nav(back)}

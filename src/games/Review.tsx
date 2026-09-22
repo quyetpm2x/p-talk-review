@@ -6,6 +6,8 @@ import { useProgress } from '../lib/ProgressContext'
 import { FlashCard } from './FlashCard'
 import { Quiz } from './Quiz'
 import { ProgressBar } from '../components/ProgressBar'
+import { AutoNext, AUTO_DELAY } from '../components/AutoNext'
+import type { Item } from '../lib/picker'
 
 export function Review({ lesson, items, pool, record, finish }: CustomGameProps) {
   const [p] = useProgress()
@@ -13,7 +15,9 @@ export function Review({ lesson, items, pool, record, finish }: CustomGameProps)
   const list = useMemo(() => hardest(items, p.phrases, lesson.id, 10), []) // eslint-disable-line react-hooks/exhaustive-deps
   const [phase, setPhase] = useState<'card' | 'quiz'>('card')
   const [i, setI] = useState(0)
-  const [answered, setAnswered] = useState(false)
+  const [answered, setAnswered] = useState<boolean | null>(null)
+  const [answers, setAnswers] = useState<{ item: Item; correct: boolean }[]>([])
+  const [start] = useState(() => Date.now())
   const [score, setScore] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState<typeof list>([])
@@ -33,10 +37,10 @@ export function Review({ lesson, items, pool, record, finish }: CustomGameProps)
   const step = (phase === 'card' ? 0 : list.length) + i
 
   const advance = () => {
-    setAnswered(false)
+    setAnswered(null)
     if (i + 1 < list.length) setI(i + 1)
     else if (phase === 'card') { setPhase('quiz'); setI(0) }
-    else finish({ score, correct, total: list.length, wrong })
+    else finish({ score, correct, total: list.length, wrong, answers, seconds: Math.round((Date.now() - start) / 1000) })
   }
 
   return (
@@ -56,13 +60,13 @@ export function Review({ lesson, items, pool, record, finish }: CustomGameProps)
           setScore((s) => s + r.points)
           if (r.correct) setCorrect((c) => c + 1)
           else setWrong((w) => [...w, item])
-          setAnswered(true)
+          setAnswers((a) => [...a, { item, correct: r.correct }])
+          setAnswered(r.correct)
         }} />
       )}
-      {answered && (
-        <div className="sticky-bottom">
-          <button className="btn btn-primary btn-block" onClick={advance}>{i + 1 < list.length ? 'Tiếp tục →' : 'Xem kết quả'}</button>
-        </div>
+      {answered !== null && (
+        <AutoNext key={`next-${i}`} ms={answered ? AUTO_DELAY.ok : AUTO_DELAY.bad} onNext={advance}
+          label={i + 1 < list.length ? 'Sang câu tiếp' : 'Xem thống kê'} />
       )}
     </div>
   )

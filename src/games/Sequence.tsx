@@ -3,6 +3,7 @@ import type { CustomGameProps } from './types'
 import { shuffle } from '../lib/shuffle'
 import type { Item } from '../lib/picker'
 import { buzz } from '../lib/haptics'
+import { AutoNext } from '../components/AutoNext'
 
 const ROUNDS = 3
 
@@ -81,7 +82,7 @@ export function Sequence({ lesson, items, record, finish }: CustomGameProps) {
       )}
       <div className="sticky-bottom">
         {checked ? (
-          <button className="btn btn-primary btn-block" onClick={next}>{round + 1 < rounds.length ? 'Lượt tiếp →' : 'Xem kết quả'}</button>
+          <AutoNext key={round} ms={3500} onNext={next} label={round + 1 < rounds.length ? 'Sang lượt tiếp' : 'Xem thống kê'} />
         ) : (
           <button className="btn btn-primary btn-block" disabled={placed.length !== correctOrder.length} onClick={check}>Kiểm tra</button>
         )}

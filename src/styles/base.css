@@ -298,3 +298,36 @@ a { color: inherit; text-decoration: none; }
   text-align: center; min-width: 64px; padding: 8px 12px; border-radius: 14px;
   background: var(--accent-grad); color: #13203f;
 }
+
+/* Tự chuyển câu */
+.autonext {
+  position: relative; overflow: hidden; width: 100%; min-height: 44px; border-radius: 12px;
+  border: 1.5px solid var(--line); background: var(--card); color: var(--muted); font-weight: 600; font-size: 14px;
+}
+.autonext-bar {
+  position: absolute; inset: 0; transform-origin: left; background: var(--accent-soft);
+  animation: autonext linear forwards;
+}
+.autonext-label { position: relative; }
+@keyframes autonext { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .autonext-bar { animation: none !important; transform: scaleX(1); } }
+
+/* Trang thống kê */
+.result-hero {
+  display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+  padding: 22px 16px; border-radius: var(--radius); color: #fff;
+  background: radial-gradient(120% 80% at 100% 0%, rgba(201, 160, 78, 0.3), transparent 55%), linear-gradient(160deg, #1c2c55, #13203f);
+  border: 1.5px solid var(--accent);
+}
+.ring {
+  width: 128px; height: 128px; border-radius: 50%; display: grid; place-items: center;
+  background: conic-gradient(var(--accent) calc(var(--pct) * 1%), rgba(255, 255, 255, 0.12) 0);
+}
+.ring > div { width: 104px; height: 104px; border-radius: 50%; background: #13203f; display: grid; place-content: center; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 8px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 6px; text-align: center; }
+.stat-v { font-size: 20px; font-weight: 800; line-height: 1.2; }
+.stat-k { font-size: 12px; color: var(--muted); }
+.mark { width: 26px; height: 26px; flex: none; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: #fff; }
+.mark.ok { background: var(--ok); }
+.mark.bad { background: var(--bad); }

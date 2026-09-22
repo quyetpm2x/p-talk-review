@@ -4,6 +4,7 @@ import { shuffle } from '../lib/shuffle'
 import type { Item } from '../lib/picker'
 import { SpeakButton } from '../components/SpeakButton'
 import { buzz } from '../lib/haptics'
+import { AutoNext } from '../components/AutoNext'
 
 /** Tạo các bộ 3 cụm có độ bất ngờ khác nhau. */
 function makeRounds(items: Item[], max: number): Item[][] {
@@ -86,7 +87,7 @@ export function Intensity({ items, record, finish }: CustomGameProps) {
       <div className="sticky-bottom">
         {checked === null
           ? <button className="btn btn-primary btn-block" disabled={placed.length !== answer.length} onClick={check}>Kiểm tra</button>
-          : <button className="btn btn-primary btn-block" onClick={next}>{round + 1 < rounds.length ? 'Lượt tiếp →' : 'Xem kết quả'}</button>}
+          : <AutoNext key={round} ms={3500} onNext={next} label={round + 1 < rounds.length ? 'Sang lượt tiếp' : 'Xem thống kê'} />}
       </div>
     </div>
   )

@@ -12,7 +12,16 @@ export type QuestionProps = {
   onAnswer: (r: AnswerResult) => void
 }
 
-export type FinishResult = { score: number; correct: number; total: number; wrong: Item[] }
+export type FinishResult = {
+  score: number
+  correct: number
+  total: number
+  wrong: Item[]
+  /** Chi tiết từng câu theo thứ tự đã làm (nếu trò có) */
+  answers?: { item: Item; correct: boolean }[]
+  /** Thời gian làm bài, giây */
+  seconds?: number
+}
 
 export type CustomGameProps = {
   lesson: Lesson
