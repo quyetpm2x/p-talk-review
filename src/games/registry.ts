@@ -6,6 +6,7 @@ import { Intensity, intensityRoundsAvailable } from './Intensity'
 import { Challenge } from './Challenge'
 import { Review } from './Review'
 import { Balloons } from './arcade/Balloons'
+import { Rain } from './arcade/Rain'
 
 const byId = Object.fromEntries(QUESTION_GAMES.map((g) => [g.id, g]))
 
@@ -17,6 +18,13 @@ export const GAMES: GameDef[] = [
     eligible: () => true,
     lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
     Custom: Balloons,
+  },
+  {
+    id: 'rain', name: 'Mưa cụm từ', icon: '☔', tier: 'arcade',
+    desc: 'Cụm từ rơi xuống — chạm đúng giỏ nhóm trước khi chạm đất',
+    eligible: (i) => !!i.group,
+    lockReason: (items) => (items.length ? null : 'Cụm gợi ý thêm không có nhóm — chọn bộ khác'),
+    Custom: Rain,
   },
   byId.flashcard,
   byId.quiz,
