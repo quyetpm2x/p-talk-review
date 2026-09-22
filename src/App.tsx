@@ -41,8 +41,8 @@ function NotFound() {
 }
 
 /**
- * Hiệu ứng chuyển trang: trang cũ mờ dần rồi biến mất, sau đó trang mới hiện từ mờ đến rõ nét.
- * Các tab trong cùng một bài dùng chung khung nên chỉ đổi nội dung, không làm mờ cả trang.
+ * Hiệu ứng chuyển trang (chỉ khi đi từ Trang chủ vào một bài): Trang chủ mờ dần rồi biến mất,
+ * sau đó trang bài học hiện từ mờ đến rõ nét. Các chuyển trang khác đổi ngay, không hiệu ứng.
  */
 const OUT_MS = 200
 const IN_MS = 400 // thời gian trang mới hiện rõ (khớp pageIn trong base.css)
@@ -55,9 +55,13 @@ function AnimatedRoutes() {
 
   useEffect(() => {
     if (location.key === shown.key) return
-    // đổi tab trong cùng một bài: đổi ngay, không làm mờ cả trang
-    if (pageKey(location.pathname) === pageKey(shown.pathname)) {
+    // Chỉ làm hiệu ứng khi đi từ Trang chủ vào một bài; mọi chuyển trang khác đổi ngay
+    const homeToLesson = shown.pathname === '/' && location.pathname.startsWith('/lesson/')
+    if (!homeToLesson) {
+      const samePage = pageKey(location.pathname) === pageKey(shown.pathname) // đổi tab trong bài
       setShown(location)
+      setStage('none')
+      if (!samePage) window.scrollTo(0, 0)
       return
     }
     setStage('out')
