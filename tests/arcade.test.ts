@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest'
-import { makeBomb, segmentHitsRect, ghostProgress, levelSpeed } from '../src/lib/arcade'
+import { makeBomb, segmentHitsRect, ghostSteps, levelSpeed } from '../src/lib/arcade'
 import { normalize } from '../src/lib/scoring'
 
 const seq = (vals: number[]) => { let i = 0; return () => vals[i++ % vals.length] }
@@ -31,10 +31,12 @@ it('segmentHitsRect', () => {
   expect(segmentHitsRect({ x: 0, y: 0 }, { x: 60, y: 5 }, r)).toBe(false) // phía trên
   expect(segmentHitsRect({ x: 0, y: 40 }, { x: 40, y: 0 }, r)).toBe(true) // chéo qua góc
 })
-it('ghostProgress', () => {
-  expect(ghostProgress(0, 30000)).toBe(0)
-  expect(ghostProgress(15000, 30000)).toBeCloseTo(0.5)
-  expect(ghostProgress(40000, 30000)).toBe(1)
+it('ghostSteps: xe ma tiến từng bước theo thời gian, dừng ở đích', () => {
+  expect(ghostSteps(0, 20000, 10)).toBe(0)
+  expect(ghostSteps(19999, 20000, 10)).toBe(0)
+  expect(ghostSteps(20000, 20000, 10)).toBe(1)
+  expect(ghostSteps(59000, 20000, 10)).toBe(2)
+  expect(ghostSteps(10 ** 7, 20000, 10)).toBe(10)
 })
 it('levelSpeed tăng dần nhưng có trần', () => {
   expect(levelSpeed(0)).toBeLessThan(levelSpeed(5))

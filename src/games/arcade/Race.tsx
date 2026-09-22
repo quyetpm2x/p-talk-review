@@ -3,14 +3,14 @@ import type { CustomGameProps } from '../types'
 import { ArcadeShell, type ArcadeApi } from './ArcadeShell'
 import { distractors, pickItems, type Item } from '../../lib/picker'
 import { shuffle } from '../../lib/shuffle'
-import { ghostProgress } from '../../lib/arcade'
+import { ghostSteps } from '../../lib/arcade'
 import { sfx } from '../../lib/sfx'
 import { speak } from '../../lib/speech'
 import { celebrate } from '../../lib/fx'
 import { useProgress } from '../../lib/ProgressContext'
 
 const TRACK = 10 // số câu đúng để về đích
-const DEFAULT_GHOST_MS = 20000 // xe ma khi chưa có kỷ lục
+const DEFAULT_STEP_MS = 20000 // chưa có kỷ lục: xe ma tiến 1 bước mỗi 20 giây
 const STUN_MS = 1200
 
 export function Race(props: CustomGameProps) {
@@ -24,11 +24,13 @@ export function Race(props: CustomGameProps) {
 function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi }) {
   const [p, update] = useProgress()
   const bestKey = `${lesson.id}:race:bestMs`
-  // giữ nguyên kỷ lục cũ suốt cuộc đua (kỷ lục mới chỉ áp dụng cho lần sau)
-  const [{ ghostMs, hasRecord }] = useState(() => ({
-    ghostMs: p.bestScores[bestKey] ?? DEFAULT_GHOST_MS,
-    hasRecord: bestKey in p.bestScores,
-  }))
+  // Xe ma tiến từng bước theo thời gian, không phụ thuộc câu trả lời của người chơi.
+  // Có kỷ lục thì mỗi bước = kỷ lục / số bước. Giữ nguyên suốt cuộc đua.
+  const [{ stepMs, hasRecord }] = useState(() => {
+    const best = p.bestScores[bestKey]
+    return { stepMs: best ? best / TRACK : DEFAULT_STEP_MS, hasRecord: best !== undefined }
+  })
+  const ghostMs = stepMs * TRACK // thời điểm xe ma về đích
   const queue = useMemo(() => {
     const base = pickItems(items, p.phrases, lesson.id, items.length, Date.now())
     return Array.from({ length: 30 }, (_, i) => base[i % base.length])
@@ -90,8 +92,9 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
   }
 
   const me = pos / TRACK
-  const ghost = ghostProgress(elapsed, ghostMs)
-  const ahead = me >= ghost
+  const gSteps = ghostSteps(elapsed, stepMs, TRACK)
+  const ghost = gSteps / TRACK
+  const ahead = pos >= gSteps
   const beat = finished && elapsed < ghostMs
   let status = ahead ? 'Đang dẫn!' : 'Bị xe ma vượt!'
   if (finished) status = beat ? '🏆 Phá kỷ lục!' : '🏁 Về đích'
@@ -109,7 +112,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         <div className="lane lane-ghost">
           <div className="car ghost" style={{ bottom: `calc(${ghost * 100}% * 0.78 + 4%)` }} aria-label="Xe ma">
             <span className="car-body">🏎️</span>
-            <span className="car-tag">{hasRecord ? `Kỷ lục ${(ghostMs / 1000).toFixed(1)}s` : `Xe ma ${DEFAULT_GHOST_MS / 1000}s`}</span>
+            <span className="car-tag">{hasRecord ? `Kỷ lục ${(ghostMs / 1000).toFixed(1)}s` : `Xe ma · ${stepMs / 1000}s/bước`}</span>
           </div>
         </div>
         <div className="lane lane-me">
