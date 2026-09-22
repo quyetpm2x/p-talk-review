@@ -5,14 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#13203f" />
     <meta name="description" content="Ôn luyện tiếng Anh giao tiếp sau mỗi buổi học PTALK" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
     <title>PTALK Review</title>
+    <!-- Màn splash: CSS đặt sẵn ở đây để hiện ngay khi mở, trước khi JS tải xong -->
+    <style>
+      #splash {
+        position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 28px; cursor: pointer;
+        padding: env(safe-area-inset-top) 24px env(safe-area-inset-bottom);
+        background:
+          radial-gradient(120% 70% at 50% 0%, rgba(201, 160, 78, 0.28), transparent 60%),
+          linear-gradient(170deg, #1c2c55 0%, #13203f 55%, #0a1226 100%);
+        color: #fff; font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+        transition: opacity 0.45s ease, visibility 0.45s;
+      }
+      #splash.hide { opacity: 0; visibility: hidden; }
+      #splash .sp-icon { width: 96px; height: 96px; animation: spIcon 0.8s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+      #splash .sp-logo { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      #splash .sp-brand {
+        font-family: 'Cinzel', 'Times New Roman', serif; font-weight: 800; font-size: 52px; line-height: 1; letter-spacing: 0.04em;
+        background: linear-gradient(100deg, #a97d35 0%, #d4ad5e 30%, #fff4d6 45%, #d4ad5e 60%, #a97d35 100%);
+        background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+        animation: spFade 0.6s 0.25s ease-out both, spShine 1.6s 0.5s ease-in-out both;
+      }
+      #splash .sp-sub { font-size: 13px; font-weight: 700; letter-spacing: 0.5em; color: #e9dcc0; animation: spSpread 0.8s 0.45s ease-out both; }
+      #splash .sp-slogan { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #c9b88f; animation: spFade 0.6s 0.7s ease-out both; }
+      #splash .sp-bar { width: 160px; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+      #splash .sp-bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #d4ad5e, #fff4d6); animation: spLoad 1.8s 0.2s ease-in-out both; }
+      #splash .sp-hello { font-size: 15px; font-weight: 600; color: #f3ebdd; animation: spFade 0.6s 0.9s ease-out both; }
+      @keyframes spIcon { from { opacity: 0; transform: scale(0.4) rotate(-12deg); } to { opacity: 1; transform: none; } }
+      @keyframes spFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+      @keyframes spSpread { from { opacity: 0; letter-spacing: 0.1em; } to { opacity: 1; letter-spacing: 0.5em; } }
+      @keyframes spShine { from { background-position: 100% 0; } to { background-position: 0 0; } }
+      @keyframes spLoad { from { width: 0; } to { width: 100%; } }
+      @media (prefers-reduced-motion: reduce) { #splash * { animation: none !important; } }
+    </style>
   </head>
   <body>
+    <div id="splash" aria-hidden="true">
+      <div class="sp-logo">
+        <svg class="sp-icon" viewBox="0 0 512 512" aria-hidden="true">
+          <defs>
+            <linearGradient id="spg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F0D594" /><stop offset="0.5" stop-color="#C9A04E" /><stop offset="1" stop-color="#A57832" />
+            </linearGradient>
+          </defs>
+          <path d="M116 150h280a36 36 0 0 1 36 36v132a36 36 0 0 1-36 36H250l-78 62v-62h-56a36 36 0 0 1-36-36V186a36 36 0 0 1 36-36z" fill="url(#spg)" />
+          <text x="256" y="302" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="136" fill="#13203F">P</text>
+        </svg>
+        <div class="sp-brand">PTALK</div>
+        <div class="sp-sub">ENGLISH</div>
+        <div class="sp-slogan">SPEAK WITH MASTERY, OWN YOUR DESTINY</div>
+      </div>
+      <div class="sp-bar"><i></i></div>
+      <div class="sp-hello" id="sp-hello">Chào mừng bạn 👋</div>
+    </div>
+    <script>
+      // Lời chào theo giờ trong ngày
+      (function () {
+        var h = new Date().getHours()
+        var t = 'Chào buổi tối 👋'
+        if (h < 11) t = 'Chào buổi sáng 👋'
+        else if (h < 13) t = 'Chào buổi trưa 👋'
+        else if (h < 18) t = 'Chào buổi chiều 👋'
+        document.getElementById('sp-hello').textContent = t
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
