@@ -33,7 +33,7 @@ export type CustomGameProps = {
   finish: (r: FinishResult) => void
 }
 
-export type Tier = 'arcade' | 'nho' | 'hieu' | 'dung' | 'tong-hop'
+export type Tier = 'arcade' | 'story' | 'brain' | 'voice' | 'nho' | 'hieu' | 'dung' | 'tong-hop'
 
 export type GameDef = {
   id: string
@@ -49,10 +49,15 @@ export type GameDef = {
   perRound?: number
   Question?: FC<QuestionProps>
   Custom?: FC<CustomGameProps>
+  /** Trò chiếm toàn màn hình (không padding, không cuộn) như nhóm Giải trí */
+  fullscreen?: boolean
 }
 
 export const TIERS: { id: Tier; name: string; desc: string }[] = [
   { id: 'arcade', name: '🎮 Giải trí', desc: 'Game hành động — nhanh tay, nhớ lâu' },
+  { id: 'story', name: '🎬 Nhập vai', desc: 'Câu chuyện & nhắn tin — dùng cụm từ như thật' },
+  { id: 'brain', name: '🧠 Trí nhớ & đố vui', desc: 'Lật thẻ, Wordle, Bingo, vòng quay' },
+  { id: 'voice', name: '🎤 Nghe & nói', desc: 'Nhại giọng, đánh boss bằng giọng nói' },
   { id: 'nho', name: 'Nhớ', desc: 'Nhận ra cụm và nghĩa' },
   { id: 'hieu', name: 'Hiểu', desc: 'Dùng đúng chỗ, đúng sắc thái' },
   { id: 'dung', name: 'Dùng', desc: 'Tự viết, tự nói ra' },

@@ -56,7 +56,7 @@ export function GamePage() {
   return (
     <>
       <TopBar back={back} title={<><span className="title-icon" aria-hidden>{def.icon}</span>{def.name}</>} sub={`Bài ${lesson.number} · ${setName}`} />
-      <main className={`page ${def.tier === 'arcade' && !result && !lock ? 'arcade-page' : ''}`}>
+      <main className={`page ${(def.tier === 'arcade' || def.fullscreen) && !result && !lock ? 'arcade-page' : ''}`}>
         {lock ? (
           <div className="card center stack" style={{ padding: 28 }}>
             <div style={{ fontSize: 44 }}>🔒</div>

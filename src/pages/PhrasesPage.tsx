@@ -71,7 +71,7 @@ export function PhrasesPage() {
         </div>
       )}
 
-      {TIERS.map((t) => (
+      {TIERS.filter((t) => GAMES.some((g) => g.tier === t.id)).map((t) => (
         <section key={t.id} className="stack">
           <div className="section-bar">{t.name} <em>— {t.desc}</em></div>
           <div className="game-grid">

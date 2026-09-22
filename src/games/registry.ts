@@ -9,6 +9,9 @@ import { Balloons } from './arcade/Balloons'
 import { Rain } from './arcade/Rain'
 import { Ninja } from './arcade/Ninja'
 import { Race } from './arcade/Race'
+import { STORY_GAMES } from './story'
+import { BRAIN_GAMES } from './brain'
+import { VOICE_GAMES } from './voice'
 
 const byId = Object.fromEntries(QUESTION_GAMES.map((g) => [g.id, g]))
 
@@ -42,6 +45,9 @@ export const GAMES: GameDef[] = [
     lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
     Custom: Race,
   },
+  ...STORY_GAMES,
+  ...BRAIN_GAMES,
+  ...VOICE_GAMES,
   byId.flashcard,
   byId.quiz,
   {
