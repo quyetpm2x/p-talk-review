@@ -3,7 +3,7 @@ import {
   scoreGuess, mergeKeys, wordleKey, wordlePoints, splitAtKey,
   bingoLines, completedLines, hasBingo,
   segmentAt, spinTarget, shortGroupName,
-  memoryScore, mismatchBlame, wordleRound,
+  memoryScore, mismatchBlame, wordleRound, reshuffleUnmarked,
 } from '../src/games/brain/logic'
 
 describe('Wordle', () => {
@@ -74,6 +74,24 @@ describe('Wordle', () => {
 
 describe('Bingo', () => {
   const empty = () => Array(16).fill(false) as boolean[]
+  it('reshuffleUnmarked: ô đã đánh dấu giữ nguyên, ô còn lại đổi chỗ', () => {
+    const board = Array.from({ length: 16 }, (_, i) => `w${i}`)
+    const marked = empty()
+    for (const i of [0, 5, 10, 15]) marked[i] = true
+    for (let s = 1; s <= 30; s++) {
+      let seed = s
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
+      const next = reshuffleUnmarked(board, marked, rnd)
+      expect([...next].sort()).toEqual([...board].sort()) // vẫn đủ 16 từ
+      for (const i of [0, 5, 10, 15]) expect(next[i]).toBe(board[i])
+      expect(next).not.toEqual(board) // có đổi chỗ thật
+    }
+  })
+  it('reshuffleUnmarked: còn ≤ 1 ô trống thì không đổi', () => {
+    const board = ['a', 'b', 'c']
+    expect(reshuffleUnmarked(board, [true, false, true])).toEqual(board)
+    expect(reshuffleUnmarked(board, [true, true, true])).toEqual(board)
+  })
   it('có 10 đường ở bảng 4×4', () => {
     expect(bingoLines(4)).toHaveLength(10)
   })

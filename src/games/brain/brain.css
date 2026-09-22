@@ -233,3 +233,18 @@
 }
 .wheel-banner b { color: #ecd08f; }
 .wheel-banner .tag { margin-left: auto; }
+
+/* Trả lời sai → xáo trộn các ô chưa đánh dấu */
+.bingo-grid { position: relative; }
+.bingo-mix {
+  position: absolute; left: 50%; top: 50%; z-index: 3; pointer-events: none;
+  transform: translate(-50%, -50%); padding: 8px 16px; border-radius: 999px;
+  background: var(--ink); color: #f3ebdd; font-weight: 800; font-size: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); animation: bingoMix 0.9s ease-out both;
+}
+@keyframes bingoMix {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+  75% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+}

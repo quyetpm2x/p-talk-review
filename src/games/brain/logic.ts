@@ -96,6 +96,22 @@ export function splitAtKey(en: string, key: string): [string, string, string] | 
 
 /* ───────────── Bingo ───────────── */
 
+/**
+ * Xáo lại vị trí các ô CHƯA đánh dấu (ô đã đánh dấu đứng yên để giữ các đường đang có).
+ * Luôn đổi được ít nhất một chỗ khi còn ≥ 2 ô trống.
+ */
+export function reshuffleUnmarked<T>(board: readonly T[], marked: readonly boolean[], rnd: Rnd = Math.random): T[] {
+  const slots = board.map((_, i) => i).filter((i) => !marked[i])
+  if (slots.length < 2) return board.slice()
+  const vals = slots.map((i) => board[i])
+  let mixed = shuffle(vals, rnd)
+  for (let k = 0; k < 10 && mixed.every((v, j) => v === vals[j]); k++) mixed = shuffle(vals, rnd)
+  if (mixed.every((v, j) => v === vals[j])) mixed = [...vals.slice(1), vals[0]]
+  const out = board.slice()
+  slots.forEach((i, j) => { out[i] = mixed[j] })
+  return out
+}
+
 /** Tất cả hàng, cột, 2 đường chéo của bảng size×size (chỉ số ô 0..size²−1). */
 export function bingoLines(size = 4): number[][] {
   const r = [...Array(size).keys()]

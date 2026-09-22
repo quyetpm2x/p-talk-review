@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { CustomGameProps } from '../types'
 import type { Item } from '../../lib/picker'
 import { shuffle } from '../../lib/shuffle'
@@ -7,7 +7,7 @@ import { cleanPhrase } from '../../lib/scoring'
 import { sfx } from '../../lib/sfx'
 import { buzz } from '../../lib/haptics'
 import { celebrate } from '../../lib/fx'
-import { completedLines } from './logic'
+import { completedLines, reshuffleUnmarked } from './logic'
 import './brain.css'
 
 const SIZE = 4
@@ -28,10 +28,15 @@ export function bingoCandidates(items: Item[]): Item[] {
 type Call = { item: Item; status: 'open' | 'ok' | 'late'; slip: boolean }
 
 export function Bingo({ items, record, finish }: CustomGameProps) {
-  const board = useMemo(() => shuffle(bingoCandidates(items)).slice(0, CELLS), []) // eslint-disable-line react-hooks/exhaustive-deps
-  const order = useMemo(() => shuffle(board), [board])
+  const [board, setBoard] = useState(() => shuffle(bingoCandidates(items)).slice(0, CELLS))
+  const order = useMemo(() => shuffle(board), []) // eslint-disable-line react-hooks/exhaustive-deps
   const [calls, setCalls] = useState<Call[]>([])
   const [marked, setMarked] = useState<boolean[]>(() => Array(CELLS).fill(false))
+  const markedRef = useRef(marked)
+  markedRef.current = marked
+  const [mixing, setMixing] = useState(false) // nhãn “Xáo trộn!”
+  const gridRef = useRef<HTMLDivElement>(null)
+  const prevRects = useRef<Map<string, DOMRect> | null>(null)
   const [shake, setShake] = useState<number | null>(null)
   const [showText, setShowText] = useState(true)
   const [auto, setAuto] = useState(false)
@@ -77,8 +82,12 @@ export function Bingo({ items, record, finish }: CustomGameProps) {
       buzz(false)
       sfx('bad')
       setShake(i)
-      setTimeout(() => setShake((s) => (s === i ? null : s)), 450)
       setCalls((cs) => cs.map((c, k) => (k === cs.length - 1 ? { ...c, slip: true } : c)))
+      // Rung xong → xáo lại vị trí các ô chưa đánh dấu (phạt: phải tìm lại)
+      setTimeout(() => {
+        setShake((s) => (s === i ? null : s))
+        reshuffle()
+      }, 450)
       return
     }
     const onTime = ci === calls.length - 1 && !calls[ci].slip
@@ -100,6 +109,32 @@ export function Bingo({ items, record, finish }: CustomGameProps) {
       setTimeout(() => setFlash(false), 2200)
     }
   }
+
+  /** Xáo các ô chưa đánh dấu, có hiệu ứng trượt (FLIP) tới chỗ mới. */
+  const reshuffle = () => {
+    const rects = new Map<string, DOMRect>()
+    gridRef.current?.querySelectorAll<HTMLElement>('[data-id]').forEach((el) => rects.set(el.dataset.id!, el.getBoundingClientRect()))
+    prevRects.current = rects
+    setBoard((b) => reshuffleUnmarked(b, markedRef.current))
+    setMixing(true)
+    sfx('whoosh')
+    setTimeout(() => setMixing(false), 900)
+  }
+  useLayoutEffect(() => {
+    const rects = prevRects.current
+    if (!rects || !gridRef.current) return
+    prevRects.current = null
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    gridRef.current.querySelectorAll<HTMLElement>('[data-id]').forEach((el) => {
+      const a = rects.get(el.dataset.id!)
+      if (!a) return
+      const b = el.getBoundingClientRect()
+      const dx = a.left - b.left
+      const dy = a.top - b.top
+      if (!dx && !dy) return
+      el.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 450, easing: 'cubic-bezier(.3,1.3,.5,1)' })
+    })
+  }, [board])
 
   const end = () => {
     stopSpeaking()
@@ -178,9 +213,10 @@ export function Bingo({ items, record, finish }: CustomGameProps) {
         </div>
       </div>
 
-      <div className="bingo-grid" aria-label="Bảng bingo">
+      <div className={`bingo-grid ${mixing ? 'mixing' : ''}`} aria-label="Bảng bingo" ref={gridRef}>
+        {mixing && <div className="bingo-mix" aria-live="polite">🔀 Xáo trộn!</div>}
         {board.map((it, i) => (
-          <button key={it.id}
+          <button key={it.id} data-id={it.id}
             className={`bingo-cell ${marked[i] ? 'on' : ''} ${inLine.has(i) ? 'line' : ''} ${shake === i ? 'no' : ''}`}
             onClick={() => tapCell(i)} aria-pressed={marked[i]}>
             <span>{it.vi}</span>
