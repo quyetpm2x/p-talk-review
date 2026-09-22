@@ -7,6 +7,7 @@ import { isMuted, setMuted, sfx } from '../../lib/sfx'
 import { burst, celebrate } from '../../lib/fx'
 import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
+import { useUserName } from '../../lib/ProgressContext'
 import { Character, MOOD_EMOJI } from './Character'
 import { prefersReducedMotion, useTypewriter } from './useTypewriter'
 import {
@@ -39,6 +40,7 @@ export function Story(props: CustomGameProps) {
 /** Một phim: gặp lại bạn cũ, chọn câu đáp để giữ độ thân thiết. */
 function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & { story: StoryData; onOther?: () => void }) {
   const fVoice = friendVoice(story)
+  const me = useUserName() || 'bạn'
   const pVoice = playerVoice(story)
   const scene = SCENE[story.scene ?? 'cafe']
   const nodes = useMemo(() => new Map(story.nodes.map((n) => [n.id, n])), [story])
@@ -208,7 +210,7 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
             <div className="label">🎬 {story.title}</div>
             <p>{story.setting}</p>
             <p className="small muted">
-              Chọn câu đáp <b>hợp tình huống</b> để tăng độ thân thiết 💛. Câu sai sắc thái hay kém lịch sự sẽ làm {story.friend.name} hụt hẫng. Có {story.endings.length} cái kết khác nhau!
+              {me} ơi, chọn câu đáp <b>hợp tình huống</b> để tăng độ thân thiết 💛. Câu sai sắc thái hay kém lịch sự sẽ làm {story.friend.name} hụt hẫng. Có {story.endings.length} cái kết khác nhau!
             </p>
             <button className="btn btn-primary btn-block" onClick={start}>▶ Bắt đầu</button>
           </div>
@@ -281,7 +283,7 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
           <div className="story-ending">
             <div className={`ending-hero ${ending.min > 0 ? '' : 'sad'}`}>
               <div className="ending-icon">{ending.icon}</div>
-              <div className="label">Cái kết của bạn</div>
+              <div className="label">Cái kết của {me}</div>
               <div className="ending-title">{ending.title}</div>
               <p>{ending.desc}</p>
             </div>

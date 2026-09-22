@@ -33,7 +33,7 @@ export function PhrasesPage() {
         <div className="row">
           <div className="grow">
             <div className="label">Kho cụm từ</div>
-            <div style={{ fontWeight: 700 }}>Đã nhớ {Math.round(pct)}% · {due} cụm cần ôn</div>
+            <div style={{ fontWeight: 700 }}>{p.name ? `${p.name} đã nhớ` : 'Đã nhớ'} {Math.round(pct)}% · {due} cụm cần ôn</div>
           </div>
           <button className="btn btn-ghost btn-sm" onClick={() => setShowList((s) => !s)} aria-expanded={showList}>
             {showList ? 'Ẩn' : 'Xem cụm'}

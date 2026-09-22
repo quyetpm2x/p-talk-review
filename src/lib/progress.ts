@@ -1,3 +1,4 @@
+import { cleanName } from './name'
 import type { Lesson } from '../types'
 import { applyAnswer, type PhraseStat } from './leitner'
 
@@ -32,6 +33,8 @@ export type Stats = {
 }
 
 export type Progress = {
+  /** Tên người học (rỗng = chưa nhập) */
+  name: string
   phrases: Record<string, PhraseStat>
   bestScores: Record<string, number>
   missions: Record<string, boolean[]>
@@ -53,6 +56,7 @@ export const emptyDaily = (day = ''): DailyState => ({
 export const emptyStats = (): Stats => ({ plays: 0, correct: 0, perfect: 0, dialogues: 0, playedByTier: {}, questDays: 0 })
 
 export const emptyProgress = (): Progress => ({
+  name: '',
   phrases: {},
   bestScores: {},
   missions: {},
@@ -73,12 +77,15 @@ export function normalizeProgress(raw: unknown): Progress {
   return {
     ...e,
     ...p,
+    name: typeof p.name === 'string' ? cleanName(p.name) : '',
     xp: typeof p.xp === 'number' && Number.isFinite(p.xp) ? p.xp : 0,
     badges: isObj(p.badges) ? (p.badges as Progress['badges']) : {},
     daily: isObj(p.daily) ? { ...e.daily, ...(p.daily as Partial<DailyState>) } : e.daily,
     stats: isObj(p.stats) ? { ...e.stats, ...(p.stats as Partial<Stats>) } : e.stats,
   }
 }
+
+export const setName = (p: Progress, name: string): Progress => ({ ...p, name: cleanName(name) })
 
 export function loadProgress(): Progress {
   try {

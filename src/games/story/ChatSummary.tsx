@@ -16,9 +16,10 @@ export type TurnLog = {
 const fmt = (s: number) => `${Math.round(s * 10) / 10}s`.replace('.', ',')
 
 /** Thống kê cuộc trò chuyện — hiện trong trang kết quả của trò Nhắn tin. */
-export function ChatSummary({ chat, log, friendVoice, playerVoice }: {
-  chat: Chat; log: TurnLog[]; friendVoice: string; playerVoice: string
+export function ChatSummary({ chat, log, friendVoice, playerVoice, userName }: {
+  chat: Chat; log: TurnLog[]; friendVoice: string; playerVoice: string; userName?: string
 }) {
+  const me = userName || 'bạn'
   const answered = log.filter((t) => t.reply)
   const ok = log.filter((t) => t.ok).length
   const voice = log.filter((t) => t.voice).length
@@ -27,10 +28,10 @@ export function ChatSummary({ chat, log, friendVoice, playerVoice }: {
   const fastest = answered.filter((t) => t.ok).sort((a, b) => a.secs - b.secs)[0]
   const pct = log.length ? Math.round((ok / log.length) * 100) : 0
   const verdict =
-    pct === 100 ? `${chat.friend.name} rất vui khi nói chuyện với bạn! 🥰`
-    : pct >= 70 ? `Cuộc trò chuyện suôn sẻ — ${chat.friend.name} muốn gặp lại bạn 😊`
-    : pct >= 40 ? `Có vài chỗ hơi ngượng — xem lại các lượt sai bên dưới nhé`
-    : `${chat.friend.name} hơi hụt hẫng 😅 — thử lại và chọn câu thân thiện hơn nhé`
+    pct === 100 ? `Xuất sắc, ${me}! ${chat.friend.name} rất vui khi nói chuyện với bạn 🥰`
+    : pct >= 70 ? `Làm tốt lắm, ${me}! ${chat.friend.name} muốn gặp lại bạn 😊`
+    : pct >= 40 ? `${me} ơi, có vài chỗ hơi ngượng — xem lại các lượt sai bên dưới nhé`
+    : `${chat.friend.name} hơi hụt hẫng 😅 — ${me} thử lại và chọn câu thân thiện hơn nhé`
 
   return (
     <section className="card chat-sum">

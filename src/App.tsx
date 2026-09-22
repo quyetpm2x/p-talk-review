@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
-import { ProgressProvider } from './lib/ProgressContext'
+import { ProgressProvider, useProgress } from './lib/ProgressContext'
 import { getLesson } from './lessons'
 import { Home } from './pages/Home'
+import { Welcome } from './pages/Welcome'
 import { TopBar } from './components/TopBar'
 import { TabBar } from './components/TabBar'
 import { PhrasesPage } from './pages/PhrasesPage'
@@ -99,12 +100,18 @@ function AnimatedRoutes() {
   )
 }
 
+/** Lần đầu mở app (chưa có tên): hiện màn chào mừng nhập tên, xong mới vào các trang. */
+function NameGate() {
+  const [p] = useProgress()
+  return p.name ? <AnimatedRoutes /> : <Welcome />
+}
+
 export default function App() {
   return (
     <ProgressProvider>
       <HashRouter>
         <div className="app">
-          <AnimatedRoutes />
+          <NameGate />
         </div>
       </HashRouter>
     </ProgressProvider>

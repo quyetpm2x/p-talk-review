@@ -25,3 +25,6 @@ export function useProgress(): Ctx {
   if (!c) throw new Error('useProgress phải nằm trong ProgressProvider')
   return c
 }
+
+/** Tên người học (đã nhập ở màn chào mừng). */
+export const useUserName = () => useProgress()[0].name

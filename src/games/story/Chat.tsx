@@ -9,6 +9,7 @@ import { sfx } from '../../lib/sfx'
 import { burst } from '../../lib/fx'
 import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
+import { useUserName } from '../../lib/ProgressContext'
 import { Icon } from '../../components/Icon'
 import { findItem, friendVoice, lastPlayed, pickChat, playerVoice, savePlayed, sayable, type ChatOption, type Line } from './data'
 import { ChatSummary, type TurnLog } from './ChatSummary'
@@ -37,6 +38,9 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
   // Mỗi lần vào: một kịch bản ngẫu nhiên, khác kịch bản lượt trước
   const [chat] = useState(() => pickChat(lesson.id, lastPlayed('chat', lesson.id))!)
   const fVoice = friendVoice(chat)
+  const userName = useUserName()
+  // Người nhận tin: vai trong kịch bản (vd. Hùng), không có thì là chính người học
+  const me = chat.player?.name ?? (userName || 'bạn')
   const pVoice = playerVoice(chat)
   const total = chat.seconds * 1000
   const [phase, setPhase] = useState<Phase>('intro')
@@ -238,7 +242,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
       // Cụm toolkit cần ôn (của các lượt trả lời chưa hợp)
       wrong: a.filter((x) => !x.correct).map((x) => x.item),
       seconds: Math.round((Date.now() - startedAt.current) / 1000),
-      details: <ChatSummary chat={chat} log={l} friendVoice={fVoice} playerVoice={pVoice} />,
+      details: <ChatSummary chat={chat} log={l} friendVoice={fVoice} playerVoice={pVoice} userName={userName} />,
     })
   }
 
@@ -261,7 +265,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
       <div className="chat-scroll" ref={scrollRef}>
         <div className="chat-day"><span>Hôm nay</span></div>
         {phase === 'intro' && (
-          <div className="chat-sys">🔔 {chat.friend.name} vừa gửi cho bạn một tin nhắn</div>
+          <div className="chat-sys">🔔 {chat.friend.name} vừa gửi cho {me} một tin nhắn</div>
         )}
         {msgs.map((m) =>
           m.from === 'sys' ? (

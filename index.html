@@ -70,11 +70,16 @@
       // Lời chào theo giờ trong ngày
       (function () {
         var h = new Date().getHours()
-        var t = 'Chào buổi tối 👋'
-        if (h < 11) t = 'Chào buổi sáng 👋'
-        else if (h < 13) t = 'Chào buổi trưa 👋'
-        else if (h < 18) t = 'Chào buổi chiều 👋'
-        document.getElementById('sp-hello').textContent = t
+        var t = 'Chào buổi tối'
+        if (h < 11) t = 'Chào buổi sáng'
+        else if (h < 13) t = 'Chào buổi trưa'
+        else if (h < 18) t = 'Chào buổi chiều'
+        // Đã nhập tên (lần mở trước) thì chào kèm tên
+        var name = ''
+        try { name = (JSON.parse(localStorage.getItem('ptalk:v1:progress') || '{}') || {}).name || '' } catch (e) {}
+        if (typeof name !== 'string') name = ''
+        name = name.replace(/\s+/g, ' ').trim().slice(0, 20)
+        document.getElementById('sp-hello').textContent = t + (name ? ', ' + name : '') + ' 👋'
       })()
     </script>
     <div id="root"></div>

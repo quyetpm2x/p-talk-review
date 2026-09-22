@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { useUserName } from '../lib/ProgressContext'
 import type { Item } from '../lib/picker'
 import { SpeakButton } from './SpeakButton'
 import { Icon } from './Icon'
@@ -8,13 +9,13 @@ import { BadgeModal, RewardPanel, useCelebrate } from '../motivation/Reward'
 
 type Answer = { item: Item; correct: boolean }
 
-/** Câu linh vật nói theo trạng thái. */
-const SAY: Record<Mood, string> = {
-  dance: 'Xuất sắc — đúng tất cả! Cú nhảy múa luôn nè! 🎉',
-  cheer: 'Làm tốt lắm! Cú tự hào về bạn!',
-  idle: 'Khá rồi! Ôn thêm chút nữa là nhớ chắc nhé!',
-  think: 'Hmm… vài cụm còn khó. Mình ôn lại câu sai nhé?',
-  sad: 'Đừng nản! Cú cùng bạn ôn lại nào — cố lên! 💪',
+/** Câu linh vật nói theo trạng thái, gọi tên người học. */
+const SAY: Record<Mood, (n: string) => string> = {
+  dance: (n) => `Xuất sắc quá, ${n} — đúng tất cả! Cú nhảy múa luôn nè! 🎉`,
+  cheer: (n) => `Làm tốt lắm, ${n}! Cú tự hào về bạn!`,
+  idle: (n) => `Khá rồi ${n}! Ôn thêm chút nữa là nhớ chắc nhé!`,
+  think: (n) => `Hmm… vài cụm còn khó. ${n} ôn lại câu sai với Cú nhé?`,
+  sad: (n) => `Đừng nản nha ${n}! Cú cùng bạn ôn lại nào — cố lên! 💪`,
 }
 
 const fmtTime = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}p ${s % 60}s` : `${s}s`)
@@ -33,7 +34,8 @@ export function ResultScreen({ score, best, total, correct, wrong, answers, seco
   const ratio = total ? (correct ?? 0) / total : 0
   const pct = Math.round(ratio * 100)
   const mood = moodFor(total ? ratio : undefined)
-  const msg = !total ? 'Hoàn thành rồi! Giỏi quá!' : SAY[mood]
+  const name = useUserName() || 'bạn'
+  const msg = !total ? `Hoàn thành rồi! Giỏi quá, ${name}!` : SAY[mood](name)
   const rows: Answer[] = answers ?? wrong.map((item) => ({ item, correct: false }))
   const [badgeOpen, setBadgeOpen] = useState(true)
   useCelebrate(reward, isBest)

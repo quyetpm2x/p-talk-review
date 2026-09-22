@@ -9,20 +9,17 @@ import { BadgesSheet } from '../motivation/BadgesSheet'
 import { SoundToggle } from '../motivation/SoundToggle'
 import { BADGES } from '../motivation/badges'
 import { levelInfo, levelTitle } from '../motivation/xp'
+import { NameSheet } from './Welcome'
+import { greeting } from '../lib/name'
 import '../styles/motivation.css'
-
-/** Lời chào theo giờ trong ngày. */
-function greeting(h: number) {
-  if (h < 11) return 'Chào buổi sáng!'
-  if (h < 14) return 'Chào buổi trưa!'
-  if (h < 18) return 'Chào buổi chiều!'
-  return 'Chào buổi tối!'
-}
+import '../styles/welcome.css'
 
 export function Home() {
   const [p] = useProgress()
   const [sheet, setSheet] = useState(false)
   const closeSheet = useCallback(() => setSheet(false), [])
+  const [nameSheet, setNameSheet] = useState(false)
+  const closeName = useCallback(() => setNameSheet(false), [])
   const now = Date.now()
   const streak = currentStreak(p, now)
   const lv = levelInfo(p.xp)
@@ -67,10 +64,11 @@ export function Home() {
       <main className="page">
         <div className="card greet-card">
           <MascotSay mood={left ? 'idle' : 'cheer'} size={76}>
-            <b>{greeting(new Date(now).getHours())}</b>{' '}
+            <b>{greeting(new Date(now).getHours())},{' '}
+              <button className="name-edit" onClick={() => setNameSheet(true)} aria-label={`Tên: ${p.name}. Chạm để đổi tên`}>{p.name}</button>!</b>{' '}
             {left
               ? <>Hôm nay còn <b>{left} nhiệm vụ</b> — làm xong nhận thêm XP nhé!</>
-              : <>Bạn đã xong hết nhiệm vụ hôm nay. Tuyệt vời! 🎉</>}
+              : <>{p.name} đã xong hết nhiệm vụ hôm nay. Tuyệt vời! 🎉</>}
           </MascotSay>
         </div>
 
@@ -78,7 +76,7 @@ export function Home() {
 
         {Object.entries(byLevel).map(([level, ls]) => (
           <section key={level} className="stack">
-            <div className="section-bar">Hành trình Level {level} <em>— {ls.length} bài</em></div>
+            <div className="section-bar">Hành trình của {p.name} · Level {level} <em>— {ls.length} bài</em></div>
             <JourneyMap p={p} lessons={ls} />
           </section>
         ))}
@@ -99,6 +97,7 @@ export function Home() {
         </section>
       </main>
       {sheet && <BadgesSheet p={p} onClose={closeSheet} />}
+      {nameSheet && <NameSheet onClose={closeName} />}
     </>
   )
 }
