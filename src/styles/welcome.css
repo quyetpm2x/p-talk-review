@@ -39,10 +39,8 @@
 .name-go { margin-top: 4px; min-height: 52px; font-size: 17px; }
 
 /* Tên trên Trang chủ: chạm để đổi */
-.name-edit {
-  display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: none; font: inherit; color: inherit;
-  font-weight: 800; cursor: pointer; text-decoration: underline dotted rgba(201, 160, 78, 0.8); text-underline-offset: 3px;
-}
+.name-edit { display: inline; padding: 0; border: 0; background: none; font: inherit; color: inherit; font-weight: 800; cursor: pointer; }
+.name-pen { padding: 0 2px; margin-left: 2px; border: 0; background: none; font-size: 0.8em; cursor: pointer; vertical-align: 1px; }
 
 @media (prefers-reduced-motion: reduce) {
   .welcome-card, .welcome-hi, .welcome.leaving .welcome-card { animation: none !important; }

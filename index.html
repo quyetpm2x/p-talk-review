@@ -38,6 +38,10 @@
       #splash .sp-slogan { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #c9b88f; animation: spFade 0.6s 0.7s ease-out both; }
       #splash .sp-bar { width: 160px; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
       #splash .sp-bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #d4ad5e, #fff4d6); animation: spLoad 1.8s 0.2s ease-in-out both; }
+      #splash .sp-name {
+        font-weight: 800; color: #fff; padding: 0 2px; border-radius: 3px;
+        background: linear-gradient(transparent 58%, rgba(201, 160, 78, 0.6) 58%);
+      }
       #splash .sp-hello { font-size: 15px; font-weight: 600; color: #f3ebdd; animation: spFade 0.6s 0.9s ease-out both; }
       @keyframes spIcon { from { opacity: 0; transform: scale(0.4) rotate(-12deg); } to { opacity: 1; transform: none; } }
       @keyframes spFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
@@ -79,7 +83,15 @@
         try { name = (JSON.parse(localStorage.getItem('ptalk:v1:progress') || '{}') || {}).name || '' } catch (e) {}
         if (typeof name !== 'string') name = ''
         name = name.replace(/\s+/g, ' ').trim().slice(0, 20)
-        document.getElementById('sp-hello').textContent = t + (name ? ', ' + name : '') + ' 👋'
+        var el = document.getElementById('sp-hello')
+        el.textContent = t + (name ? ', ' : '')
+        if (name) {
+          var b = document.createElement('b')
+          b.className = 'sp-name'
+          b.textContent = name
+          el.appendChild(b)
+        }
+        el.appendChild(document.createTextNode(' 👋'))
       })()
     </script>
     <div id="root"></div>

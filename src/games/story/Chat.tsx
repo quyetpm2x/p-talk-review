@@ -10,6 +10,7 @@ import { burst } from '../../lib/fx'
 import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
 import { useUserName } from '../../lib/ProgressContext'
+import { UserName } from '../../components/UserName'
 import { Icon } from '../../components/Icon'
 import { findItem, friendVoice, lastPlayed, pickChat, playerVoice, savePlayed, sayable, type ChatOption, type Line } from './data'
 import { ChatSummary, type TurnLog } from './ChatSummary'
@@ -40,7 +41,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
   const fVoice = friendVoice(chat)
   const userName = useUserName()
   // Người nhận tin: vai trong kịch bản (vd. Hùng), không có thì là chính người học
-  const me = chat.player?.name ?? (userName || 'bạn')
+  const me = chat.player ? chat.player.name : <UserName />
   const pVoice = playerVoice(chat)
   const total = chat.seconds * 1000
   const [phase, setPhase] = useState<Phase>('intro')

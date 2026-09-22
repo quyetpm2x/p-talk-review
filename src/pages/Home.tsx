@@ -10,6 +10,7 @@ import { SoundToggle } from '../motivation/SoundToggle'
 import { BADGES } from '../motivation/badges'
 import { levelInfo, levelTitle } from '../motivation/xp'
 import { NameSheet } from './Welcome'
+import { UserName } from '../components/UserName'
 import { greeting } from '../lib/name'
 import '../styles/motivation.css'
 import '../styles/welcome.css'
@@ -65,10 +66,11 @@ export function Home() {
         <div className="card greet-card">
           <MascotSay mood={left ? 'idle' : 'cheer'} size={76}>
             <b>{greeting(new Date(now).getHours())},{' '}
-              <button className="name-edit" onClick={() => setNameSheet(true)} aria-label={`Tên: ${p.name}. Chạm để đổi tên`}>{p.name}</button>!</b>{' '}
+              <button className="name-edit" onClick={() => setNameSheet(true)} aria-label={`Tên: ${p.name}. Chạm để đổi tên`}><UserName /></button>!</b>
+            <button className="name-pen" onClick={() => setNameSheet(true)} aria-label="Đổi tên">✏️</button>{' '}
             {left
               ? <>Hôm nay còn <b>{left} nhiệm vụ</b> — làm xong nhận thêm XP nhé!</>
-              : <>{p.name} đã xong hết nhiệm vụ hôm nay. Tuyệt vời! 🎉</>}
+              : <><UserName /> đã xong hết nhiệm vụ hôm nay. Tuyệt vời! 🎉</>}
           </MascotSay>
         </div>
 
@@ -76,7 +78,7 @@ export function Home() {
 
         {Object.entries(byLevel).map(([level, ls]) => (
           <section key={level} className="stack">
-            <div className="section-bar">Hành trình của {p.name} · Level {level} <em>— {ls.length} bài</em></div>
+            <div className="section-bar"><span>Hành trình của <UserName /> · Level {level}</span> <em>— {ls.length} bài</em></div>
             <JourneyMap p={p} lessons={ls} />
           </section>
         ))}

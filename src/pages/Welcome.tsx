@@ -4,6 +4,7 @@ import { useProgress } from '../lib/ProgressContext'
 import { setName } from '../lib/progress'
 import { cleanName, greeting, nameError, NAME_MAX } from '../lib/name'
 import { Mascot } from '../motivation/Mascot'
+import { UserName } from '../components/UserName'
 import { sfx } from '../lib/sfx'
 import '../styles/motivation.css'
 import '../styles/welcome.css'
@@ -23,11 +24,11 @@ function NameForm({ initial = '', cta, onDone, dark }: { initial?: string; cta: 
       <label className="name-label" htmlFor="name-input">Tên hoặc biệt danh</label>
       <input id="name-input" className="name-input" value={value} maxLength={NAME_MAX + 10}
         onChange={(e) => setValue(e.target.value)} onBlur={() => value && setTouched(true)}
-        placeholder="VD: Quyết, Bé Na…" autoComplete="given-name" enterKeyHint="go"
+        placeholder="VD: Bé Na…" autoComplete="given-name" enterKeyHint="go"
         aria-invalid={touched && !!err} aria-describedby="name-hint" />
-      <div id="name-hint" className={`name-hint ${touched && err ? 'bad' : ''}`} aria-live="polite">
-        {touched && err ? err : !err ? <>Cú sẽ gọi bạn: <b>{cleanName(value)}</b> 👋</> : 'Tên chỉ lưu trên máy này.'}
-      </div>
+      {/* <div id="name-hint" className={`name-hint ${touched && err ? 'bad' : ''}`} aria-live="polite">
+        {touched && err ? err : !err ? <>Cú sẽ gọi bạn: <UserName name={cleanName(value)} /> 👋</> : 'Tên chỉ lưu trên máy này.'}
+      </div> */}
       <button className="btn btn-primary btn-block name-go" type="submit">{cta}</button>
     </form>
   )
@@ -60,7 +61,7 @@ export function Welcome() {
         <Mascot mood={leaving ? 'dance' : 'cheer'} size={112} />
         {leaving ? (
           <div className="welcome-hi" role="status">
-            <div className="welcome-title">{hi}, <span className="gold-text">{leaving}</span>! 🎉</div>
+            <div className="welcome-title">{hi}, <UserName name={leaving} />! 🎉</div>
             <p>Cùng ôn bài thôi nào!</p>
           </div>
         ) : (

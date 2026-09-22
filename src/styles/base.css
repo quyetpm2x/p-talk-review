@@ -666,3 +666,10 @@ a { color: inherit; text-decoration: none; }
 @keyframes fadeOnlyOut { to { opacity: 0; } }
 @keyframes fadeOnlyIn { from { opacity: 0; } }
 
+
+/* Tên người học: đậm + vạch dạ quang vàng phía dưới — rõ trên cả nền sáng lẫn nền tối */
+.uname {
+  font-weight: 800; padding: 0 2px; border-radius: 3px; white-space: nowrap;
+  background: linear-gradient(transparent 58%, rgba(201, 160, 78, 0.55) 58%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
