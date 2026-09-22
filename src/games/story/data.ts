@@ -6,7 +6,8 @@ import type { Lesson } from '../../types'
 import type { Item } from '../../lib/picker'
 import { cleanPhrase, matchRatio } from '../../lib/scoring'
 import story_l2_01 from '../../lessons/stories/level2-01.json'
-import chat_l2_01 from '../../lessons/chats/level2-01.json'
+import chats_l2_01 from '../../lessons/chats/level2-01.json'
+import { shuffle, type Rnd } from '../../lib/shuffle'
 
 // ================= Kiểu dữ liệu =================
 
@@ -68,9 +69,15 @@ export type ChatTurn = {
 }
 
 export type Chat = {
+  id: string
   lessonId: string
   title: string
-  friend: { name: string; avatar: string; voice: string }
+  /** Giọng đọc chọn theo tên (NAME_VOICES); `voice` chỉ để ghi đè khi tên chưa có trong bảng */
+  friend: { name: string; avatar: string; voice?: string }
+  /** Vai của người chơi; không có = “bạn” (giọng PLAYER_VOICE) */
+  player?: { name: string; voice?: string }
+  /** Lời giới thiệu ở màn mở đầu, **đậm** được hỗ trợ */
+  intro?: string
   /** Thời gian trả lời mỗi lượt (giây) */
   seconds: number
   timeout: Line
@@ -82,10 +89,36 @@ export type Chat = {
 
 // Thêm bài mới: import JSON và thêm vào 2 mảng này.
 const STORIES: Story[] = [story_l2_01 as unknown as Story]
-const CHATS: Chat[] = [chat_l2_01 as unknown as Chat]
+type ChatFile = { lessonId: string; chats: Omit<Chat, 'lessonId'>[] }
+const CHATS: Chat[] = ([chats_l2_01] as unknown as ChatFile[]).flatMap((f) => f.chats.map((c) => ({ ...c, lessonId: f.lessonId })))
 
 export const getStory = (lessonId: string) => STORIES.find((s) => s.lessonId === lessonId)
-export const getChat = (lessonId: string) => CHATS.find((c) => c.lessonId === lessonId)
+export const getChats = (lessonId: string) => CHATS.filter((c) => c.lessonId === lessonId)
+
+/** Kịch bản nhắn tin ngẫu nhiên của bài, tránh lặp lại kịch bản `lastId` (lượt trước) nếu còn kịch bản khác. */
+export function pickChat(lessonId: string, lastId?: string | null, rnd: Rnd = Math.random): Chat | undefined {
+  const all = getChats(lessonId)
+  const fresh = all.filter((c) => c.id !== lastId)
+  return shuffle(fresh.length ? fresh : all, rnd)[0]
+}
+
+const LAST_CHAT_KEY = 'ptalk:v1:chat-last'
+export function lastChatId(lessonId: string): string | null {
+  try {
+    const v = JSON.parse(localStorage.getItem(LAST_CHAT_KEY) ?? '{}')?.[lessonId]
+    return typeof v === 'string' ? v : null
+  } catch {
+    return null
+  }
+}
+export function saveLastChat(lessonId: string, chatId: string) {
+  try {
+    const all = JSON.parse(localStorage.getItem(LAST_CHAT_KEY) ?? '{}')
+    localStorage.setItem(LAST_CHAT_KEY, JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: chatId }))
+  } catch {
+    /* bỏ qua */
+  }
+}
 
 export const START_CLOSENESS = 50
 export const DELTA: Record<ChoiceKind, number> = { good: 8, off: -8, rude: -16 }
@@ -109,7 +142,7 @@ export function findItem(lesson: Lesson, id: string): Item | undefined {
 }
 
 export const storyLockReason = (lesson: Lesson) => (getStory(lesson.id) ? null : 'Bài này chưa có kịch bản')
-export const chatLockReason = (lesson: Lesson) => (getChat(lesson.id) ? null : 'Bài này chưa có kịch bản')
+export const chatLockReason = (lesson: Lesson) => (getChats(lesson.id).length ? null : 'Bài này chưa có kịch bản')
 
 // ================= Âm thanh =================
 
@@ -119,6 +152,18 @@ export const sayable = (text: string) =>
 
 /** Giọng đọc câu của người chơi (lựa chọn tốt trong phim). */
 export const PLAYER_VOICE = 'af_heart'
+
+const MALE = 'am_michael'
+const FEMALE = 'af_heart'
+/** Giọng Kokoro theo tên nhân vật (nam/nữ). Thêm nhân vật mới vào đây. */
+export const NAME_VOICES: Record<string, string> = {
+  Tuấn: MALE, Hùng: MALE, Nam: MALE, Minh: MALE,
+  Mai: FEMALE, Linh: FEMALE, Lan: FEMALE, Hoa: FEMALE,
+}
+export const voiceOf = (who: { name: string; voice?: string } | undefined, fallback = PLAYER_VOICE) =>
+  who?.voice ?? (who ? NAME_VOICES[who.name] : undefined) ?? fallback
+export const friendVoice = (c: Chat) => voiceOf(c.friend, MALE)
+export const playerVoice = (c: Chat) => voiceOf(c.player)
 
 /** Mọi câu tiếng Anh có nút nghe / được đọc trong 2 trò của bài — để tạo file Kokoro. */
 export function collectStoryClips(lessonId: string): { text: string; voice: string }[] {
@@ -139,14 +184,14 @@ export function collectStoryClips(lessonId: string): { text: string; voice: stri
     }
     for (const e of s.endings) add(e.en, v)
   }
-  const c = getChat(lessonId)
-  if (c) {
-    const v = c.friend.voice
+  for (const c of getChats(lessonId)) {
+    const v = friendVoice(c)
+    const pv = playerVoice(c)
     add(c.timeout.en, v)
     for (const t of c.turns) {
       for (const m of [...t.friend, ...t.replyOk, ...t.replyBad]) add(m.en, v)
       // Tin người chơi gửi (cả gợi ý sai) cũng được đọc lên
-      for (const o of t.options) add(o.en, PLAYER_VOICE)
+      for (const o of t.options) add(o.en, pv)
     }
     for (const m of c.outro) add(m.en, v)
   }
@@ -251,6 +296,10 @@ export function allPaths(story: Story, limit = 1000): string[][] {
 export function validateChat(chat: Chat, lesson: Lesson): string[] {
   const errs: string[] = []
   if (chat.lessonId !== lesson.id) errs.push(`lessonId “${chat.lessonId}” khác bài “${lesson.id}”`)
+  if (!chat.id?.trim()) errs.push('thiếu id kịch bản')
+  for (const who of [chat.friend, chat.player]) {
+    if (who && !who.voice && !NAME_VOICES[who.name]) errs.push(`chưa biết giọng nam/nữ của “${who.name}” — thêm vào NAME_VOICES`)
+  }
   if (!(chat.seconds >= 5)) errs.push('seconds phải ≥ 5')
   if (!hasLine(chat.timeout)) errs.push('timeout thiếu en/vi')
   if (!chat.turns.length) errs.push('cần ít nhất 1 lượt')

@@ -1,17 +1,17 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import lessonJson from '../src/lessons/level2-01.json'
 import storyJson from '../src/lessons/stories/level2-01.json'
-import chatJson from '../src/lessons/chats/level2-01.json'
 import type { Lesson } from '../src/types'
 import {
-  allPaths, clamp100, collectStoryClips, endingFor, getChat, getStory, sayable, storyLockReason, chatLockReason,
+  allPaths, clamp100, collectStoryClips, endingFor, getChats, getStory, pickChat, friendVoice, playerVoice, sayable, storyLockReason, chatLockReason,
   unlockEnding, unlockedEndings, validateChat, validateStory, START_CLOSENESS, choiceDelta, findItem,
-  type Chat, type Story,
+  type Story,
 } from '../src/games/story/data'
 
 const lesson = lessonJson as unknown as Lesson
 const story = storyJson as unknown as Story
-const chat = chatJson as unknown as Chat
+const chats = getChats('level2-01')
+const chat = chats[0]
 const clone = <T,>(x: T) => structuredClone(x) as T
 
 describe('Phim tương tác — kịch bản Bài 1', () => {
@@ -105,15 +105,38 @@ describe('Phim tương tác — kịch bản Bài 1', () => {
 })
 
 describe('Nhắn tin — kịch bản Bài 1', () => {
-  it('dữ liệu hợp lệ', () => expect(validateChat(chat, lesson)).toEqual([]))
-
-  it('ít nhất 6 lượt trả lời, mỗi lượt đúng 1 gợi ý đúng', () => {
-    expect(chat.turns.length).toBeGreaterThanOrEqual(6)
-    for (const t of chat.turns) expect(t.options.filter((o) => o.ok)).toHaveLength(1)
+  it('có nhiều kịch bản, id không trùng', () => {
+    expect(chats.length).toBeGreaterThanOrEqual(3)
+    expect(new Set(chats.map((c) => c.id)).size).toBe(chats.length)
   })
 
-  it('mọi id cụm toolkit tham chiếu đều có trong bài', () => {
-    for (const t of chat.turns) for (const o of t.options) for (const id of o.toolkit ?? []) expect(findItem(lesson, id), id).toBeDefined()
+  for (const c of chats) {
+    it(`${c.id}: dữ liệu hợp lệ`, () => expect(validateChat(c, lesson)).toEqual([]))
+    it(`${c.id}: ít nhất 6 lượt, mỗi lượt đúng 1 gợi ý đúng`, () => {
+      expect(c.turns.length).toBeGreaterThanOrEqual(6)
+      for (const t of c.turns) expect(t.options.filter((o) => o.ok)).toHaveLength(1)
+    })
+  }
+
+  it('giọng đọc theo tên nhân vật: nam → am_michael, nữ → af_heart', () => {
+    const by = (id: string) => chats.find((c) => c.id === id)!
+    expect(friendVoice(by('tuan-classmate'))).toBe('am_michael')
+    expect(friendVoice(by('mai-cafe'))).toBe('af_heart')
+    expect(playerVoice(by('mai-cafe'))).toBe('am_michael') // Hùng
+    expect(friendVoice(by('linh-street'))).toBe('af_heart')
+    expect(playerVoice(by('linh-street'))).toBe('am_michael') // Tuấn
+  })
+
+  it('báo lỗi khi tên nhân vật chưa biết giọng nam/nữ', () => {
+    const bad = { ...clone(chat), friend: { name: 'Zed', avatar: '🙂' } }
+    expect(validateChat(bad, lesson).join()).toMatch(/Zed/)
+  })
+
+  it('pickChat: ngẫu nhiên và không lặp lại kịch bản vừa chơi', () => {
+    for (const c of chats) for (let i = 0; i < 20; i++) expect(pickChat('level2-01', c.id)!.id).not.toBe(c.id)
+    const seen = new Set(Array.from({ length: 60 }, () => pickChat('level2-01', null)!.id))
+    expect(seen.size).toBe(chats.length)
+    expect(pickChat('nope')).toBeUndefined()
   })
 
   it('báo lỗi khi không có gợi ý đúng', () => {
@@ -128,7 +151,7 @@ describe('Tiện ích', () => {
 
   it('tra được kịch bản theo bài', () => {
     expect(getStory('level2-01')).toBeDefined()
-    expect(getChat('level2-01')).toBeDefined()
+    expect(getChats('level2-01').length).toBeGreaterThan(0)
     expect(getStory('nope')).toBeUndefined()
   })
 
@@ -136,7 +159,7 @@ describe('Tiện ích', () => {
     const clips = collectStoryClips('level2-01')
     const texts = clips.map((c) => c.text)
     expect(texts).toContain(sayable(story.nodes[0].en))
-    expect(texts).toContain(sayable(chat.timeout.en))
+    for (const c of chats) expect(texts).toContain(sayable(c.timeout.en))
     expect(clips.some((c) => c.voice === 'af_heart')).toBe(true)
     expect(clips.some((c) => c.voice === 'am_michael')).toBe(true)
     for (const c of clips) expect(c.text).not.toMatch(/\p{Extended_Pictographic}/u)

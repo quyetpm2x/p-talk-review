@@ -10,7 +10,7 @@ import { burst } from '../../lib/fx'
 import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
 import { Icon } from '../../components/Icon'
-import { findItem, getChat, sayable, PLAYER_VOICE, type ChatOption, type Line } from './data'
+import { findItem, friendVoice, lastChatId, pickChat, playerVoice, saveLastChat, sayable, type ChatOption, type Line } from './data'
 import './story.css'
 
 type Msg =
@@ -28,9 +28,15 @@ const plain = (s: string) => sayable(s).normalize('NFD').replace(/[̀-ͯ]/g, '')
 /** Thời gian “đang soạn tin” theo độ dài tin: 1–2 giây. */
 const typingMs = (s: string) => Math.min(2000, 900 + s.length * 22)
 
+/** Hiển thị **đậm** trong lời giới thiệu. */
+const bold = (s: string) => s.split(/\*\*(.+?)\*\*/g).map((x, i) => (i % 2 ? <b key={i}>{x}</b> : x))
+
 /** 💬 Nhắn tin với bạn cũ: trả lời kịp giờ bằng gợi ý hoặc giọng nói. */
 export function Chat({ lesson, record, finish }: CustomGameProps) {
-  const chat = getChat(lesson.id)!
+  // Mỗi lần vào: một kịch bản ngẫu nhiên, khác kịch bản lượt trước
+  const [chat] = useState(() => pickChat(lesson.id, lastChatId(lesson.id))!)
+  const fVoice = friendVoice(chat)
+  const pVoice = playerVoice(chat)
   const total = chat.seconds * 1000
   const [phase, setPhase] = useState<Phase>('intro')
   const [msgs, setMsgs] = useState<Msg[]>([])
@@ -62,6 +68,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
 
   useEffect(() => {
     alive.current = true // StrictMode chạy effect 2 lần
+    saveLastChat(lesson.id, chat.id)
     return () => {
       alive.current = false
       stopSpeaking()
@@ -92,7 +99,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
       setTyping(false)
       push({ from: 'friend', en: l.en, vi: l.vi, time: hhmm() })
       sfx('pop')
-      await say(l.en, chat.friend.voice, 'A')
+      await say(l.en, fVoice, 'A')
       await wait(350)
     }
   }
@@ -142,7 +149,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
     } else sfx('bad')
 
     try {
-      if (opt) await say(opt.en, PLAYER_VOICE, 'B')
+      if (opt) await say(opt.en, pVoice, 'B')
       await wait(opt ? 400 : 200)
       if (!opt) await friendSays([chat.timeout])
       else await friendSays(ok ? t.replyOk : t.replyBad)
@@ -257,7 +264,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
                 {showVi && <div className="msg-vi">{m.vi}</div>}
                 <div className="msg-meta"><span>{m.time}</span></div>
               </div>
-              <SpeakButton text={sayable(m.en)} size="sm" kokoro={chat.friend.voice} voice="A" />
+              <SpeakButton text={sayable(m.en)} size="sm" kokoro={fVoice} voice="A" />
             </div>
           ) : (
             <div key={m.id} className="msg-row right">
@@ -281,7 +288,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
         {phase === 'intro' && (
           <div className="stack chat-intro">
             <div className="small">
-              💬 Bạn cũ <b>{chat.friend.name}</b> vừa nhắn cho bạn sau nhiều năm! Mỗi lượt có <b>{chat.seconds} giây</b> để trả lời — chạm một gợi ý
+              {bold(chat.intro ?? `💬 **${chat.friend.name}** vừa nhắn tin cho bạn!`)} Mỗi lượt có <b>{chat.seconds} giây</b> để trả lời — chạm một gợi ý
               {micBlocked ? '' : ' hoặc bấm 🎤 và đọc to câu đó'}.
             </div>
             <button className="btn btn-primary btn-block" onClick={start}>Mở tin nhắn</button>
