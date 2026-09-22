@@ -2,6 +2,7 @@ import { it, expect } from 'vitest'
 import { clipKey, ttsInput, collectClips, DEFAULT_VOICE } from '../src/lib/audioKey'
 import lesson from '../src/lessons/level2-01.json'
 import manifest from '../src/audio/manifest.json'
+import { lessons } from '../src/lessons'
 import type { Lesson } from '../src/types'
 import { existsSync } from 'node:fs'
 import { collectStoryClips } from '../src/games/story/data'
@@ -14,6 +15,7 @@ it('ttsInput sửa cách đọc tên riêng', () => {
   expect(ttsInput('Hold on... Tuấn? From PTALK?')).toBe('Hold on... Tuan? From P-Talk?')
   expect(ttsInput("Aren't you Tâm's cousin? Near Bách Khoa, Đà Nẵng")).toBe("Aren't you Tam's cousin? Near Bach Khoa, Da Nang")
   expect(ttsInput('Oh my gosh — Hùng!')).toBe('Oh my gosh — Hung!')
+  expect(ttsInput('I got my IELTS results back')).toBe('I got my eye-elts results back')
 })
 it('collectClips gom đủ câu, dùng giọng riêng cho hội thoại', () => {
   const clips = collectClips(lesson as Lesson)
@@ -23,10 +25,12 @@ it('collectClips gom đủ câu, dùng giọng riêng cho hội thoại', () => 
   expect(clips.some((c) => c.text === line.text && c.voice === d.voices?.[line.speaker])).toBe(true)
   expect(new Set(clips.map((c) => clipKey(c.text, c.voice))).size).toBe(clips.length)
 })
-it('mọi câu của bài 1 đều đã có file âm thanh (chạy `npm run tts` nếu lỗi)', () => {
+it('mọi câu của mọi bài đều đã có file âm thanh (chạy `npm run tts` nếu lỗi)', () => {
   const m = manifest as Record<string, string>
-  const all = [...collectClips(lesson as Lesson), ...collectStoryClips((lesson as Lesson).id)]
-  const missing = all.filter((c) => !m[clipKey(c.text, c.voice)])
-  expect(missing.map((c) => c.text)).toEqual([])
+  for (const l of lessons) {
+    const all = [...collectClips(l), ...collectStoryClips(l.id)]
+    const missing = all.filter((c) => !m[clipKey(c.text, c.voice)])
+    expect(missing.map((c) => c.text), l.id).toEqual([])
+  }
   for (const f of Object.values(m)) expect(existsSync(`public/audio/${f}`)).toBe(true)
 })

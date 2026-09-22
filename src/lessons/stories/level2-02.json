@@ -1,0 +1,1049 @@
+{
+  "lessonId": "level2-02",
+  "stories": [
+    {
+      "id": "trang-office",
+      "title": "Trang ngập trong deadline",
+      "setting": "Đã 7 giờ tối, văn phòng gần như vắng tanh. Trang — đồng nghiệp ngồi cạnh bạn — vẫn dán mắt vào màn hình, thở dài hết lần này tới lần khác.",
+      "scene": "office",
+      "friend": {
+        "name": "Trang"
+      },
+      "start": "o1",
+      "nodes": [
+        {
+          "id": "o1",
+          "en": "Ugh... sorry, did I just sigh out loud again? I've been staring at this screen for hours.",
+          "vi": "Ôi… xin lỗi, tớ lại thở dài thành tiếng à? Tớ nhìn chằm chằm cái màn hình này mấy tiếng rồi.",
+          "next": "o2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "No worries. You look a bit down, though. Want to talk about it?",
+              "vi": "Không sao đâu. Mà trông cậu hơi buồn đấy. Muốn kể tớ nghe không?",
+              "toolkit": [
+                "o2",
+                "o5"
+              ],
+              "explain": "“You look a bit down” cho Trang thấy cậu để ý tới cô ấy, rồi “Want to talk about it?” mở lời nhẹ nhàng, không ép phải kể.",
+              "reply": {
+                "en": "Is it that obvious? This week is just a nightmare.",
+                "vi": "Lộ vậy sao? Tuần này đúng là ác mộng."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Oh, okay. By the way, have you tried the new coffee machine in the kitchen?",
+              "vi": "À, ừ. Mà cậu thử cái máy pha cà phê mới trong bếp chưa?",
+              "explain": "Đúng ngữ pháp nhưng lảng sang chuyện khác — Trang đang phát tín hiệu mệt mỏi mà cậu lại bỏ qua.",
+              "reply": {
+                "en": "Um... no. I haven't had time for coffee all day.",
+                "vi": "Ừm… chưa. Cả ngày tớ còn chẳng có thời gian uống cà phê."
+              },
+              "next": "o1b"
+            },
+            {
+              "kind": "rude",
+              "en": "Yeah, can you stop sighing? It's really annoying.",
+              "vi": "Ừ, cậu thôi thở dài được không? Khó chịu lắm.",
+              "explain": "Bắt người đang căng thẳng “thôi thở dài” — vừa phũ vừa khiến họ ngại không dám chia sẻ nữa.",
+              "reply": {
+                "en": "Oh... sorry. I'll keep it down.",
+                "vi": "Ơ… xin lỗi. Tớ sẽ im lặng."
+              },
+              "next": "o1b"
+            }
+          ]
+        },
+        {
+          "id": "o1b",
+          "en": "Sorry, I'm just a bit stuck today. It's nothing, really.",
+          "vi": "Xin lỗi, hôm nay tớ hơi bí thôi. Không có gì đâu, thật đấy.",
+          "next": "o2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "It doesn't look like nothing. What's wrong? You can tell me.",
+              "vi": "Trông đâu có giống “không có gì”. Có chuyện gì thế? Cậu cứ kể tớ nghe.",
+              "toolkit": [
+                "o4"
+              ],
+              "explain": "Nhận ra câu “It's nothing” chỉ là nói cho qua, rồi “What's wrong? You can tell me.” cho Trang cảm giác an toàn để mở lòng.",
+              "reply": {
+                "en": "Okay... honestly? I'm drowning in work.",
+                "vi": "Thôi được… nói thật nhé? Tớ ngập đầu trong việc."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Okay, if it's nothing, I'll get back to my work then.",
+              "vi": "Ừ, không có gì thì tớ làm việc tiếp đây.",
+              "explain": "Đúng ngữ pháp nhưng tin ngay câu “không có gì” — bỏ lỡ cơ hội hỏi han khi rõ ràng Trang đang không ổn.",
+              "reply": {
+                "en": "Yeah... sure. Go ahead.",
+                "vi": "Ừ… được. Cậu làm đi."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Good, because I don't really have time for other people's problems.",
+              "vi": "Tốt, vì tớ cũng chẳng có thời gian cho chuyện của người khác.",
+              "explain": "Nói thẳng là không quan tâm — lạnh lùng và làm Trang thấy bị gạt ra ngoài.",
+              "reply": {
+                "en": "Right. Got it.",
+                "vi": "Ừ. Tớ hiểu rồi."
+              }
+            }
+          ]
+        },
+        {
+          "id": "o2",
+          "en": "I've got three reports due by Friday, and I've barely started the second one.",
+          "vi": "Tớ có ba báo cáo phải nộp trước thứ Sáu, mà cái thứ hai còn chưa làm được mấy.",
+          "next": "o3",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Three by Friday? That must be so stressful. How are you holding up?",
+              "vi": "Ba cái trước thứ Sáu á? Chắc căng thẳng lắm. Cậu vẫn trụ nổi chứ?",
+              "toolkit": [
+                "y4",
+                "y5"
+              ],
+              "explain": "“That must be so stressful” gọi tên cảm xúc của Trang, còn “How are you holding up?” hỏi thăm chính con người cô ấy chứ không chỉ công việc.",
+              "reply": {
+                "en": "Honestly? Not great. I've been staying late every night this week.",
+                "vi": "Nói thật à? Không ổn lắm. Cả tuần nay tối nào tớ cũng về muộn."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Three isn't that many. Last month I had five!",
+              "vi": "Ba cái có nhiều đâu. Tháng trước tớ còn có năm cái!",
+              "explain": "Đúng ngữ pháp nhưng so bì “tớ còn khổ hơn” — khiến nỗi mệt của Trang bị xem nhẹ.",
+              "reply": {
+                "en": "Oh... well, good for you, I guess.",
+                "vi": "Ồ… ừ, giỏi thật đấy."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Well, maybe you should have started earlier.",
+              "vi": "Thì lẽ ra cậu phải bắt đầu sớm hơn chứ.",
+              "explain": "Trách móc đúng lúc người ta đang rối — nghe như “tự làm tự chịu”, rất dễ tổn thương.",
+              "reply": {
+                "en": "I did start early. It's just... never mind.",
+                "vi": "Tớ bắt đầu sớm rồi mà. Chỉ là… thôi bỏ đi."
+              }
+            }
+          ]
+        },
+        {
+          "id": "o3",
+          "en": "I should probably ask our manager for more time, but I don't want to look like I can't handle it.",
+          "vi": "Chắc tớ nên xin sếp thêm thời gian, nhưng tớ không muốn trông như mình không kham nổi.",
+          "next": "o4",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Asking for one extra day isn't a weakness — everyone's busy this month. Don't be too hard on yourself.",
+              "vi": "Xin thêm một ngày đâu phải là yếu kém — tháng này ai cũng bận mà. Đừng khắt khe với bản thân quá.",
+              "toolkit": [
+                "c2"
+              ],
+              "explain": "Trấn an nỗi sợ của Trang bằng lý lẽ cụ thể (ai cũng bận), rồi “Don't be too hard on yourself.” nhắc cô ấy bớt tự áp lực.",
+              "reply": {
+                "en": "You think so? I guess she did give Nam an extension last week.",
+                "vi": "Cậu nghĩ vậy à? Mà tuần trước sếp cũng cho Nam lùi hạn thật."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Hmm, managers do remember who asks for extensions, you know.",
+              "vi": "Hừm, sếp nhớ dai ai hay xin lùi hạn lắm đấy.",
+              "explain": "Đúng ngữ pháp nhưng đổ thêm dầu vào lửa — Trang đang lo mà cậu lại xác nhận nỗi lo đó.",
+              "reply": {
+                "en": "Great... now I feel even worse.",
+                "vi": "Tuyệt… giờ tớ còn thấy tệ hơn."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Well, can you handle it or not?",
+              "vi": "Thế rốt cuộc cậu có kham nổi không?",
+              "explain": "Hỏi dồn như tra hỏi — đúng vào điểm yếu Trang đang lo, nghe rất phũ.",
+              "reply": {
+                "en": "I... don't know anymore.",
+                "vi": "Tớ… cũng chẳng biết nữa."
+              }
+            }
+          ]
+        },
+        {
+          "id": "o4",
+          "en": "Even with an extra day, I'm so far behind. I don't even know where to start.",
+          "vi": "Dù có thêm một ngày thì tớ vẫn chậm quá nhiều. Tớ còn chẳng biết bắt đầu từ đâu.",
+          "next": "o5",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Take it one thing at a time. Finish one report, then move on to the next.",
+              "vi": "Cứ làm từng việc một thôi. Xong một báo cáo rồi hẵng chuyển sang cái tiếp theo.",
+              "toolkit": [
+                "e3"
+              ],
+              "explain": "“Take it one thing at a time.” biến núi việc thành từng bước nhỏ — vừa động viên vừa là lời khuyên làm được ngay.",
+              "reply": {
+                "en": "One at a time... okay, that sounds a lot less scary.",
+                "vi": "Từng việc một… ừ, nghe đỡ đáng sợ hơn nhiều."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Have you tried a productivity app? There are hundreds of them.",
+              "vi": "Cậu thử app quản lý công việc chưa? Có cả trăm cái đấy.",
+              "explain": "Đúng ngữ pháp nhưng lời khuyên chung chung, lạc nhịp — người đang quá tải chẳng còn sức học thêm app mới.",
+              "reply": {
+                "en": "Um... I don't really have time to learn a new app.",
+                "vi": "Ừm… tớ không có thời gian học app mới đâu."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "That's what happens when you say yes to everything.",
+              "vi": "Ai bảo cái gì cũng nhận làm.",
+              "explain": "Chỉ trích đúng lúc người ta cần được nâng đỡ — nghe như hả hê, rất khó chịu.",
+              "reply": {
+                "en": "Wow. Thanks for the reminder.",
+                "vi": "Chà. Cảm ơn đã nhắc nhé."
+              }
+            }
+          ]
+        },
+        {
+          "id": "o5",
+          "en": "The worst part is the sales numbers for the third report. Spreadsheets are really not my thing.",
+          "vi": "Tệ nhất là phần số liệu doanh số của báo cáo thứ ba. Tớ thật sự không giỏi bảng tính.",
+          "next": "o6",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "I'm pretty good with spreadsheets. Is there anything I can do? I could check the numbers with you after lunch tomorrow.",
+              "vi": "Tớ khá rành bảng tính đấy. Tớ giúp gì được không? Trưa mai tớ ngồi soát số liệu cùng cậu nhé.",
+              "toolkit": [
+                "h1"
+              ],
+              "explain": "“Is there anything I can do?” đi kèm một đề nghị cụ thể (soát số liệu sau bữa trưa) — lời giúp đỡ thật, không chỉ nói suông.",
+              "reply": {
+                "en": "Really? That would save me hours!",
+                "vi": "Thật á? Vậy đỡ cho tớ cả mấy tiếng luôn!"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Yeah, spreadsheets are so boring. I hate them too.",
+              "vi": "Ừ, bảng tính chán thật. Tớ cũng ghét.",
+              "explain": "Đồng tình cho vui nhưng không giúp gì — Trang vẫn một mình với đống số liệu.",
+              "reply": {
+                "en": "Ha... yeah. That doesn't really help, though.",
+                "vi": "Ha… ừ. Nhưng thế cũng chẳng giúp gì."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Not your thing? Isn't that literally your job?",
+              "vi": "Không giỏi á? Đó chẳng phải là việc của cậu sao?",
+              "explain": "Mỉa mai năng lực của đồng nghiệp — kém lịch sự và làm cô ấy mất tự tin hơn.",
+              "reply": {
+                "en": "...Yes. I know.",
+                "vi": "…Ừ. Tớ biết."
+              }
+            }
+          ]
+        },
+        {
+          "id": "o6",
+          "en": "Okay. I think I'll talk to her this afternoon. Wish me luck?",
+          "vi": "Được rồi. Chắc chiều nay tớ sẽ nói với sếp. Chúc tớ may mắn nhé?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "You've got this. I believe in you — and if she says no, let me know if you need anything.",
+              "vi": "Cậu làm được mà. Tớ tin cậu — mà nếu sếp không đồng ý thì cần gì cứ bảo tớ nhé.",
+              "toolkit": [
+                "e1",
+                "e2",
+                "h2"
+              ],
+              "explain": "“You've got this. I believe in you” tiếp thêm tự tin trước cuộc nói chuyện khó, còn “let me know if you need anything” cho Trang biết luôn có người hỗ trợ.",
+              "reply": {
+                "en": "Thank you. I feel so much lighter now.",
+                "vi": "Cảm ơn cậu. Giờ tớ thấy nhẹ nhõm hơn nhiều."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Sure, good luck. Oh, are you coming to the team dinner on Saturday?",
+              "vi": "Ừ, chúc may mắn. À, thứ Bảy cậu có đi ăn với cả nhóm không?",
+              "explain": "Chúc qua loa rồi chuyển ngay sang chuyện khác — Trang cần được tiếp sức, không phải một lời mời đi ăn.",
+              "reply": {
+                "en": "Um... I haven't even thought about Saturday.",
+                "vi": "Ừm… tớ còn chưa nghĩ tới thứ Bảy nữa."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Honestly, you'll need more than luck.",
+              "vi": "Nói thật, cậu cần nhiều thứ hơn là may mắn đấy.",
+              "explain": "Dội nước lạnh đúng lúc Trang vừa lấy được can đảm — rất phũ.",
+              "reply": {
+                "en": "Thanks. That's... really encouraging.",
+                "vi": "Cảm ơn. Thật là… động viên ghê."
+              }
+            }
+          ]
+        }
+      ],
+      "endings": [
+        {
+          "id": "tr-plan",
+          "min": 85,
+          "icon": "🤝",
+          "title": "Trang có kế hoạch — và một đồng đội",
+          "desc": "Trang xin được thêm một ngày, làm từng báo cáo một, và hai bạn hẹn trưa mai cùng soát số liệu. Cô ấy về nhà với nụ cười!",
+          "mood": "happy",
+          "en": "I'm emailing her right now. And lunch tomorrow is on me! 😊",
+          "vi": "Tớ gửi email cho sếp ngay đây. Trưa mai tớ bao cậu nhé!"
+        },
+        {
+          "id": "tr-lighter",
+          "min": 65,
+          "icon": "💪",
+          "title": "Trang thấy nhẹ lòng hơn",
+          "desc": "Trang bình tĩnh lại và quyết định sẽ nói với sếp, dù vẫn định tự mình gánh hết phần số liệu.",
+          "mood": "happy",
+          "en": "Thanks for listening. I think I can do this.",
+          "vi": "Cảm ơn cậu đã nghe tớ nói. Chắc tớ làm được."
+        },
+        {
+          "id": "tr-thanks",
+          "min": 40,
+          "icon": "🙂",
+          "title": "Trang cảm ơn cho qua chuyện",
+          "desc": "Trang gật đầu cảm ơn, nhưng lại quay về màn hình một mình, vẫn chưa biết tính sao với ba báo cáo.",
+          "mood": "idle",
+          "en": "Anyway... I'd better get back to it.",
+          "vi": "Thôi… tớ làm tiếp đây."
+        },
+        {
+          "id": "tr-closed",
+          "min": 0,
+          "icon": "😶",
+          "title": "Trang thu mình lại…",
+          "desc": "Trang đeo tai nghe vào và không nói thêm câu nào. Chơi lại và thử hỏi han, đồng cảm trước khi khuyên nhé!",
+          "mood": "awkward",
+          "en": "I'm fine. I'll just figure it out myself.",
+          "vi": "Tớ ổn. Tớ tự lo được."
+        }
+      ]
+    },
+    {
+      "id": "minh-exam",
+      "title": "Minh trượt mục tiêu IELTS",
+      "setting": "Bạn ghé nhà Minh trả sách thì thấy cậu ấy ngồi thừ trên sofa, điện thoại úp trên bàn. Sáng nay Minh vừa nhận kết quả IELTS… Bạn vào vai Linh.",
+      "scene": "home",
+      "friend": {
+        "name": "Minh"
+      },
+      "player": {
+        "name": "Linh"
+      },
+      "start": "m1",
+      "nodes": [
+        {
+          "id": "m1",
+          "en": "Oh, hey Linh. Sorry, the place is a mess. Just put the books anywhere.",
+          "vi": "À, chào Linh. Xin lỗi, nhà bừa quá. Cậu cứ để sách đâu cũng được.",
+          "next": "m2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Thanks. Hey, you seem a little off today. Is something on your mind?",
+              "vi": "Cảm ơn nhé. Mà hôm nay trông cậu hơi khác đấy. Có chuyện gì làm cậu bận lòng à?",
+              "toolkit": [
+                "o1",
+                "o3"
+              ],
+              "explain": "“You seem a little off today” cho thấy cậu để ý Minh không ổn, “Is something on your mind?” mời cậu ấy chia sẻ mà không gặng hỏi.",
+              "reply": {
+                "en": "...Is it that obvious? I got my IELTS results this morning.",
+                "vi": "…Lộ vậy à? Sáng nay tớ có kết quả IELTS."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Wow, it really is a mess. Do you want me to help you clean up?",
+              "vi": "Chà, bừa thật đấy. Cậu có muốn tớ dọn giúp không?",
+              "explain": "Đúng ngữ pháp và có ý tốt, nhưng chỉ để ý căn phòng — bỏ qua việc Minh rõ ràng đang buồn.",
+              "reply": {
+                "en": "Uh... no, it's fine. Just leave it.",
+                "vi": "Ơ… thôi, không sao. Cứ kệ nó."
+              },
+              "next": "m1b"
+            },
+            {
+              "kind": "rude",
+              "en": "Okay. I'll just drop these and go. I'm kind of busy.",
+              "vi": "Ừ. Tớ để sách rồi đi đây. Tớ đang bận.",
+              "explain": "Vội vàng bỏ đi trong khi bạn đang buồn — nghe lạnh nhạt, như không muốn dính vào.",
+              "reply": {
+                "en": "Oh... right. Sure.",
+                "vi": "Ơ… ừ. Được thôi."
+              },
+              "next": "m1b"
+            }
+          ]
+        },
+        {
+          "id": "m1b",
+          "en": "Sorry, I'm not great company today. I got my IELTS results this morning.",
+          "vi": "Xin lỗi, hôm nay tớ chẳng vui vẻ gì. Sáng nay tớ nhận kết quả IELTS.",
+          "next": "m2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Hey, you don't need to apologize. How did it go? Want to talk about it?",
+              "vi": "Này, cậu đâu cần xin lỗi. Kết quả sao rồi? Muốn kể tớ nghe không?",
+              "toolkit": [
+                "o5"
+              ],
+              "explain": "Gỡ áy náy cho Minh trước, rồi “Want to talk about it?” mở cửa cho cậu ấy tâm sự — cứu vãn rất khéo.",
+              "reply": {
+                "en": "Not well. I missed my target by half a band.",
+                "vi": "Không ổn. Tớ thiếu nửa band so với mục tiêu."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Oh, IELTS! My cousin got an 8.0 last month, did I tell you?",
+              "vi": "À, IELTS! Chị họ tớ tháng trước được 8.0 đấy, tớ kể cậu chưa?",
+              "explain": "Đúng ngữ pháp nhưng lái sang thành tích của người khác — đúng lúc Minh đang thất vọng về điểm của mình.",
+              "reply": {
+                "en": "No... you didn't. Good for her.",
+                "vi": "Chưa… cậu chưa kể. Chị ấy giỏi thật."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Let me guess — you failed again?",
+              "vi": "Để tớ đoán nhé — lại trượt chứ gì?",
+              "explain": "Đoán già đoán non kiểu chế giễu — xát muối vào nỗi buồn của bạn.",
+              "reply": {
+                "en": "Wow. Yeah, something like that.",
+                "vi": "Chà. Ừ, gần như thế."
+              }
+            }
+          ]
+        },
+        {
+          "id": "m2",
+          "en": "I needed a 7.0 and I got a 6.5. I studied for months, even on weekends.",
+          "vi": "Tớ cần 7.0 mà chỉ được 6.5. Tớ học mấy tháng trời, cả cuối tuần cũng học.",
+          "next": "m3",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Oh Minh, I'm so sorry to hear that. I know how hard you worked.",
+              "vi": "Ôi Minh, tớ tiếc quá. Tớ biết cậu đã cố gắng thế nào mà.",
+              "toolkit": [
+                "y1"
+              ],
+              "explain": "“I'm so sorry to hear that.” bày tỏ sự đồng cảm, và ghi nhận công sức của Minh khiến cậu ấy thấy được thấu hiểu.",
+              "reply": {
+                "en": "That's what frustrates me. All that work, and I still didn't make it.",
+                "vi": "Thế mới bực. Cố gắng bao nhiêu mà vẫn không đạt."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "6.5 is fine, though. Lots of people would be happy with that.",
+              "vi": "6.5 cũng ổn mà. Khối người được vậy là mừng rồi.",
+              "explain": "Đúng ngữ pháp nhưng xem nhẹ nỗi thất vọng — Minh cần 7.0, “ổn với người khác” không an ủi được cậu ấy.",
+              "reply": {
+                "en": "Maybe, but it's not what I needed.",
+                "vi": "Có thể, nhưng đó không phải điểm tớ cần."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Half a band? Seriously, you're this upset about half a band?",
+              "vi": "Nửa band á? Thật à, buồn tới mức này chỉ vì nửa band?",
+              "explain": "Chê cảm xúc của bạn là làm quá — khiến Minh thấy mình bị phán xét.",
+              "reply": {
+                "en": "Yes, Linh. I am.",
+                "vi": "Ừ, Linh. Tớ buồn đấy."
+              }
+            }
+          ]
+        },
+        {
+          "id": "m3",
+          "en": "It just feels like I'm back to square one. Maybe I'm just not smart enough.",
+          "vi": "Tớ thấy như mình về lại vạch xuất phát. Chắc tại tớ không đủ thông minh.",
+          "next": "m4",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "You're not back to square one — you were only half a band short. You did everything you could. These things happen.",
+              "vi": "Cậu đâu có về vạch xuất phát — chỉ thiếu nửa band thôi. Cậu đã làm hết sức rồi. Chuyện này vẫn xảy ra mà.",
+              "toolkit": [
+                "c4",
+                "c3"
+              ],
+              "explain": "Phản bác nhẹ ý “về vạch xuất phát” bằng sự thật (chỉ thiếu nửa band), rồi “You did everything you could. These things happen.” giúp Minh thôi tự trách.",
+              "reply": {
+                "en": "I guess. I really did give it everything.",
+                "vi": "Chắc vậy. Tớ đúng là đã dốc hết sức."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Well, some people are just better at languages.",
+              "vi": "Thì có người sinh ra đã giỏi ngoại ngữ hơn mà.",
+              "explain": "Đúng ngữ pháp nhưng vô tình xác nhận nỗi sợ “mình không đủ giỏi” của Minh.",
+              "reply": {
+                "en": "...Right. And I'm not one of them.",
+                "vi": "…Ừ. Và tớ không phải một trong số đó."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Maybe. Or maybe you just didn't study the right way.",
+              "vi": "Có khi thế. Hoặc có khi cậu học sai cách.",
+              "explain": "Đồng ý rằng bạn kém rồi còn chê cách học — đúng lúc bạn yếu lòng nhất.",
+              "reply": {
+                "en": "Thanks, Linh. Really helpful.",
+                "vi": "Cảm ơn nhé, Linh. Hữu ích ghê."
+              }
+            }
+          ]
+        },
+        {
+          "id": "m4",
+          "en": "And my parents... they paid for the course and the test. They'll be so disappointed.",
+          "vi": "Còn bố mẹ tớ nữa… bố mẹ đóng tiền khoá học với tiền thi. Chắc bố mẹ thất vọng lắm.",
+          "next": "m5",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "That sounds really hard. But they saw how much you put into this — they'll be proud of your effort.",
+              "vi": "Nghe khó xử thật. Nhưng bố mẹ thấy cậu đã cố gắng thế nào — chắc chắn sẽ tự hào về nỗ lực của cậu.",
+              "toolkit": [
+                "y2"
+              ],
+              "explain": "“That sounds really hard.” thừa nhận nỗi lo của Minh trước, rồi mới trấn an bằng điều cụ thể: bố mẹ đã tận mắt thấy cậu ấy cố gắng.",
+              "reply": {
+                "en": "Yeah... Mom did bring me snacks every night I studied.",
+                "vi": "Ừ… tối nào tớ học mẹ cũng mang đồ ăn vặt lên."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Just don't tell them yet. Say the results aren't out.",
+              "vi": "Thì đừng nói vội. Bảo là chưa có kết quả.",
+              "explain": "Đúng ngữ pháp nhưng khuyên nói dối — không giải quyết được gì, còn làm Minh áy náy hơn.",
+              "reply": {
+                "en": "Lie to them? No, I can't do that.",
+                "vi": "Nói dối bố mẹ á? Không, tớ không làm thế được."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Yeah, that was a lot of money to waste.",
+              "vi": "Ừ, phí cả đống tiền.",
+              "explain": "Gọi nỗ lực của bạn là “phí tiền” — đánh thẳng vào cảm giác tội lỗi, rất tàn nhẫn.",
+              "reply": {
+                "en": "...I know. You don't have to remind me.",
+                "vi": "…Tớ biết. Cậu không cần nhắc."
+              }
+            }
+          ]
+        },
+        {
+          "id": "m5",
+          "en": "Do you think I should even try again? Maybe IELTS just isn't for me.",
+          "vi": "Cậu nghĩ tớ có nên thi lại không? Có khi IELTS không dành cho tớ.",
+          "next": "m6",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Of course you should! Take a few days to rest, then give it another shot. You're stronger than you think.",
+              "vi": "Nên chứ! Cứ nghỉ ngơi vài ngày, rồi thử lại lần nữa. Cậu mạnh mẽ hơn cậu nghĩ đấy.",
+              "toolkit": [
+                "e4"
+              ],
+              "explain": "Đưa ra kế hoạch nhẹ nhàng (nghỉ vài ngày rồi thử lại) và “You're stronger than you think.” tiếp thêm niềm tin cho Minh.",
+              "reply": {
+                "en": "Another shot... Okay. Maybe my writing just needs more work.",
+                "vi": "Thử lại… Ừ. Có lẽ phần Writing của tớ chỉ cần luyện thêm."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Up to you. Maybe try TOEIC instead? I heard it's easier.",
+              "vi": "Tuỳ cậu. Hay thi TOEIC đi? Nghe bảo dễ hơn.",
+              "explain": "Đúng ngữ pháp nhưng hời hợt, lạc đề — Minh cần IELTS và cần được tiếp sức, không cần “đường tắt”.",
+              "reply": {
+                "en": "Hmm... but I need IELTS for the scholarship.",
+                "vi": "Hừm… nhưng tớ cần IELTS để xin học bổng."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Honestly? If months of studying didn't work, maybe just give up.",
+              "vi": "Nói thật nhé? Học mấy tháng không ăn thua thì bỏ quách đi.",
+              "explain": "Khuyên bỏ cuộc đúng lúc bạn đang chông chênh — dập tắt hoàn toàn động lực.",
+              "reply": {
+                "en": "Oh. Okay then.",
+                "vi": "Ồ. Ừ, vậy thôi."
+              }
+            }
+          ]
+        },
+        {
+          "id": "m6",
+          "en": "My writing score was the lowest. I just don't know how to fix it on my own.",
+          "vi": "Điểm Writing của tớ thấp nhất. Tớ không biết tự sửa kiểu gì.",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "I got a 7.5 in writing last year, so I'm here for you. Let's practice together every Saturday. I believe in you!",
+              "vi": "Năm ngoái tớ được 7.5 Writing, nên có tớ đây. Mình luyện cùng nhau mỗi thứ Bảy nhé. Tớ tin cậu!",
+              "toolkit": [
+                "h3",
+                "e2"
+              ],
+              "explain": "“I'm here for you” đi kèm lời hứa cụ thể (luyện cùng mỗi thứ Bảy), và “I believe in you!” khép lại bằng niềm tin — Minh không còn phải một mình.",
+              "reply": {
+                "en": "You'd do that? That would mean a lot, Linh.",
+                "vi": "Cậu làm thế thật á? Vậy thì quý lắm, Linh."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "There are loads of IELTS writing videos on YouTube. Just watch some.",
+              "vi": "Trên YouTube đầy video luyện Writing IELTS. Cứ xem vài cái.",
+              "explain": "Đúng ngữ pháp nhưng lời khuyên chung chung, kiểu “tự lo đi” — không thật sự giúp gì.",
+              "reply": {
+                "en": "Yeah... I've watched most of them already.",
+                "vi": "Ừ… tớ xem gần hết rồi."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Writing is the easy part, though. How did you mess that up?",
+              "vi": "Writing là phần dễ mà. Sao cậu làm hỏng được hay vậy?",
+              "explain": "Chê phần yếu nhất của bạn là “dễ” — vừa kiêu vừa làm bạn thêm xấu hổ.",
+              "reply": {
+                "en": "I don't know, Linh. I just did.",
+                "vi": "Tớ không biết, Linh. Thế đấy."
+              }
+            }
+          ]
+        }
+      ],
+      "endings": [
+        {
+          "id": "mi-study",
+          "min": 85,
+          "icon": "📚",
+          "title": "Hẹn luyện Writing mỗi thứ Bảy",
+          "desc": "Minh lấy lại tinh thần: nghỉ ngơi vài ngày rồi đăng ký thi lại, và hai bạn hẹn nhau luyện Writing mỗi sáng thứ Bảy.",
+          "mood": "happy",
+          "en": "Saturday at nine, then? I'll make the coffee this time! 😊",
+          "vi": "Vậy chín giờ sáng thứ Bảy nhé? Lần này tớ pha cà phê!"
+        },
+        {
+          "id": "mi-lighter",
+          "min": 65,
+          "icon": "🌤️",
+          "title": "Minh thấy nhẹ nhõm hơn",
+          "desc": "Minh thôi tự trách và hứa sẽ thi lại, dù vẫn định tự ôn một mình.",
+          "mood": "happy",
+          "en": "Thanks, Linh. I really needed to hear that.",
+          "vi": "Cảm ơn Linh. Tớ đúng là cần nghe những lời đó."
+        },
+        {
+          "id": "mi-alone",
+          "min": 40,
+          "icon": "😐",
+          "title": "Minh cảm ơn nhưng vẫn buồn",
+          "desc": "Minh cảm ơn bạn đã ghé qua, nhưng vẫn chưa biết có nên thi lại hay không.",
+          "mood": "idle",
+          "en": "Thanks for dropping by. I think I just need some time alone.",
+          "vi": "Cảm ơn cậu đã ghé. Chắc tớ cần ở một mình một lúc."
+        },
+        {
+          "id": "mi-closed",
+          "min": 0,
+          "icon": "🚪",
+          "title": "Minh đóng cửa lòng…",
+          "desc": "Minh lặng lẽ tiễn bạn ra cửa, không muốn nói thêm. Chơi lại và thử đồng cảm, động viên thay vì so sánh hay chê trách nhé!",
+          "mood": "awkward",
+          "en": "I'm kind of tired. Let's talk another time.",
+          "vi": "Tớ hơi mệt. Để hôm khác nói chuyện nhé."
+        }
+      ]
+    },
+    {
+      "id": "vy-hospital",
+      "title": "Ở bên Vy trong phòng chờ bệnh viện",
+      "setting": "Vy chỉ nhắn một câu: “Cậu tới bệnh viện được không?” Bố Vy vừa nhập viện, bác sĩ vẫn đang làm xét nghiệm, và Vy đang ngồi một mình ở phòng chờ. Bạn vào vai Quân.",
+      "scene": "hospital",
+      "friend": {
+        "name": "Vy"
+      },
+      "player": {
+        "name": "Quân"
+      },
+      "start": "v1",
+      "nodes": [
+        {
+          "id": "v1",
+          "en": "Quân? You came... I didn't think you'd actually come.",
+          "vi": "Quân? Cậu tới thật… Tớ không nghĩ cậu sẽ tới.",
+          "next": "v2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Of course I came. What's wrong? You can tell me.",
+              "vi": "Tới chứ. Có chuyện gì vậy? Cậu cứ nói với tớ.",
+              "toolkit": [
+                "o4"
+              ],
+              "explain": "“Of course I came” cho Vy thấy cô ấy quan trọng, rồi “What's wrong? You can tell me.” mời cô ấy chia sẻ.",
+              "reply": {
+                "en": "It's my dad. My dad's in the hospital — they're still running tests.",
+                "vi": "Là bố tớ. Bố tớ nhập viện rồi — bác sĩ vẫn đang làm xét nghiệm."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Yeah, the traffic was terrible! It took me forty minutes to get here.",
+              "vi": "Ừ, kẹt xe kinh khủng! Tớ mất bốn mươi phút mới tới được.",
+              "explain": "Đúng ngữ pháp nhưng câu đầu tiên lại kể chuyện của mình — Vy đang hoảng, cần được hỏi han trước.",
+              "reply": {
+                "en": "Oh... sorry you had to come all this way.",
+                "vi": "Ơ… xin lỗi đã bắt cậu đi xa vậy."
+              },
+              "next": "v1b"
+            },
+            {
+              "kind": "rude",
+              "en": "Well, you did text me like five times.",
+              "vi": "Thì cậu nhắn cho tớ tận năm lần mà.",
+              "explain": "Nghe như tới vì bị làm phiền — khiến Vy thấy mình là gánh nặng.",
+              "reply": {
+                "en": "Sorry... I didn't mean to bother you.",
+                "vi": "Xin lỗi… tớ không định làm phiền cậu."
+              },
+              "next": "v1b"
+            }
+          ]
+        },
+        {
+          "id": "v1b",
+          "en": "I'm sorry for dragging you here. It's my dad... he collapsed at home this morning.",
+          "vi": "Xin lỗi vì lôi cậu tới đây. Là bố tớ… sáng nay bố ngất ở nhà.",
+          "next": "v2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Don't apologize. I'm here for you. Want to talk about it?",
+              "vi": "Đừng xin lỗi. Có tớ ở đây rồi. Cậu muốn kể tớ nghe không?",
+              "toolkit": [
+                "h3",
+                "o5"
+              ],
+              "explain": "Gạt đi lời xin lỗi, “I'm here for you.” khẳng định mình ở bên Vy, rồi nhẹ nhàng mời cô ấy kể — cứu vãn tốt.",
+              "reply": {
+                "en": "Thank you. They're still running tests, and nobody tells us anything.",
+                "vi": "Cảm ơn cậu. Họ vẫn đang xét nghiệm, mà chẳng ai nói gì với nhà tớ cả."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Oh no. Hospitals always make me feel a bit sick, to be honest.",
+              "vi": "Ôi. Nói thật, cứ vào bệnh viện là tớ thấy hơi khó chịu.",
+              "explain": "Đúng ngữ pháp nhưng lại nói về cảm giác của mình — Vy sẽ thấy phải lo cho cả cậu nữa.",
+              "reply": {
+                "en": "Oh... sorry. You don't have to stay long.",
+                "vi": "Ơ… xin lỗi. Cậu không cần ở lâu đâu."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Okay, but I can only stay for ten minutes.",
+              "vi": "Ừ, nhưng tớ chỉ ở được mười phút thôi.",
+              "explain": "Đặt giới hạn ngay khi bạn đang hoảng loạn — nghe như tới cho có.",
+              "reply": {
+                "en": "Right... sure. Thanks for coming anyway.",
+                "vi": "Ừ… được. Dù sao cũng cảm ơn cậu đã tới."
+              }
+            }
+          ]
+        },
+        {
+          "id": "v2",
+          "en": "They think it might be his heart. We've been waiting for hours, and nobody tells us anything.",
+          "vi": "Họ nghĩ có thể là tim. Nhà tớ chờ mấy tiếng rồi mà chẳng ai nói gì cả.",
+          "next": "v3",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "I can imagine how hard this must be for you. Not knowing is the worst part.",
+              "vi": "Tớ hiểu chuyện này khó khăn với cậu thế nào. Không biết gì mới là điều khổ nhất.",
+              "toolkit": [
+                "y3"
+              ],
+              "explain": "“I can imagine how hard this must be for you.” cho Vy thấy cậu hiểu cảm giác của cô ấy, và gọi đúng tên nỗi khổ: chờ mà không biết gì.",
+              "reply": {
+                "en": "It really is. Every time that door opens, my heart stops.",
+                "vi": "Đúng vậy. Mỗi lần cánh cửa kia mở ra là tim tớ như ngừng đập."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Heart problems? My uncle had that. He needed a big operation.",
+              "vi": "Bệnh tim á? Chú tớ cũng bị. Phải mổ lớn luôn.",
+              "explain": "Đúng ngữ pháp nhưng kể chuyện đáng sợ đúng lúc Vy đang lo — càng làm cô ấy hoảng hơn.",
+              "reply": {
+                "en": "An operation? Oh no... I hadn't even thought of that.",
+                "vi": "Mổ á? Trời ơi… tớ còn chưa nghĩ tới chuyện đó."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Well, doctors are busy. You can't expect them to talk to you all the time.",
+              "vi": "Thì bác sĩ bận mà. Cậu đâu thể bắt họ lúc nào cũng nói chuyện với cậu.",
+              "explain": "Bênh bác sĩ và bắt bẻ cảm xúc của Vy — lạnh lùng, không có chút đồng cảm.",
+              "reply": {
+                "en": "I know. I just... want to know he's okay.",
+                "vi": "Tớ biết. Tớ chỉ… muốn biết bố có ổn không."
+              }
+            }
+          ]
+        },
+        {
+          "id": "v3",
+          "en": "I just feel helpless. I'm sitting here, and I can't do anything for him.",
+          "vi": "Tớ thấy mình bất lực quá. Cứ ngồi đây mà chẳng làm được gì cho bố.",
+          "next": "v4",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "That must be weighing on you. But it's not your fault you can't fix this — and being here for him counts.",
+              "vi": "Chắc chuyện đó đè nặng lên cậu lắm. Nhưng không thể tự chữa cho bố đâu phải lỗi của cậu — và cậu ở đây với bố là quý lắm rồi.",
+              "toolkit": [
+                "x19",
+                "c1"
+              ],
+              "explain": "“That must be weighing on you.” thừa nhận gánh nặng của Vy, “It's not your fault” gỡ bỏ cảm giác tội lỗi, và nhắc rằng có mặt ở đây cũng là đang giúp bố.",
+              "reply": {
+                "en": "I guess... he'd want me here.",
+                "vi": "Chắc vậy… bố sẽ muốn có tớ ở đây."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Maybe you should go home and sleep. You can't really help here anyway.",
+              "vi": "Hay cậu về nhà ngủ đi. Dù sao ở đây cậu cũng đâu giúp được gì.",
+              "explain": "Có ý tốt nhưng câu “đâu giúp được gì” xác nhận đúng cảm giác bất lực mà Vy đang sợ.",
+              "reply": {
+                "en": "Go home? I can't leave him.",
+                "vi": "Về nhà á? Tớ không bỏ bố được."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Well, you're not a doctor. What did you expect?",
+              "vi": "Thì cậu có phải bác sĩ đâu. Cậu mong gì chứ?",
+              "explain": "Nói đúng sự thật nhưng phũ phàng — gạt phăng cảm xúc của Vy.",
+              "reply": {
+                "en": "...Nothing. Forget it.",
+                "vi": "…Không có gì. Quên đi."
+              }
+            }
+          ]
+        },
+        {
+          "id": "v4",
+          "en": "And my mom can't stop crying. I'm trying to stay strong for my mom, but I'm so tired.",
+          "vi": "Mẹ tớ thì cứ khóc mãi. Tớ đang cố mạnh mẽ vì mẹ, nhưng tớ mệt lắm rồi.",
+          "next": "v5",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "You're stronger than you think. But don't forget to look after yourself too.",
+              "vi": "Cậu mạnh mẽ hơn cậu nghĩ đấy. Nhưng đừng quên chăm sóc cả bản thân nữa nhé.",
+              "toolkit": [
+                "e4",
+                "x21"
+              ],
+              "explain": "“You're stronger than you think.” ghi nhận sự cố gắng của Vy, còn “Don't forget to look after yourself too.” nhắc cô ấy rằng mình cũng cần được nghỉ.",
+              "reply": {
+                "en": "Look after myself... I haven't even eaten today.",
+                "vi": "Chăm sóc bản thân… cả ngày nay tớ còn chưa ăn gì."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Just tell your mom to stop crying. It's not helping anyone.",
+              "vi": "Cậu bảo mẹ đừng khóc nữa. Khóc có giúp được ai đâu.",
+              "explain": "Đúng ngữ pháp nhưng vô cảm với nỗi sợ của mẹ Vy — và Vy chẳng thể nói câu đó với mẹ.",
+              "reply": {
+                "en": "I can't say that to her...",
+                "vi": "Tớ không nói thế với mẹ được…"
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Come on, you just need to toughen up.",
+              "vi": "Thôi nào, cậu phải cứng rắn lên chứ.",
+              "explain": "Bảo người đang kiệt sức “cứng rắn lên” — phủ nhận hết những gì Vy đang gồng gánh.",
+              "reply": {
+                "en": "...I'm trying, Quân.",
+                "vi": "…Tớ đang cố mà, Quân."
+              }
+            }
+          ]
+        },
+        {
+          "id": "v5",
+          "en": "What if the results are bad? I don't know what we'll do.",
+          "vi": "Lỡ kết quả xấu thì sao? Tớ không biết nhà tớ sẽ ra sao nữa.",
+          "next": "v6",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Whatever the results are, you'll get through this, together with your family. Hang in there.",
+              "vi": "Dù kết quả thế nào, cậu sẽ vượt qua được, cùng với cả nhà. Cố lên nhé.",
+              "toolkit": [
+                "c5",
+                "e5"
+              ],
+              "explain": "Không hứa hão “chắc chắn không sao”, mà “You'll get through this” trấn an rằng dù thế nào cũng vượt qua được, “Hang in there.” tiếp sức cho Vy chờ tiếp.",
+              "reply": {
+                "en": "Together... Yeah. We've gotten through hard things before.",
+                "vi": "Cùng nhau… Ừ. Nhà tớ từng vượt qua chuyện khó rồi."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Let's look up his symptoms online. Maybe we can figure it out ourselves.",
+              "vi": "Hay mình tra triệu chứng trên mạng đi. Biết đâu tự đoán ra được.",
+              "explain": "Đúng ngữ pháp nhưng tra mạng lúc này chỉ khiến Vy đọc toàn chuyện xấu và lo thêm.",
+              "reply": {
+                "en": "No... I'm scared of what we'll find.",
+                "vi": "Thôi… tớ sợ đọc thấy gì đó lắm."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Then you'll just have to deal with it.",
+              "vi": "Thì đành chịu thôi.",
+              "explain": "Trả lời phũ phàng đúng câu hỏi đáng sợ nhất của Vy — khiến cô ấy thấy hoàn toàn một mình.",
+              "reply": {
+                "en": "Wow... okay.",
+                "vi": "Chà… ừ."
+              }
+            }
+          ]
+        },
+        {
+          "id": "v6",
+          "en": "Thank you for being here, Quân. I don't want to keep you all night, though.",
+          "vi": "Cảm ơn cậu đã ở đây, Quân. Nhưng tớ không muốn giữ cậu cả đêm đâu.",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "I'm not going anywhere. Is there anything I can do? I'll grab you some food. And call me anytime, even at 3 a.m.",
+              "vi": "Tớ không đi đâu hết. Tớ làm được gì cho cậu không? Để tớ đi mua gì cho cậu ăn. Và cứ gọi tớ bất cứ lúc nào, ba giờ sáng cũng được.",
+              "toolkit": [
+                "h1",
+                "h5"
+              ],
+              "explain": "“Is there anything I can do?” kèm việc làm ngay (mua đồ ăn), và “Call me anytime” cho Vy biết cô ấy luôn có chỗ dựa, kể cả sau đêm nay.",
+              "reply": {
+                "en": "Food sounds good. And... thank you. Really.",
+                "vi": "Ăn chút gì cũng được. Và… cảm ơn cậu. Thật đấy."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "No worries! Text me how it goes, okay? Bye!",
+              "vi": "Không sao! Có gì nhắn tớ nhé? Chào!",
+              "explain": "Đúng ngữ pháp và lịch sự, nhưng vội vàng rời đi đúng lúc Vy cần người ở bên nhất.",
+              "reply": {
+                "en": "Oh... okay. Bye.",
+                "vi": "Ơ… ừ. Chào cậu."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Yeah, I have to go. I've got a game tonight.",
+              "vi": "Ừ, tớ phải đi. Tối nay tớ có trận game.",
+              "explain": "Đặt trận game lên trên chuyện bố bạn nằm viện — rất vô tâm.",
+              "reply": {
+                "en": "Oh. Right. Have fun.",
+                "vi": "Ồ. Ừ. Chơi vui nhé."
+              }
+            }
+          ]
+        }
+      ],
+      "endings": [
+        {
+          "id": "vy-stay",
+          "min": 85,
+          "icon": "🍜",
+          "title": "Quân ở lại cùng Vy",
+          "desc": "Bạn mua cho Vy bát cháo nóng, ngồi chờ cùng tới khi bác sĩ ra báo kết quả — Vy biết mình không phải gồng một mình.",
+          "mood": "happy",
+          "en": "The doctor's coming out... Will you stay with me while we hear the results?",
+          "vi": "Bác sĩ ra kìa… Cậu ở lại nghe kết quả cùng tớ nhé?"
+        },
+        {
+          "id": "vy-calmer",
+          "min": 65,
+          "icon": "💛",
+          "title": "Vy thấy bớt cô đơn",
+          "desc": "Vy bình tĩnh hơn và hứa sẽ nhắn cho bạn ngay khi có kết quả.",
+          "mood": "idle",
+          "en": "I'll text you as soon as we hear anything. Thank you, Quân.",
+          "vi": "Có tin gì tớ nhắn cậu ngay nhé. Cảm ơn Quân."
+        },
+        {
+          "id": "vy-waiting",
+          "min": 40,
+          "icon": "🕒",
+          "title": "Vy lại ngồi chờ một mình",
+          "desc": "Vy cảm ơn bạn đã ghé, nhưng vẫn giữ nỗi lo cho riêng mình.",
+          "mood": "meh",
+          "en": "It's okay, you can go. I'll be fine.",
+          "vi": "Không sao, cậu về đi. Tớ ổn mà."
+        },
+        {
+          "id": "vy-closed",
+          "min": 0,
+          "icon": "🥀",
+          "title": "Vy thu mình lại…",
+          "desc": "Vy quay đi, lặng lẽ nhìn về phía phòng khám. Chơi lại và thử lắng nghe, trấn an Vy thay vì nói cho xong nhé!",
+          "mood": "awkward",
+          "en": "I think I'd rather wait alone. Thanks for coming.",
+          "vi": "Chắc tớ muốn chờ một mình. Cảm ơn cậu đã tới."
+        }
+      ]
+    }
+  ]
+}

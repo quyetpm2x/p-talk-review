@@ -1,28 +1,32 @@
 import { Link } from 'react-router-dom'
 import type { Lesson } from '../types'
 import type { Progress } from '../lib/progress'
-import { lessonPercent } from '../lib/progress'
+import { lessonStatus, type LessonStatus } from '../lib/completion'
 import '../styles/motivation.css'
 
 type Stop =
-  | { kind: 'lesson'; lesson: Lesson; pct: number; state: 'done' | 'current' | 'open' }
+  | { kind: 'lesson'; lesson: Lesson; status: LessonStatus; state: 'done' | 'progress' | 'new'; current: boolean }
   | { kind: 'soon'; n: number }
 
 /** Số trạm "Sắp ra mắt" hiển thị sau các bài hiện có. */
 const SOON = 4
-const STEP = 132 // khoảng cách dọc giữa các trạm (px)
+const STEP = 200 // khoảng cách dọc giữa các trạm (px)
 const TOP = 70 // chừa chỗ cho nhãn "Bắt đầu" phía trên trạm đầu tiên
 const XS = [50, 74, 50, 26] // vị trí ngang (%) — đường zigzag
 const R = 40 // bán kính vòng tiến độ
 const C = 2 * Math.PI * R
 
-/** Trạng thái các trạm: ≥ 80% = đã xong, bài đầu tiên chưa xong = đang học. */
+/**
+ * Trạng thái các trạm (mọi bài luôn mở): đủ 3 điều kiện = hoàn thành, đã làm gì đó = đang học, chưa làm = chưa học.
+ * Bài đầu tiên chưa hoàn thành được gắn nhãn “Bắt đầu / Tiếp tục”.
+ */
 export function buildStops(p: Progress, lessons: Lesson[]): Stop[] {
   let cur = false
   const stops: Stop[] = lessons.map((lesson) => {
-    const pct = lessonPercent(p, lesson)
-    const state = pct >= 80 ? 'done' : cur ? 'open' : ((cur = true), 'current')
-    return { kind: 'lesson', lesson, pct, state }
+    const status = lessonStatus(p, lesson)
+    const state = status.done ? 'done' : status.started ? 'progress' : 'new'
+    const current = !status.done && !cur && (cur = true)
+    return { kind: 'lesson', lesson, status, state, current }
   })
   const last = lessons.length ? Math.max(...lessons.map((l) => l.number)) : 0
   for (let i = 1; i <= SOON; i++) stops.push({ kind: 'soon', n: last + i })
@@ -56,13 +60,15 @@ export function JourneyMap({ p, lessons }: { p: Progress; lessons: Lesson[] }) {
               <div className="jm-label"><b>Bài {s.n}</b><span>Sắp ra mắt 🔒</span></div>
             </div>
           )
-        const { lesson: l, pct, state } = s
-        const stateVi = state === 'done' ? 'đã hoàn thành' : state === 'current' ? 'đang học' : 'đã mở'
+        const { lesson: l, status, state, current } = s
+        const pct = status.progress * 100
+        const met = status.parts.filter((x) => x.done).length
+        const stateVi = state === 'done' ? 'đã hoàn thành' : state === 'progress' ? `đang học, đạt ${met}/3 mục tiêu` : 'chưa học'
         return (
           <div key={l.id} className="jm-stop" style={pos}>
-            {state === 'current' && <div className="jm-callout" aria-hidden>{pct > 0 ? 'TIẾP TỤC' : 'BẮT ĐẦU'}</div>}
-            <Link to={`/lesson/${l.id}/phrases`} className={`jm-node ${state}`}
-              aria-label={`Bài ${l.number}: ${l.title} — ${stateVi}, ${Math.round(pct)}%`}>
+            {current && <div className="jm-callout" aria-hidden>{state === 'progress' ? 'TIẾP TỤC' : 'BẮT ĐẦU'}</div>}
+            <Link to={`/lesson/${l.id}/phrases`} className={`jm-node ${state} ${current ? 'current' : ''}`}
+              aria-label={`Bài ${l.number}: ${l.title} — ${stateVi}`}>
               <svg className="jm-ring" viewBox="0 0 96 96" aria-hidden>
                 <circle cx={48} cy={48} r={R} className="bg" />
                 <circle cx={48} cy={48} r={R} className="fg" strokeDasharray={`${(C * Math.min(100, pct)) / 100} ${C}`} />
@@ -70,11 +76,16 @@ export function JourneyMap({ p, lessons }: { p: Progress; lessons: Lesson[] }) {
               <span className="jm-disc">
                 {state === 'done' ? <span className="jm-crown" aria-hidden>👑</span> : null}
                 <span className="jm-num">{l.number}</span>
+                {state === 'done' && <span className="jm-badge done" aria-hidden>✓</span>}
+                {state === 'new' && <span className="jm-badge new" aria-hidden>MỚI</span>}
               </span>
             </Link>
             <div className="jm-label">
               <b>{l.title}</b>
-              <span>{state === 'done' ? '✅ Đã hoàn thành' : `${l.titleVi} · ${Math.round(pct)}%`}</span>
+              <span>{l.titleVi}</span>
+              <span className={`jm-state ${state}`}>
+                {state === 'done' ? '✅ Đã hoàn thành' : state === 'progress' ? `🎯 ${met}/3 mục tiêu` : '○ Chưa học'}
+              </span>
             </div>
           </div>
         )

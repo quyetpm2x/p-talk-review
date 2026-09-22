@@ -20,6 +20,8 @@ export function PhrasesPage() {
   const [showList, setShowList] = useState(false)
   const now = Date.now()
   const all = phrasePool(lesson, set)
+  // Trò không hợp với bài này (vd. Thang bất ngờ ở bài không có nhóm bất ngờ) thì ẩn hẳn
+  const games = GAMES.filter((g) => !g.availableIn || g.availableIn(lesson))
   const due = all.filter((i) => isDue(p.phrases[statKey(lesson.id, i.id)], now)).length
   const pct = lessonPercent(p, lesson)
   const sets = [
@@ -72,12 +74,12 @@ export function PhrasesPage() {
         </div>
       )}
 
-      {TIERS.filter((t) => GAMES.some((g) => g.tier === t.id)).map((t) => (
+      {TIERS.filter((t) => games.some((g) => g.tier === t.id)).map((t) => (
         <section key={t.id} className="stack">
           <div className="section-bar">{t.name} <em>— {t.desc}</em></div>
           <div className="game-grid">
-            {GAMES.filter((g) => g.tier === t.id).map((g) => {
-              const n = GAMES.indexOf(g) + 1
+            {games.filter((g) => g.tier === t.id).map((g) => {
+              const n = games.indexOf(g) + 1
               const lock = g.lockReason(all.filter(g.eligible), set, lesson)
               const best = p.bestScores[`${lesson.id}:${g.id}`]
               return (

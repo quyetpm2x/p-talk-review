@@ -46,6 +46,8 @@ export type GameDef = {
   eligible: (i: Item) => boolean
   /** Trả về lý do khoá nếu bộ cụm không đủ dữ liệu, null nếu chơi được */
   lockReason: (items: Item[], set: string, lesson: Lesson) => string | null
+  /** Trò chỉ hợp với một số bài (vd. Thang bất ngờ cần cụm có mức độ bất ngờ) — bài không hợp thì ẩn hẳn */
+  availableIn?: (lesson: Lesson) => boolean
   /** Tự chuyển câu ngay sau khi trả lời (thẻ lật) */
   autoNext?: boolean
   perRound?: number

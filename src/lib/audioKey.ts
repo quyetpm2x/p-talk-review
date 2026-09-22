@@ -11,7 +11,10 @@ export const spokenText = (text: string) => cleanPhrase(text).replace(/\s+/g, ' 
 export const clipKey = (text: string, voice: string) => `${voice}|${spokenText(text)}`
 
 /** Cách đọc riêng cho từ Kokoro phát âm sai. */
-const LEXICON: [RegExp, string][] = [[/\bPTALK\b/g, 'P-Talk']]
+const LEXICON: [RegExp, string][] = [
+  [/\bPTALK\b/g, 'P-Talk'],
+  [/\bIELTS\b/g, 'eye-elts'], // đọc như người bản xứ: /ˈaɪ.elts/
+]
 
 /** Văn bản đưa vào Kokoro: sửa từ đặc biệt và bỏ dấu tiếng Việt (Kokoro không hiểu). */
 export function ttsInput(text: string): string {

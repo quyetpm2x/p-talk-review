@@ -673,3 +673,28 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(transparent 58%, rgba(201, 160, 78, 0.55) 58%);
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
+
+/* ---------- Mục tiêu hoàn thành bài (đầu mỗi bài) ---------- */
+.lesson-goals { display: flex; flex-direction: column; gap: 10px; padding: 12px; }
+.lesson-goals.all-done { border-color: var(--accent); background: var(--accent-soft); }
+.lg-head b { font-size: 15px; }
+.lg-parts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.lg-part {
+  display: flex; flex-direction: column; gap: 5px; min-width: 0; padding: 8px; border-radius: 12px;
+  background: var(--bg); border: 1.5px solid var(--line); color: inherit; text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.lg-part.active { border-color: var(--accent); }
+.lg-part.done { background: var(--ok-bg); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.lg-top { display: flex; align-items: center; gap: 4px; font-size: 13px; white-space: nowrap; overflow: hidden; }
+.lg-top b { overflow: hidden; text-overflow: ellipsis; }
+.lg-bar { height: 5px; border-radius: 5px; background: var(--line); overflow: hidden; }
+.lg-bar i { display: block; height: 100%; border-radius: 5px; background: var(--accent-grad); transition: width 0.5s; }
+.lg-part.done .lg-bar i { background: var(--ok); }
+.lg-detail { font-size: 11px; line-height: 1.3; color: var(--muted); overflow-wrap: anywhere; }
+.lg-prev { color: var(--muted); text-decoration: none; }
+@media (max-width: 380px) {
+  .lg-parts { gap: 5px; }
+  .lg-part { padding: 7px 6px; }
+  .lg-top { font-size: 12px; gap: 3px; }
+}

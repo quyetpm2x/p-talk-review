@@ -1,6 +1,7 @@
 /** Huy hiệu — điều kiện là hàm thuần trên Progress (đã cập nhật) + hoạt động vừa xong. */
 import type { Lesson } from '../types'
-import { currentStreak, lessonPercent, statKey, type Progress } from '../lib/progress'
+import { currentStreak, statKey, type Progress } from '../lib/progress'
+import { lessonStatus } from '../lib/completion'
 import type { Activity } from './types'
 
 export type BadgeCtx = { p: Progress; act: Activity; now: number; lessons: Lesson[] }
@@ -40,8 +41,8 @@ export const BADGES: Badge[] = [
     test: ({ p }) => p.stats.dialogues >= 1 },
   { id: 'fullday', icon: '📅', name: 'Ngày trọn vẹn', desc: 'Xong cả 3 nhiệm vụ trong một ngày',
     test: ({ p }) => p.stats.questDays >= 1 },
-  { id: 'graduate', icon: '🎓', name: 'Tốt nghiệp', desc: 'Đạt 80% tiến độ một bài học',
-    test: ({ p, lessons }) => lessons.some((l) => lessonPercent(p, l) >= 80) },
+  { id: 'graduate', icon: '🎓', name: 'Tốt nghiệp', desc: 'Hoàn thành một bài học (đủ 3 mục tiêu: cụm từ, nhập vai, ngữ pháp)',
+    test: ({ p, lessons }) => lessons.some((l) => lessonStatus(p, l).done) },
   { id: 'plays50', icon: '🏅', name: 'Bền bỉ', desc: 'Hoàn thành 50 lượt chơi',
     test: ({ p }) => p.stats.plays >= 50 },
 ]

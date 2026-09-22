@@ -1,0 +1,902 @@
+{
+  "lessonId": "level2-02",
+  "chats": [
+    {
+      "id": "huy-interview",
+      "title": "Tin nhắn từ Huy",
+      "friend": {
+        "name": "Huy",
+        "avatar": "🧑🏻"
+      },
+      "intro": "💬 Gần nửa đêm, **Huy** nhắn cho bạn — mai cậu ấy có buổi phỏng vấn quan trọng mà cứ trằn trọc mãi.",
+      "seconds": 20,
+      "timeout": {
+        "en": "Hey... are you still there? 😔",
+        "vi": "Ê… cậu còn đó không? 😔"
+      },
+      "turns": [
+        {
+          "id": "h1",
+          "friend": [
+            {
+              "en": "Hey, you still up? 🌙",
+              "vi": "Ê, cậu còn thức không? 🌙"
+            },
+            {
+              "en": "I can't sleep at all...",
+              "vi": "Tớ không tài nào ngủ được…"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Yeah, I'm up. Is something on your mind?",
+              "vi": "Ừ, tớ còn thức. Có gì trong lòng à?",
+              "toolkit": [
+                "o3"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Go to sleep, it's really late.",
+              "vi": "Đi ngủ đi, khuya lắm rồi.",
+              "why": "Gạt đi luôn — Huy đang cần người nghe, không cần bị nhắc giờ giấc."
+            },
+            {
+              "ok": false,
+              "en": "Yep! I'm watching a great movie 🍿",
+              "vi": "Có! Tớ đang xem phim hay lắm 🍿",
+              "why": "Chỉ nói chuyện của mình, không để ý Huy đang có chuyện."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Big interview tomorrow. I can't stop overthinking 😩",
+              "vi": "Mai tớ phỏng vấn lớn. Tớ không tài nào ngừng nghĩ ngợi 😩"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Haha... yeah. Actually, I'm kind of stressed 😕",
+              "vi": "Haha… ừ. Thật ra tớ đang hơi căng 😕"
+            }
+          ]
+        },
+        {
+          "id": "h2",
+          "friend": [
+            {
+              "en": "It's for the job I really, really want.",
+              "vi": "Là công việc tớ cực kỳ muốn có đó."
+            },
+            {
+              "en": "I keep replaying every question in my head 😵‍💫",
+              "vi": "Tớ cứ tua đi tua lại từng câu hỏi trong đầu 😵‍💫"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "That must be so stressful. It's totally normal to feel this way.",
+              "vi": "Chắc cậu căng thẳng lắm. Cảm thấy vậy là hoàn toàn bình thường.",
+              "toolkit": [
+                "y4"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Why? It's just an interview.",
+              "vi": "Sao phải thế? Chỉ là phỏng vấn thôi mà.",
+              "why": "Xem nhẹ cảm xúc của Huy — với cậu ấy đây là chuyện lớn."
+            },
+            {
+              "ok": false,
+              "en": "Replay? Like a video game? 🎮",
+              "vi": "Tua lại? Như chơi game à? 🎮",
+              "why": "Hiểu theo nghĩa đen và đùa sai lúc — Huy đang lo thật."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Thanks... it helps to know it's normal 😮‍💨",
+              "vi": "Cảm ơn… biết là bình thường thấy đỡ hơn 😮‍💨"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Easy for you to say... 😕",
+              "vi": "Cậu nói thì dễ rồi… 😕"
+            }
+          ]
+        },
+        {
+          "id": "h3",
+          "friend": [
+            {
+              "en": "What if I draw a blank halfway through? 😰",
+              "vi": "Lỡ đang nói mà quên sạch thì sao? 😰"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Just take your time with each answer. A short pause is totally fine.",
+              "vi": "Cứ thong thả với mỗi câu trả lời. Dừng một chút cũng không sao đâu.",
+              "toolkit": [
+                "x15"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Draw a blank? Then bring a pencil! ✏️",
+              "vi": "Vẽ chỗ trống á? Thế mang bút chì theo! ✏️",
+              "why": "Hiểu sai: “draw a blank” là quên sạch, không phải vẽ."
+            },
+            {
+              "ok": false,
+              "en": "Then you'll probably fail, I guess.",
+              "vi": "Thế thì chắc trượt thôi.",
+              "why": "Phũ — làm Huy lo thêm thay vì trấn an."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Okay... slow down, breathe, then answer. Got it 👍",
+              "vi": "Ừ… chậm lại, hít thở rồi trả lời. Hiểu rồi 👍"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Wow, that really doesn't help 😣",
+              "vi": "Trời, nói vậy chẳng giúp gì cả 😣"
+            }
+          ]
+        },
+        {
+          "id": "h4",
+          "friend": [
+            {
+              "en": "Last time I messed up an interview so badly...",
+              "vi": "Lần trước tớ phỏng vấn hỏng be bét…"
+            },
+            {
+              "en": "I still feel stupid about it 😞",
+              "vi": "Giờ nghĩ lại vẫn thấy mình ngốc 😞"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Don't be too hard on yourself. You've prepared really well — you know your stuff.",
+              "vi": "Đừng tự trách mình quá. Cậu ôn kỹ rồi, nắm chắc mà.",
+              "toolkit": [
+                "c2",
+                "x14"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Yeah, that one was pretty bad.",
+              "vi": "Ừ, lần đó tệ thật.",
+              "why": "Xát muối vào nỗi lo — Huy cần được trấn an."
+            },
+            {
+              "ok": false,
+              "en": "Maybe this job just isn't for you.",
+              "vi": "Có khi công việc này không hợp với cậu.",
+              "why": "Làm Huy nản ngay đêm trước buổi phỏng vấn."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "True, I did prepare a lot this time 📚",
+              "vi": "Đúng, lần này tớ chuẩn bị kỹ lắm 📚"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Thanks... now I feel even worse 😔",
+              "vi": "Cảm ơn… giờ tớ còn thấy tệ hơn 😔"
+            }
+          ]
+        },
+        {
+          "id": "h5",
+          "friend": [
+            {
+              "en": "Honestly, I'm not sure I'm good enough for this job 😔",
+              "vi": "Nói thật, tớ không chắc mình đủ giỏi cho vị trí này 😔"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Hey, I believe in you. You've got this! 💪",
+              "vi": "Này, tớ tin ở cậu. Cậu làm được mà! 💪",
+              "toolkit": [
+                "e2",
+                "e1"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Me neither, to be honest.",
+              "vi": "Tớ cũng không chắc, nói thật.",
+              "why": "Thật thà sai chỗ — làm Huy mất hết tự tin."
+            },
+            {
+              "ok": false,
+              "en": "Just don't be nervous.",
+              "vi": "Đừng lo là được.",
+              "why": "Nói suông — ai cũng biết vậy nhưng không giúp được gì."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Okay... I'm starting to feel a bit better 😌",
+              "vi": "Ừ… tớ bắt đầu thấy đỡ hơn rồi 😌"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "I wish it were that easy... 😟",
+              "vi": "Giá mà dễ vậy… 😟"
+            }
+          ]
+        },
+        {
+          "id": "h6",
+          "friend": [
+            {
+              "en": "Thanks, seriously. I think I can sleep now 😴",
+              "vi": "Cảm ơn nhé, thật đấy. Chắc giờ tớ ngủ được rồi 😴"
+            },
+            {
+              "en": "Can I text you after it's done?",
+              "vi": "Phỏng vấn xong tớ nhắn cậu được không?"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Of course! Call me anytime. Good luck tomorrow! 🍀",
+              "vi": "Tất nhiên! Cần thì gọi tớ bất cứ lúc nào. Mai may mắn nhé! 🍀",
+              "toolkit": [
+                "h5"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Only if you get the job 😜",
+              "vi": "Chỉ khi cậu đậu thôi nhé 😜",
+              "why": "Đùa sai lúc — nghe như chỉ quan tâm khi Huy thành công."
+            },
+            {
+              "ok": false,
+              "en": "Sure, but not before noon. I sleep in.",
+              "vi": "Được, nhưng đừng trước trưa. Tớ ngủ nướng.",
+              "why": "Đặt điều kiện vặt — Huy đang cần biết có người ở bên."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Deal! You're the best 🙌",
+              "vi": "Chốt! Cậu tuyệt nhất 🙌"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Oh... okay, never mind then 😅",
+              "vi": "Ờ… thôi không sao 😅"
+            }
+          ]
+        }
+      ],
+      "outro": [
+        {
+          "en": "Okay, going to bed now. Night! 🌙",
+          "vi": "Thôi tớ đi ngủ đây. Ngủ ngon nhé! 🌙"
+        }
+      ]
+    },
+    {
+      "id": "ngoc-laidoff",
+      "title": "Tin nhắn từ Ngọc",
+      "friend": {
+        "name": "Ngọc",
+        "avatar": "👩🏻‍💼"
+      },
+      "player": {
+        "name": "Khoa"
+      },
+      "intro": "💬 Chiều tối, **Ngọc** nhắn cho bạn sau một ngày làm việc tồi tệ. Bạn vào vai **Khoa**.",
+      "seconds": 20,
+      "timeout": {
+        "en": "Khoa? Are you busy? 😔",
+        "vi": "Khoa ơi? Cậu đang bận à? 😔"
+      },
+      "turns": [
+        {
+          "id": "n1",
+          "friend": [
+            {
+              "en": "Khoa, are you free? 😞",
+              "vi": "Khoa ơi, cậu rảnh không? 😞"
+            },
+            {
+              "en": "Today was... a lot.",
+              "vi": "Hôm nay… nhiều chuyện quá."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Of course. What's wrong? You can tell me.",
+              "vi": "Rảnh chứ. Sao thế? Kể tớ nghe đi.",
+              "toolkit": [
+                "o4"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Haha same, today was so long! 😂",
+              "vi": "Haha tớ cũng thế, hôm nay dài ghê! 😂",
+              "why": "Quay sang chuyện của mình, không để ý giọng buồn của Ngọc."
+            },
+            {
+              "ok": false,
+              "en": "Not really. Is it important?",
+              "vi": "Không hẳn. Có quan trọng không?",
+              "why": "Nghe hờ hững — Ngọc đang cần người nghe."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "I was laid off today — they're cutting the whole team. 😢",
+              "vi": "Hôm nay tớ bị cho nghỉ việc — họ cắt cả nhóm. 😢"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Oh... sorry. It's just, I was laid off today 😢",
+              "vi": "Ờ… xin lỗi. Chỉ là hôm nay tớ bị cho nghỉ việc 😢"
+            }
+          ]
+        },
+        {
+          "id": "n2",
+          "friend": [
+            {
+              "en": "It came completely out of nowhere.",
+              "vi": "Hoàn toàn bất ngờ luôn."
+            },
+            {
+              "en": "They told us at 4pm and that was it.",
+              "vi": "4 giờ chiều họ báo, thế là xong."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Oh no, Ngọc. I'm so sorry to hear that.",
+              "vi": "Trời ơi, Ngọc. Tớ rất tiếc khi nghe vậy.",
+              "toolkit": [
+                "y1"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Lucky you, free holiday! 😂",
+              "vi": "Sướng nhé, được nghỉ không mất tiền! 😂",
+              "why": "Đùa vô duyên — mất việc là cú sốc lớn."
+            },
+            {
+              "ok": false,
+              "en": "Did you do something wrong?",
+              "vi": "Cậu làm sai gì à?",
+              "why": "Ngầm đổ lỗi — cả nhóm bị cắt, không phải lỗi của Ngọc."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Thanks... I still can't believe it 😔",
+              "vi": "Cảm ơn… tớ vẫn chưa tin nổi 😔"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "That's... not really funny, Khoa 😕",
+              "vi": "Chuyện này… chẳng buồn cười đâu Khoa 😕"
+            }
+          ]
+        },
+        {
+          "id": "n3",
+          "friend": [
+            {
+              "en": "I keep thinking maybe I wasn't good enough.",
+              "vi": "Tớ cứ nghĩ có khi mình không đủ giỏi."
+            },
+            {
+              "en": "Maybe that's why they picked our team 😞",
+              "vi": "Có khi vì thế mà họ chọn nhóm tớ 😞"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "It's not your fault. They cut the whole team, not just you.",
+              "vi": "Không phải lỗi của cậu. Họ cắt cả nhóm chứ đâu riêng cậu.",
+              "toolkit": [
+                "c1"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Maybe. You should work harder next time.",
+              "vi": "Có thể. Lần sau cố chăm hơn nhé.",
+              "why": "Đồng tình với suy nghĩ tự trách — làm Ngọc buồn thêm."
+            },
+            {
+              "ok": false,
+              "en": "Well, companies do that all the time.",
+              "vi": "Thì công ty nào chẳng thế.",
+              "why": "Nói kiểu phủi tay — không an ủi được Ngọc."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "You're right... it wasn't about me 🥲",
+              "vi": "Cậu nói đúng… không phải tại tớ 🥲"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "So you think it's my fault too? 😢",
+              "vi": "Vậy cậu cũng nghĩ là tại tớ à? 😢"
+            }
+          ]
+        },
+        {
+          "id": "n4",
+          "friend": [
+            {
+              "en": "Now I have rent to pay and no job 😩",
+              "vi": "Giờ vẫn phải trả tiền nhà mà không có việc 😩"
+            },
+            {
+              "en": "I don't even know where to start.",
+              "vi": "Tớ chẳng biết bắt đầu từ đâu."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Take it one thing at a time. Update your CV first.",
+              "vi": "Làm từng việc một. Sửa CV trước đã.",
+              "toolkit": [
+                "e3"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Just ask your parents for money.",
+              "vi": "Xin tiền bố mẹ là được.",
+              "why": "Thiếu tế nhị — nghe như coi nhẹ khó khăn của Ngọc."
+            },
+            {
+              "ok": false,
+              "en": "Start from the beginning, of course.",
+              "vi": "Thì bắt đầu từ đầu chứ sao.",
+              "why": "Trả lời theo nghĩa đen, chẳng giúp được gì."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Okay... CV first. That feels doable 📝",
+              "vi": "Ừ… CV trước. Nghe có vẻ làm được 📝"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Hmm... that doesn't really help 😕",
+              "vi": "Hừm… vậy cũng chẳng giúp gì 😕"
+            }
+          ]
+        },
+        {
+          "id": "n5",
+          "friend": [
+            {
+              "en": "But what if nobody wants to hire me? 😟",
+              "vi": "Nhưng lỡ không ai muốn nhận tớ thì sao? 😟"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "It's a tough situation, but I'm sure you'll find another job. You're stronger than you think.",
+              "vi": "Hoàn cảnh khó thật, nhưng tớ tin cậu sẽ tìm được việc khác. Cậu mạnh mẽ hơn cậu nghĩ.",
+              "toolkit": [
+                "x10",
+                "e4"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Yeah, the job market is really bad right now.",
+              "vi": "Ừ, giờ thị trường việc làm tệ lắm.",
+              "why": "Nói thật nhưng sai lúc — làm Ngọc hoảng thêm."
+            },
+            {
+              "ok": false,
+              "en": "Don't worry, be happy! 😄",
+              "vi": "Đừng lo, vui lên! 😄",
+              "why": "Hời hợt — nghe như không hiểu Ngọc đang lo thật."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Thanks, Khoa. I really needed to hear that 🥹",
+              "vi": "Cảm ơn Khoa. Tớ thật sự cần nghe câu đó 🥹"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Great, now I'm even more scared 😰",
+              "vi": "Hay rồi, giờ tớ còn sợ hơn 😰"
+            }
+          ]
+        },
+        {
+          "id": "n6",
+          "friend": [
+            {
+              "en": "Thank you. I feel a bit better now 🙏",
+              "vi": "Cảm ơn cậu. Giờ tớ thấy đỡ hơn chút rồi 🙏"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "I'll ask around for you. Let me know if you need anything.",
+              "vi": "Để tớ hỏi giúp cậu. Cần gì cứ nói tớ nhé.",
+              "toolkit": [
+                "x11",
+                "h2"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Great! So you're fine now, right?",
+              "vi": "Tốt! Vậy giờ ổn rồi ha?",
+              "why": "Vội kết thúc — Ngọc mới đỡ chút thôi, chưa ổn hẳn."
+            },
+            {
+              "ok": false,
+              "en": "Good! By the way, can I borrow your laptop?",
+              "vi": "Tốt! À mà cho tớ mượn laptop nhé?",
+              "why": "Lạc đề và vô tâm — đang lúc Ngọc buồn lại nhờ vả."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "You're the best. Thank you so much 🥹",
+              "vi": "Cậu tốt thật đấy. Cảm ơn nhiều lắm 🥹"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Oh... um, okay 😶",
+              "vi": "Ờ… ừm, ừ 😶"
+            }
+          ]
+        }
+      ],
+      "outro": [
+        {
+          "en": "Okay, I'm going to work on my CV now. Talk tomorrow! 💪",
+          "vi": "Thôi tớ đi sửa CV đây. Mai nói chuyện nhé! 💪"
+        }
+      ]
+    },
+    {
+      "id": "long-breakup",
+      "title": "Tin nhắn từ Long",
+      "friend": {
+        "name": "Long",
+        "avatar": "👨🏻"
+      },
+      "player": {
+        "name": "Hà"
+      },
+      "intro": "💬 Khuya muộn, **Long** nhắn cho bạn — cậu ấy vừa chia tay sau khi phát hiện bạn gái lừa dối mình. Bạn vào vai **Hà**.",
+      "seconds": 20,
+      "timeout": {
+        "en": "Hà? Did you fall asleep? 😔",
+        "vi": "Hà ơi? Cậu ngủ mất rồi à? 😔"
+      },
+      "turns": [
+        {
+          "id": "l1",
+          "friend": [
+            {
+              "en": "Hey Hà... sorry for texting so late 😔",
+              "vi": "Hà ơi… xin lỗi nhắn muộn thế này 😔"
+            },
+            {
+              "en": "I just don't want to be alone right now.",
+              "vi": "Tớ chỉ không muốn ở một mình lúc này."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Hey, no worries. Want to talk about it?",
+              "vi": "Không sao đâu. Muốn nói ra cho nhẹ lòng không?",
+              "toolkit": [
+                "o5"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "It's midnight, Long. Text me tomorrow.",
+              "vi": "Nửa đêm rồi Long. Mai nhắn nhé.",
+              "why": "Gạt đi đúng lúc Long cần người nhất."
+            },
+            {
+              "ok": false,
+              "en": "Why? Is your room scary? 👻",
+              "vi": "Sao thế? Phòng cậu có ma à? 👻",
+              "why": "Đùa sai lúc — Long nói rõ là đang buồn."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "We broke up tonight. She cheated on me. 💔",
+              "vi": "Tối nay bọn tớ chia tay rồi. Cô ấy lừa dối tớ. 💔"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "I'm serious... we broke up tonight 💔",
+              "vi": "Tớ nói thật mà… tối nay bọn tớ chia tay rồi 💔"
+            }
+          ]
+        },
+        {
+          "id": "l2",
+          "friend": [
+            {
+              "en": "I found out tonight... it's been going on for months.",
+              "vi": "Tớ mới biết tối nay… chuyện đó đã mấy tháng rồi."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Oh Long, that sounds really hard. How are you holding up?",
+              "vi": "Ôi Long, nghe khổ thật. Cậu trụ ổn không?",
+              "toolkit": [
+                "y2",
+                "y5"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Months? How did you not notice?",
+              "vi": "Mấy tháng? Sao cậu không nhận ra?",
+              "why": "Ngầm trách Long — đúng điều cậu ấy đang tự dằn vặt."
+            },
+            {
+              "ok": false,
+              "en": "Honestly, I never liked her anyway.",
+              "vi": "Nói thật tớ vốn chẳng ưa cô ấy.",
+              "why": "Thiếu tế nhị — Long đang đau, không cần nghe chê người cũ lúc này."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Not great. It just really hurts right now 😞",
+              "vi": "Không ổn lắm. Giờ thật sự đau lắm 😞"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "I don't know... that doesn't help right now 😞",
+              "vi": "Tớ không biết… nói vậy lúc này chẳng giúp gì 😞"
+            }
+          ]
+        },
+        {
+          "id": "l3",
+          "friend": [
+            {
+              "en": "I keep wondering if I missed the signs.",
+              "vi": "Tớ cứ tự hỏi có bỏ sót dấu hiệu nào không."
+            },
+            {
+              "en": "Maybe I wasn't paying enough attention 😔",
+              "vi": "Có khi tớ đã không đủ quan tâm 😔"
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Don't be too hard on yourself. What she did is on her, not you.",
+              "vi": "Đừng tự trách mình quá. Chuyện cô ấy làm là lỗi của cô ấy, không phải cậu.",
+              "toolkit": [
+                "c2"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Yeah, the signs were probably there.",
+              "vi": "Ừ, chắc dấu hiệu có từ trước rồi.",
+              "why": "Xác nhận nỗi tự trách của Long — càng làm cậu ấy dằn vặt."
+            },
+            {
+              "ok": false,
+              "en": "Next time, just check her phone.",
+              "vi": "Lần sau cứ kiểm tra điện thoại người ta.",
+              "why": "Lời khuyên tệ và lạc ý — Long cần được an ủi, không cần mẹo theo dõi."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "I guess you're right... it's on her 😮‍💨",
+              "vi": "Chắc cậu nói đúng… là lỗi của cô ấy 😮‍💨"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "So it's my fault, then... 😣",
+              "vi": "Vậy là tại tớ rồi… 😣"
+            }
+          ]
+        },
+        {
+          "id": "l4",
+          "friend": [
+            {
+              "en": "I don't even know how to move on.",
+              "vi": "Tớ chẳng biết bước tiếp thế nào."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "You really didn't deserve that. You'll get through this.",
+              "vi": "Cậu không đáng bị vậy. Rồi cậu sẽ vượt qua.",
+              "toolkit": [
+                "x4",
+                "c5"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Just download a dating app! 😉",
+              "vi": "Tải app hẹn hò đi! 😉",
+              "why": "Quá vội — Long vừa chia tay tối nay."
+            },
+            {
+              "ok": false,
+              "en": "Stop thinking about it. It's no big deal.",
+              "vi": "Đừng nghĩ nữa. Có gì to tát đâu.",
+              "why": "Xem nhẹ nỗi đau của Long — với cậu ấy đây là chuyện lớn."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "I hope so... thanks, Hà 🥲",
+              "vi": "Mong là vậy… cảm ơn Hà 🥲"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "It is a big deal to me... 😞",
+              "vi": "Với tớ thì to tát lắm… 😞"
+            }
+          ]
+        },
+        {
+          "id": "l5",
+          "friend": [
+            {
+              "en": "I feel so stupid for trusting her.",
+              "vi": "Tớ thấy mình ngốc vì đã tin cô ấy."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Trusting someone isn't stupid, Long. Hang in there 💙",
+              "vi": "Tin người khác đâu có ngốc, Long. Cố lên nhé 💙",
+              "toolkit": [
+                "e5"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "Well, you were a bit naive.",
+              "vi": "Thì cậu hơi cả tin thật.",
+              "why": "Phũ — Long đã tự trách đủ rồi."
+            },
+            {
+              "ok": false,
+              "en": "Yeah, never trust anyone again.",
+              "vi": "Ừ, đừng bao giờ tin ai nữa.",
+              "why": "Lời khuyên tiêu cực — không giúp Long vượt qua."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "Thanks... I needed to hear that 🥹",
+              "vi": "Cảm ơn… tớ cần nghe câu đó 🥹"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Yeah... I know 😔",
+              "vi": "Ừ… tớ biết 😔"
+            }
+          ]
+        },
+        {
+          "id": "l6",
+          "friend": [
+            {
+              "en": "Thanks for staying up with me 🙏",
+              "vi": "Cảm ơn cậu đã thức cùng tớ 🙏"
+            },
+            {
+              "en": "Sorry for dumping all this on you.",
+              "vi": "Xin lỗi vì trút hết lên cậu."
+            }
+          ],
+          "options": [
+            {
+              "ok": true,
+              "en": "Don't be sorry. I'm here for you. Lean on me whenever you need to.",
+              "vi": "Đừng xin lỗi. Có tớ đây. Cần thì cứ dựa vào tớ.",
+              "toolkit": [
+                "h3",
+                "h4"
+              ]
+            },
+            {
+              "ok": false,
+              "en": "It's fine, but I really need to sleep now.",
+              "vi": "Không sao, nhưng giờ tớ phải ngủ thật rồi.",
+              "why": "Nghe như muốn kết thúc — làm Long thấy mình là gánh nặng."
+            },
+            {
+              "ok": false,
+              "en": "No problem! So, going to the party on Saturday? 🎉",
+              "vi": "Không sao! À thứ Bảy đi tiệc không? 🎉",
+              "why": "Chuyển chủ đề quá đột ngột, như không để tâm chuyện Long vừa kể."
+            }
+          ],
+          "replyOk": [
+            {
+              "en": "That means a lot, Hà 💙",
+              "vi": "Câu đó ý nghĩa lắm đấy Hà 💙"
+            }
+          ],
+          "replyBad": [
+            {
+              "en": "Oh... right. Sorry, I'll let you go 😶",
+              "vi": "À… ừ. Xin lỗi, không làm phiền cậu nữa 😶"
+            }
+          ]
+        }
+      ],
+      "outro": [
+        {
+          "en": "I think I can sleep now. Thank you, really 🌙",
+          "vi": "Chắc giờ tớ ngủ được rồi. Cảm ơn cậu, thật đấy 🌙"
+        }
+      ]
+    }
+  ]
+}

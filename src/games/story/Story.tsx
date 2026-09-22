@@ -12,7 +12,7 @@ import { Character, MOOD_EMOJI } from './Character'
 import { prefersReducedMotion, useTypewriter } from './useTypewriter'
 import {
   choiceDelta, clamp100, endingFor, findItem, friendVoice, genderOf, getStories, lastPlayed, pickStory, playerVoice, savePlayed, sayable, unlockedEndings, unlockEnding, START_CLOSENESS,
-  type ChoiceKind, type Mood, type Story as StoryData, type StoryChoice, type StoryEnding,
+  type ChoiceKind, type Mood, type Scene, type Story as StoryData, type StoryChoice, type StoryEnding,
 } from './data'
 import './story.css'
 
@@ -26,7 +26,10 @@ const SCENE = {
   cafe: { board: 'MENU', sub: 'latte · cà phê sữa', shelf: ['🪴', '☕', '🫖'], table: ['☕', '🍰'] },
   street: { board: 'BUS 32', sub: 'trạm xe buýt', shelf: ['🌳', '🚏', '🏢'], table: ['🛵', '🌼'] },
   wedding: { board: 'HAPPY WEDDING', sub: 'Chúc mừng hạnh phúc', shelf: ['💐', '🎀', '🥂'], table: ['🎂', '🥂'] },
-} as const
+  office: { board: 'DEADLINE', sub: 'hạn chót: thứ Sáu', shelf: ['📁', '🖥️', '🗂️'], table: ['📄', '☕'] },
+  home: { board: 'HOME', sub: 'phòng khách', shelf: ['🪴', '📚', '🕯️'], table: ['🍵', '🍪'] },
+  hospital: { board: 'PHÒNG CHỜ', sub: 'bệnh viện', shelf: ['🩺', '💐', '🧴'], table: ['🥤', '🍎'] },
+} satisfies Record<Scene, { board: string; sub: string; shelf: string[]; table: string[] }>
 
 /** 🎬 Phim tương tác: mỗi lần vào là một phim ngẫu nhiên (khác phim lượt trước). */
 export function Story(props: CustomGameProps) {

@@ -6,7 +6,9 @@ import type { Lesson } from '../../types'
 import type { Item } from '../../lib/picker'
 import { cleanPhrase, matchRatio } from '../../lib/scoring'
 import stories_l2_01 from '../../lessons/stories/level2-01.json'
+import stories_l2_02 from '../../lessons/stories/level2-02.json'
 import chats_l2_01 from '../../lessons/chats/level2-01.json'
+import chats_l2_02 from '../../lessons/chats/level2-02.json'
 import { shuffle, type Rnd } from '../../lib/shuffle'
 
 // ================= Kiểu dữ liệu =================
@@ -47,13 +49,16 @@ export type StoryEnding = Line & {
   mood: Mood
 }
 
+/** Bối cảnh Phim tương tác (đồ trang trí vẽ trong Story.tsx) */
+export type Scene = 'cafe' | 'street' | 'wedding' | 'office' | 'home' | 'hospital'
+
 export type Story = {
   id: string
   lessonId: string
   title: string
   setting: string
   /** Bối cảnh vẽ phía sau nhân vật */
-  scene?: 'cafe' | 'street' | 'wedding'
+  scene?: Scene
   /** Giọng đọc và dáng nhân vật chọn theo tên (NAME_GENDER); `voice` chỉ để ghi đè */
   friend: { name: string; voice?: string }
   /** Vai của người chơi; không có = “bạn” (giọng PLAYER_VOICE) */
@@ -95,9 +100,9 @@ export type Chat = {
 
 // Thêm bài mới: import JSON và thêm vào 2 mảng này.
 type StoryFile = { lessonId: string; stories: Omit<Story, 'lessonId'>[] }
-const STORIES: Story[] = ([stories_l2_01] as unknown as StoryFile[]).flatMap((f) => f.stories.map((x) => ({ ...x, lessonId: f.lessonId })))
+const STORIES: Story[] = ([stories_l2_01, stories_l2_02] as unknown as StoryFile[]).flatMap((f) => f.stories.map((x) => ({ ...x, lessonId: f.lessonId })))
 type ChatFile = { lessonId: string; chats: Omit<Chat, 'lessonId'>[] }
-const CHATS: Chat[] = ([chats_l2_01] as unknown as ChatFile[]).flatMap((f) => f.chats.map((c) => ({ ...c, lessonId: f.lessonId })))
+const CHATS: Chat[] = ([chats_l2_01, chats_l2_02] as unknown as ChatFile[]).flatMap((f) => f.chats.map((c) => ({ ...c, lessonId: f.lessonId })))
 
 export const getStories = (lessonId: string) => STORIES.filter((s) => s.lessonId === lessonId)
 export const getStory = (lessonId: string) => getStories(lessonId)[0]
@@ -168,8 +173,8 @@ export const PLAYER_VOICE = 'af_heart'
 export type Gender = 'm' | 'f'
 /** Giới tính theo tên nhân vật — quyết định giọng đọc (và dáng vẽ trong phim). Thêm nhân vật mới vào đây. */
 export const NAME_GENDER: Record<string, Gender> = {
-  Tuấn: 'm', Hùng: 'm', Nam: 'm', Minh: 'm',
-  Mai: 'f', Linh: 'f', Lan: 'f', Hoa: 'f',
+  Tuấn: 'm', Hùng: 'm', Nam: 'm', Minh: 'm', Quân: 'm', Phong: 'm', Khoa: 'm', Long: 'm', Đức: 'm', Huy: 'm',
+  Mai: 'f', Linh: 'f', Lan: 'f', Hoa: 'f', Trang: 'f', Vy: 'f', Ngọc: 'f', Hà: 'f', Thảo: 'f', Châu: 'f',
 }
 export const GENDER_VOICE: Record<Gender, string> = { m: 'am_michael', f: 'af_heart' }
 type Who = { name: string; voice?: string }

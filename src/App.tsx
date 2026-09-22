@@ -6,6 +6,7 @@ import { Home } from './pages/Home'
 import { Welcome } from './pages/Welcome'
 import { TopBar } from './components/TopBar'
 import { TabBar } from './components/TabBar'
+import { LessonGoals } from './components/LessonGoals'
 import { PhrasesPage } from './pages/PhrasesPage'
 import { GamePage } from './pages/GamePage'
 import { RoleplayPage } from './pages/RoleplayPage'
@@ -23,6 +24,7 @@ function LessonTabs() {
     <>
       <TopBar back="/" title={`${lesson.number}. ${lesson.title}`} sub={`Level ${lesson.level} · ${lesson.titleVi}`} />
       <main className="page with-tabs">
+        <LessonGoals lesson={lesson} />
         <Outlet />
       </main>
       <TabBar lessonId={lesson.id} />

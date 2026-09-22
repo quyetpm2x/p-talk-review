@@ -1,0 +1,890 @@
+{
+  "id": "level2-02",
+  "level": 2,
+  "number": 2,
+  "title": "Comforting & Encouraging",
+  "titleVi": "An ủi & Động viên",
+  "objectives": [
+    "Nhận ra & hỏi han: thấy ai đó không ổn thì mở lời hỏi đúng cách.",
+    "An ủi & đồng cảm: chia sẻ, trấn an, khiến người kia thấy được lắng nghe.",
+    "Động viên & đề nghị giúp đỡ: tiếp thêm tinh thần và cho họ thấy mình luôn sẵn sàng hỗ trợ."
+  ],
+  "groups": [
+    {
+      "id": "notice",
+      "en": "Noticing",
+      "vi": "Nhận ra & hỏi han",
+      "icon": "👀",
+      "order": 1
+    },
+    {
+      "id": "sympathy",
+      "en": "Sympathy",
+      "vi": "Đồng cảm",
+      "icon": "💗",
+      "order": 2
+    },
+    {
+      "id": "comfort",
+      "en": "Comforting",
+      "vi": "An ủi & trấn an",
+      "icon": "🤗",
+      "order": 3
+    },
+    {
+      "id": "encourage",
+      "en": "Encouraging",
+      "vi": "Động viên",
+      "icon": "💪",
+      "order": 4
+    },
+    {
+      "id": "help",
+      "en": "Offering help",
+      "vi": "Đề nghị giúp đỡ",
+      "icon": "🤝",
+      "order": 5
+    }
+  ],
+  "phrases": [
+    {
+      "id": "o1",
+      "group": "notice",
+      "en": "You seem a little off today.",
+      "synonym": "You don't seem yourself.",
+      "vi": "Trông cậu không như mọi khi.",
+      "blank": "off",
+      "situation": "Đồng nghiệp hôm nay im lặng khác thường, bạn nhẹ nhàng mở lời."
+    },
+    {
+      "id": "o2",
+      "group": "notice",
+      "en": "You look a bit down.",
+      "vi": "Trông cậu buồn buồn.",
+      "blank": "down",
+      "situation": "Bạn thân ngồi thẫn thờ, mặt buồn hiu — bạn nhận ra ngay."
+    },
+    {
+      "id": "o3",
+      "group": "notice",
+      "en": "Is something on your mind?",
+      "synonym": "Are you worried about something?",
+      "vi": "Có gì trong lòng à?",
+      "blank": "mind",
+      "situation": "Bạn thấy người kia cứ đăm chiêu suy nghĩ, như đang lo một chuyện gì."
+    },
+    {
+      "id": "o4",
+      "group": "notice",
+      "en": "What's wrong? You can tell me.",
+      "vi": "Sao thế? Kể tớ nghe đi.",
+      "blank": "wrong",
+      "situation": "Bạn thân vừa đọc tin nhắn xong thì mặt tái đi — bạn muốn họ chia sẻ."
+    },
+    {
+      "id": "o5",
+      "group": "notice",
+      "en": "Want to talk about it?",
+      "vi": "Muốn nói ra cho nhẹ lòng không?",
+      "blank": "talk",
+      "situation": "Bạn biết bạn mình đang có chuyện buồn, muốn ngỏ ý lắng nghe nhưng không ép."
+    },
+    {
+      "id": "y1",
+      "group": "sympathy",
+      "en": "I'm so sorry to hear that.",
+      "vi": "Tớ rất tiếc khi nghe vậy.",
+      "blank": "sorry",
+      "situation": "Bạn vừa nghe tin người kia gặp chuyện không may — câu đầu tiên để chia buồn."
+    },
+    {
+      "id": "y2",
+      "group": "sympathy",
+      "en": "That sounds really hard.",
+      "vi": "Nghe vất vả thật.",
+      "blank": "hard",
+      "situation": "Người kia kể một tuần làm việc kiệt sức, bạn thừa nhận nó khó khăn."
+    },
+    {
+      "id": "y3",
+      "group": "sympathy",
+      "en": "I can imagine how hard this must be for you.",
+      "synonym": "I understand this is hard.",
+      "vi": "Tớ hiểu cậu khó khăn thế nào.",
+      "blank": "imagine",
+      "situation": "Bạn muốn cho người kia thấy bạn thật sự đặt mình vào vị trí của họ."
+    },
+    {
+      "id": "y4",
+      "group": "sympathy",
+      "en": "That must be so stressful.",
+      "vi": "Chắc cậu căng thẳng lắm.",
+      "blank": "stressful",
+      "situation": "Bạn của bạn có ba báo cáo phải nộp cùng lúc vào thứ Sáu."
+    },
+    {
+      "id": "y5",
+      "group": "sympathy",
+      "en": "How are you holding up?",
+      "synonym": "Are you okay?",
+      "vi": "Cậu trụ ổn không?",
+      "blank": "holding",
+      "situation": "Người thân bạn mình đang nằm viện đã một tuần — bạn hỏi xem họ chịu đựng thế nào."
+    },
+    {
+      "id": "c1",
+      "group": "comfort",
+      "en": "It's not your fault.",
+      "vi": "Không phải lỗi của cậu.",
+      "blank": "fault",
+      "situation": "Bạn mình bị cả công ty cắt giảm nhân sự nhưng cứ tự trách bản thân."
+    },
+    {
+      "id": "c2",
+      "group": "comfort",
+      "en": "Don't be too hard on yourself.",
+      "synonym": "Don't blame yourself.",
+      "vi": "Đừng tự trách mình quá.",
+      "blank": "yourself",
+      "situation": "Bạn mình trượt kỳ thi và cứ tự trách mình mãi."
+    },
+    {
+      "id": "c3",
+      "group": "comfort",
+      "en": "These things happen.",
+      "vi": "Chuyện này ai cũng gặp.",
+      "blank": "happen",
+      "situation": "Bạn mình lỡ chuyến bay vì kẹt xe và thấy mình thật tệ."
+    },
+    {
+      "id": "c4",
+      "group": "comfort",
+      "en": "You did everything you could.",
+      "vi": "Cậu đã cố hết sức rồi.",
+      "blank": "could",
+      "situation": "Dù đã chuẩn bị kỹ, dự án của bạn mình vẫn thất bại — họ đã làm hết khả năng."
+    },
+    {
+      "id": "c5",
+      "group": "comfort",
+      "en": "You'll get through this.",
+      "synonym": "You'll be okay.",
+      "vi": "Rồi cậu sẽ vượt qua.",
+      "blank": "through",
+      "situation": "Bạn mình đang trải qua giai đoạn khó khăn nhất — bạn trấn an rằng rồi sẽ qua."
+    },
+    {
+      "id": "e1",
+      "group": "encourage",
+      "en": "You've got this.",
+      "synonym": "You can do it.",
+      "vi": "Cậu làm được mà.",
+      "blank": "got",
+      "situation": "Ngay trước giờ bạn mình bước vào phòng phỏng vấn."
+    },
+    {
+      "id": "e2",
+      "group": "encourage",
+      "en": "I believe in you.",
+      "vi": "Tớ tin ở cậu.",
+      "blank": "believe",
+      "situation": "Bạn mình nghi ngờ bản thân trước một thử thách lớn — bạn cho họ thấy bạn tin họ."
+    },
+    {
+      "id": "e3",
+      "group": "encourage",
+      "en": "Take it one thing at a time.",
+      "vi": "Làm từng việc một.",
+      "blank": "thing",
+      "situation": "Bạn mình bị ngập trong việc, không biết bắt đầu từ đâu."
+    },
+    {
+      "id": "e4",
+      "group": "encourage",
+      "en": "You're stronger than you think.",
+      "vi": "Cậu mạnh mẽ hơn cậu nghĩ.",
+      "blank": "stronger",
+      "situation": "Bạn mình nói “tớ không chịu nổi nữa” sau một chuỗi chuyện buồn."
+    },
+    {
+      "id": "e5",
+      "group": "encourage",
+      "en": "Hang in there.",
+      "synonym": "Keep going.",
+      "vi": "Cố lên nhé.",
+      "blank": "Hang",
+      "situation": "Bạn mình đang ở giữa mùa thi căng thẳng, còn vài tuần nữa là xong."
+    },
+    {
+      "id": "h1",
+      "group": "help",
+      "en": "Is there anything I can do?",
+      "vi": "Tớ giúp được gì không?",
+      "blank": "anything",
+      "situation": "Bạn muốn hỏi xem mình có thể giúp gì cụ thể cho bạn mình."
+    },
+    {
+      "id": "h2",
+      "group": "help",
+      "en": "Let me know if you need anything.",
+      "vi": "Cần gì cứ nói tớ nhé.",
+      "blank": "know",
+      "situation": "Kết thúc cuộc nói chuyện, bạn muốn để ngỏ lời giúp đỡ."
+    },
+    {
+      "id": "h3",
+      "group": "help",
+      "en": "I'm here for you.",
+      "vi": "Có tớ đây.",
+      "blank": "here",
+      "situation": "Bạn mình đang khóc — bạn muốn họ biết họ không một mình."
+    },
+    {
+      "id": "h4",
+      "group": "help",
+      "en": "Lean on me whenever you need to.",
+      "synonym": "Rely on me.",
+      "vi": "Cần thì cứ dựa vào tớ.",
+      "blank": "Lean",
+      "situation": "Bạn mình ngại làm phiền người khác — bạn nói họ cứ dựa vào mình."
+    },
+    {
+      "id": "h5",
+      "group": "help",
+      "en": "Call me anytime.",
+      "vi": "Cần thì gọi tớ bất cứ lúc nào.",
+      "blank": "anytime",
+      "situation": "Bạn mình sắp phải thức trắng chăm bố ở bệnh viện — gọi giữa đêm cũng được."
+    }
+  ],
+  "extraPhrases": [
+    {
+      "id": "x1",
+      "en": "He cheated on me.",
+      "vi": "Cậu ấy ngoại tình",
+      "source": "Mission 3",
+      "blank": "cheated"
+    },
+    {
+      "id": "x2",
+      "en": "I keep wondering if I missed the signs.",
+      "vi": "Cứ tự hỏi có bỏ sót dấu hiệu không",
+      "source": "Mission 3",
+      "blank": "signs"
+    },
+    {
+      "id": "x3",
+      "en": "He broke your trust — this is on him, not you.",
+      "vi": "Cậu ấy phản bội lòng tin — lỗi ở cậu ấy",
+      "source": "Mission 3",
+      "blank": "trust"
+    },
+    {
+      "id": "x4",
+      "en": "You really didn't deserve that.",
+      "vi": "Cậu không đáng bị vậy",
+      "source": "Mission 3",
+      "blank": "deserve"
+    },
+    {
+      "id": "x5",
+      "en": "It just really hurts right now.",
+      "vi": "Giờ thật sự đau lắm",
+      "source": "Mission 3",
+      "blank": "hurts"
+    },
+    {
+      "id": "x6",
+      "en": "I don't even know how to move on.",
+      "vi": "Chẳng biết bước tiếp thế nào",
+      "source": "Mission 3",
+      "blank": "move"
+    },
+    {
+      "id": "x7",
+      "en": "I was laid off today — they're cutting the whole team.",
+      "vi": "Hôm nay tôi bị cho nghỉ",
+      "source": "Mission 4",
+      "blank": "laid"
+    },
+    {
+      "id": "x8",
+      "en": "It came completely out of nowhere.",
+      "vi": "Hoàn toàn bất ngờ",
+      "source": "Mission 4",
+      "blank": "nowhere"
+    },
+    {
+      "id": "x9",
+      "en": "I don't even know where to start.",
+      "vi": "Chẳng biết bắt đầu từ đâu",
+      "source": "Mission 4",
+      "blank": "start"
+    },
+    {
+      "id": "x10",
+      "en": "It's a tough situation, but I'm sure you'll find another job.",
+      "vi": "Hoàn cảnh khó thật, nhưng tin cậu sẽ tìm được việc khác",
+      "source": "Mission 4",
+      "blank": "tough"
+    },
+    {
+      "id": "x11",
+      "en": "I'll ask around for you.",
+      "vi": "Để tôi hỏi giúp cậu",
+      "source": "Mission 4",
+      "blank": "around"
+    },
+    {
+      "id": "x12",
+      "en": "I can't stop overthinking.",
+      "vi": "Không tài nào ngừng nghĩ ngợi",
+      "source": "Mission 5",
+      "blank": "overthinking"
+    },
+    {
+      "id": "x13",
+      "en": "What if I draw a blank halfway through?",
+      "vi": "Lỡ đang nói mà quên sạch thì sao?",
+      "source": "Mission 5",
+      "blank": "blank"
+    },
+    {
+      "id": "x14",
+      "en": "You've prepared really well — you know your stuff.",
+      "vi": "Cậu ôn kỹ rồi, nắm chắc mà",
+      "source": "Mission 5",
+      "blank": "stuff"
+    },
+    {
+      "id": "x15",
+      "en": "Just take your time with each answer.",
+      "vi": "Cứ thong thả với mỗi câu trả lời",
+      "source": "Mission 5",
+      "blank": "time"
+    },
+    {
+      "id": "x16",
+      "en": "Even if it doesn't go perfectly, it's not your only shot.",
+      "vi": "Có trục trặc thì cũng không phải cơ hội duy nhất",
+      "source": "Mission 5",
+      "blank": "shot"
+    },
+    {
+      "id": "x17",
+      "en": "My dad's in the hospital — they're still running tests.",
+      "vi": "Bố tôi nằm viện, vẫn đang làm xét nghiệm",
+      "source": "Mission 6",
+      "blank": "hospital"
+    },
+    {
+      "id": "x18",
+      "en": "I just feel helpless.",
+      "vi": "Tôi thấy bất lực",
+      "source": "Mission 6",
+      "blank": "helpless"
+    },
+    {
+      "id": "x19",
+      "en": "That must be weighing on you.",
+      "vi": "Chắc cậu nặng lòng lắm",
+      "source": "Mission 6",
+      "blank": "weighing"
+    },
+    {
+      "id": "x20",
+      "en": "I'm trying to stay strong for my mom.",
+      "vi": "Tôi cố tỏ ra mạnh mẽ trước mẹ",
+      "source": "Mission 6",
+      "blank": "strong"
+    },
+    {
+      "id": "x21",
+      "en": "Don't forget to look after yourself too.",
+      "vi": "Đừng quên chăm lo cho bản thân",
+      "source": "Mission 6",
+      "blank": "look"
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "A friend failed an important exam",
+      "setting": "after the exam results",
+      "voices": {
+        "A": "af_heart",
+        "B": "am_michael"
+      },
+      "lines": [
+        {
+          "speaker": "A",
+          "text": "Hey, you seem a little off today. Is everything okay?",
+          "toolkit": [
+            "you seem a little off today"
+          ]
+        },
+        {
+          "speaker": "B",
+          "text": "Not really. I got my IELTS results back, and I missed my target score by half a band.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "Ah, I'm sorry. I know how hard you worked — you spent months studying, even on weekends.",
+          "toolkit": []
+        },
+        {
+          "speaker": "B",
+          "text": "That's what frustrates me. I studied for months and still didn't make it.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "Hey, it's just one test. You were so close — just half a band short.",
+          "toolkit": []
+        },
+        {
+          "speaker": "B",
+          "text": "I suppose. It just feels like I'm back to square one.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "You're really not. Take a little more time to study and give it another shot. Don't be too hard on yourself.",
+          "toolkit": [
+            "Don't be too hard on yourself."
+          ]
+        },
+        {
+          "speaker": "B",
+          "text": "Thanks. I needed to hear that.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "Take a few days to rest, then try again when you're ready. You've got this — I mean it.",
+          "toolkit": [
+            "You've got this"
+          ]
+        },
+        {
+          "speaker": "B",
+          "text": "Okay. I'll take a few days off, then get back to studying.",
+          "toolkit": []
+        }
+      ],
+      "newWords": [
+        {
+          "en": "give it another shot",
+          "meaning": "try again",
+          "vi": "thử lại lần nữa"
+        },
+        {
+          "en": "back to square one",
+          "meaning": "back to the very start",
+          "vi": "về lại vạch xuất phát"
+        }
+      ]
+    },
+    {
+      "title": "A colleague is buried under deadlines",
+      "setting": "at the office",
+      "voices": {
+        "A": "am_michael",
+        "B": "af_heart"
+      },
+      "lines": [
+        {
+          "speaker": "A",
+          "text": "You look wiped out. Rough week?",
+          "toolkit": []
+        },
+        {
+          "speaker": "B",
+          "text": "You have no idea. I've got three reports due by Friday, and there's so much to do.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "That sounds stressful. Does your manager know how much you're dealing with right now?",
+          "toolkit": [
+            "That sounds stressful"
+          ]
+        },
+        {
+          "speaker": "B",
+          "text": "I don't want to look like I can't handle it.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "It's not about that — everyone's really busy this month. Just ask for an extra day.",
+          "toolkit": []
+        },
+        {
+          "speaker": "B",
+          "text": "Maybe you're right. I'm just so far behind.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "Try to take it one thing at a time. Finish one report, then move on to the next.",
+          "toolkit": [
+            "take it one thing at a time"
+          ]
+        },
+        {
+          "speaker": "B",
+          "text": "Okay. One at a time.",
+          "toolkit": []
+        },
+        {
+          "speaker": "A",
+          "text": "Exactly. And if you need help with the numbers, just let me know.",
+          "toolkit": [
+            "just let me know"
+          ]
+        },
+        {
+          "speaker": "B",
+          "text": "Thanks — that really helps.",
+          "toolkit": []
+        }
+      ],
+      "newWords": [
+        {
+          "en": "wiped out",
+          "meaning": "exhausted",
+          "vi": "kiệt sức"
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "title": "A friend just went through a breakup",
+      "level": "nhẹ",
+      "situation": "A friend seems down. They've just been through a painful breakup — they found out their partner had been cheating.",
+      "kickoff": "Hey... you've been quiet today. Is everything okay?",
+      "goals": [
+        "Notice something's wrong and gently get them to open up.",
+        "Listen and show sympathy for what happened.",
+        "Comfort them — reassure them it wasn't their fault.",
+        "Offer to be there for them."
+      ],
+      "hints": [
+        {
+          "en": "He cheated on me.",
+          "vi": "Cậu ấy ngoại tình"
+        },
+        {
+          "en": "I keep wondering if I missed the signs.",
+          "vi": "Cứ tự hỏi có bỏ sót dấu hiệu không"
+        },
+        {
+          "en": "He broke your trust — this is on him, not you.",
+          "vi": "Cậu ấy phản bội lòng tin — lỗi ở cậu ấy"
+        },
+        {
+          "en": "You really didn't deserve that.",
+          "vi": "Cậu không đáng bị vậy"
+        },
+        {
+          "en": "It just really hurts right now.",
+          "vi": "Giờ thật sự đau lắm"
+        },
+        {
+          "en": "I don't even know how to move on.",
+          "vi": "Chẳng biết bước tiếp thế nào"
+        }
+      ]
+    },
+    {
+      "title": "Someone was let go from their job",
+      "level": "thường",
+      "situation": "A friend just lost their job — the company cut the whole team. It came as a total shock.",
+      "kickoff": "Hey, what's on your mind? You don't seem yourself.",
+      "goals": [
+        "Notice they're upset and ask what's wrong.",
+        "Show sympathy — it came out of nowhere.",
+        "Comfort them — it's not their fault; things will be okay.",
+        "Offer real help (ask around for openings)."
+      ],
+      "hints": [
+        {
+          "en": "I was laid off today — they're cutting the whole team.",
+          "vi": "Hôm nay tôi bị cho nghỉ (laid off = fired)"
+        },
+        {
+          "en": "It came completely out of nowhere.",
+          "vi": "Hoàn toàn bất ngờ"
+        },
+        {
+          "en": "I don't even know where to start.",
+          "vi": "Chẳng biết bắt đầu từ đâu"
+        },
+        {
+          "en": "It's a tough situation, but I'm sure you'll find another job.",
+          "vi": "Hoàn cảnh khó thật, nhưng tin cậu sẽ tìm được việc khác"
+        },
+        {
+          "en": "I'll ask around for you.",
+          "vi": "Để tôi hỏi giúp cậu"
+        }
+      ]
+    },
+    {
+      "title": "A friend is nervous before a big interview",
+      "level": "thường",
+      "situation": "A friend has a big job interview tomorrow and is really nervous. They can't stop worrying.",
+      "kickoff": "You okay? You seem a bit on edge.",
+      "goals": [
+        "Notice the nerves and ask about it.",
+        "Show sympathy — reassure them it's normal to feel this way.",
+        "Comfort them — remind them how well prepared they are.",
+        "Encourage them with a tip and some belief."
+      ],
+      "hints": [
+        {
+          "en": "I can't stop overthinking.",
+          "vi": "Không tài nào ngừng nghĩ ngợi"
+        },
+        {
+          "en": "What if I draw a blank halfway through?",
+          "vi": "Lỡ đang nói mà quên sạch thì sao? (draw a blank = quên sạch)"
+        },
+        {
+          "en": "You've prepared really well — you know your stuff.",
+          "vi": "Cậu ôn kỹ rồi, nắm chắc mà"
+        },
+        {
+          "en": "Just take your time with each answer.",
+          "vi": "Cứ thong thả với mỗi câu trả lời"
+        },
+        {
+          "en": "Even if it doesn't go perfectly, it's not your only shot.",
+          "vi": "Có trục trặc thì cũng không phải cơ hội duy nhất"
+        }
+      ]
+    },
+    {
+      "title": "A friend is worried about a sick parent",
+      "level": "tổng hợp",
+      "situation": "A friend's father is in the hospital and the doctors are still running tests. They feel helpless and are trying to stay strong for the family.",
+      "kickoff": "You seem worried. Is something on your mind?",
+      "goals": [
+        "Notice they're worried and gently ask.",
+        "Show sympathy for how hard this is.",
+        "Comfort them — being there matters; remind them to look after themselves.",
+        "Encourage them — they're being strong, and they're not alone.",
+        "Offer help and be available any time."
+      ],
+      "hints": [
+        {
+          "en": "My dad's in the hospital — they're still running tests.",
+          "vi": "Bố tôi nằm viện, vẫn đang làm xét nghiệm"
+        },
+        {
+          "en": "I just feel helpless.",
+          "vi": "Tôi thấy bất lực"
+        },
+        {
+          "en": "That must be weighing on you.",
+          "vi": "Chắc cậu nặng lòng lắm"
+        },
+        {
+          "en": "I'm trying to stay strong for my mom.",
+          "vi": "Tôi cố tỏ ra mạnh mẽ trước mẹ"
+        },
+        {
+          "en": "Don't forget to look after yourself too.",
+          "vi": "Đừng quên chăm lo cho bản thân"
+        }
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "title": "will để trấn an — tin điều tốt sẽ đến",
+      "notes": [
+        "You'll get through this. · It'll get easier.",
+        "will (= 'll) nói điều người nói tin chắc sẽ xảy ra → nghe vững dạ, an tâm."
+      ],
+      "exercises": [
+        {
+          "type": "choice",
+          "q": "Don't worry — you ___ get through this.",
+          "options": [
+            "will",
+            "are",
+            "did"
+          ],
+          "answer": 0,
+          "explain": "Tin chắc điều tốt sẽ đến → will + V nguyên mẫu."
+        },
+        {
+          "type": "choice",
+          "q": "Dạng rút gọn của \"It will get easier\" là:",
+          "options": [
+            "It'll get easier.",
+            "It's get easier.",
+            "It'd get easier."
+          ],
+          "answer": 0,
+          "explain": "It will = It'll. (It's = It is / It has.)"
+        },
+        {
+          "type": "input",
+          "q": "___ be okay. (You + will — viết dạng rút gọn)",
+          "answers": [
+            "You'll"
+          ],
+          "explain": "You will = You'll → You'll be okay."
+        },
+        {
+          "type": "choice",
+          "q": "Câu nào nghe trấn an, vững dạ nhất?",
+          "options": [
+            "You'll be fine.",
+            "You were fine.",
+            "You be fine."
+          ],
+          "answer": 0,
+          "explain": "will ('ll) + V: tin chắc mọi chuyện sẽ ổn."
+        },
+        {
+          "type": "choice",
+          "q": "Sau will, động từ ở dạng nào?",
+          "options": [
+            "Nguyên mẫu: will get",
+            "Thêm -s: will gets",
+            "Thêm -ing: will getting"
+          ],
+          "answer": 0,
+          "explain": "will + V nguyên mẫu (không -s, không -ing)."
+        }
+      ]
+    },
+    {
+      "title": "Mệnh lệnh phủ định nhẹ để khuyên nhủ (Don't + V)",
+      "notes": [
+        "Don't be too hard on yourself. = đừng khắt khe với bản thân.",
+        "Don't + V ở đây không phải ra lệnh, mà là lời khuyên ân cần."
+      ],
+      "exercises": [
+        {
+          "type": "choice",
+          "q": "___ be too hard on yourself.",
+          "options": [
+            "Don't",
+            "Not",
+            "No"
+          ],
+          "answer": 0,
+          "explain": "Khuyên nhủ: Don't + V nguyên mẫu."
+        },
+        {
+          "type": "choice",
+          "q": "Don't ___ yourself. (tự trách)",
+          "options": [
+            "blame",
+            "blaming",
+            "to blame"
+          ],
+          "answer": 0,
+          "explain": "Don't + V nguyên mẫu → Don't blame yourself."
+        },
+        {
+          "type": "input",
+          "q": "Don't ___ about it too much. (worry)",
+          "answers": [
+            "worry"
+          ],
+          "explain": "Don't + V nguyên mẫu → Don't worry."
+        },
+        {
+          "type": "choice",
+          "q": "\"Don't give up!\" giữa bạn bè mang nghĩa:",
+          "options": [
+            "Lời khuyên, động viên ân cần",
+            "Mệnh lệnh nghiêm khắc",
+            "Lời trách móc"
+          ],
+          "answer": 0,
+          "explain": "Don't + V giữa bạn bè thường là lời khuyên ân cần, không phải ra lệnh."
+        },
+        {
+          "type": "choice",
+          "q": "Câu nào đúng ngữ pháp?",
+          "options": [
+            "Don't forget to look after yourself.",
+            "Don't to forget look after yourself.",
+            "Not forget to look after yourself."
+          ],
+          "answer": 0,
+          "explain": "Don't + forget + to V."
+        }
+      ]
+    },
+    {
+      "title": "I hope + (mệnh đề) — gửi mong ước",
+      "notes": [
+        "I hope it gets easier soon.",
+        "Sau hope thường dùng hiện tại đơn, dù nói về tương lai."
+      ],
+      "exercises": [
+        {
+          "type": "choice",
+          "q": "I hope it ___ easier soon.",
+          "options": [
+            "gets",
+            "will gets",
+            "getting"
+          ],
+          "answer": 0,
+          "explain": "Sau hope dùng hiện tại đơn: it gets."
+        },
+        {
+          "type": "choice",
+          "q": "I hope your dad ___ better soon.",
+          "options": [
+            "feels",
+            "feel",
+            "feeling"
+          ],
+          "answer": 0,
+          "explain": "Chủ ngữ số ít (your dad) → feels."
+        },
+        {
+          "type": "input",
+          "q": "I hope the interview ___ well tomorrow. (go)",
+          "answers": [
+            "goes"
+          ],
+          "explain": "Sau hope dùng hiện tại đơn, dù nói về ngày mai: the interview goes."
+        },
+        {
+          "type": "choice",
+          "q": "I hope you ___ the job!",
+          "options": [
+            "get",
+            "gets",
+            "got"
+          ],
+          "answer": 0,
+          "explain": "Chủ ngữ you → get (hiện tại đơn)."
+        },
+        {
+          "type": "choice",
+          "q": "Câu nào đúng?",
+          "options": [
+            "I hope everything works out.",
+            "I hope everything work out.",
+            "I hope everything to work out."
+          ],
+          "answer": 0,
+          "explain": "everything là số ít → works out."
+        }
+      ]
+    }
+  ]
+}

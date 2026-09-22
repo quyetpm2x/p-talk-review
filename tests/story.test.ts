@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import lessonJson from '../src/lessons/level2-01.json'
 import type { Lesson } from '../src/types'
+import { lessons } from '../src/lessons'
 import {
   allPaths, clamp100, collectStoryClips, endingFor, getChats, getStories, getStory, pickChat, pickStory, genderOf, friendVoice, playerVoice, sayable, storyLockReason, chatLockReason,
   unlockEnding, unlockedEndings, validateChat, validateStory, START_CLOSENESS, choiceDelta, findItem,
@@ -14,6 +15,15 @@ const chat = chats[0]
 const clone = <T,>(x: T) => structuredClone(x) as T
 
 describe('Phim tương tác — kịch bản Bài 1', () => {
+  it('bài nào cũng có ít nhất 3 phim và 3 cuộc nhắn tin, id không trùng trong bài', () => {
+    for (const L of lessons) {
+      expect(getStories(L.id).length, L.id).toBeGreaterThanOrEqual(3)
+      expect(getChats(L.id).length, L.id).toBeGreaterThanOrEqual(3)
+      expect(new Set(getStories(L.id).map((x) => x.id)).size).toBe(getStories(L.id).length)
+      expect(new Set(getChats(L.id).map((x) => x.id)).size).toBe(getChats(L.id).length)
+    }
+  })
+
   it('có nhiều phim, id không trùng, có cả bạn nam và nữ', () => {
     expect(stories.length).toBeGreaterThanOrEqual(3)
     expect(new Set(stories.map((x) => x.id)).size).toBe(stories.length)
@@ -33,31 +43,31 @@ describe('Phim tương tác — kịch bản Bài 1', () => {
     expect(friendVoice(by('nam-wedding'))).toBe('am_michael')
   })
 
-  for (const s of stories) {
-    it(`${s.id}: dữ liệu hợp lệ`, () => expect(validateStory(s, lesson)).toEqual([]))
+  for (const L of lessons) for (const s of getStories(L.id)) {
+    it(`${L.id}/${s.id}: dữ liệu hợp lệ`, () => expect(validateStory(s, L)).toEqual([]))
 
-    it(`${s.id}: có ít nhất 6 lượt và 3 cái kết`, () => {
+    it(`${L.id}/${s.id}: có ít nhất 6 lượt và 3 cái kết`, () => {
       expect(s.nodes.length).toBeGreaterThanOrEqual(6)
       expect(s.endings.length).toBeGreaterThanOrEqual(3)
       expect(Math.min(...allPaths(s).map((p) => p.length))).toBeGreaterThanOrEqual(6)
     })
 
-    it(`${s.id}: mỗi lượt có đúng 1 lựa chọn tốt, 1 sai sắc thái, 1 kém lịch sự`, () => {
+    it(`${L.id}/${s.id}: mỗi lượt có đúng 1 lựa chọn tốt, 1 sai sắc thái, 1 kém lịch sự`, () => {
       for (const n of s.nodes) expect(n.choices.map((c) => c.kind).sort()).toEqual(['good', 'off', 'rude'])
     })
 
-    it(`${s.id}: mọi id cụm toolkit tham chiếu đều có trong bài`, () => {
+    it(`${L.id}/${s.id}: mọi id cụm toolkit tham chiếu đều có trong bài`, () => {
       const ids = s.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? []))
       expect(ids.length).toBeGreaterThan(8)
-      for (const id of ids) expect(findItem(lesson, id), id).toBeDefined()
+      for (const id of ids) expect(findItem(L, id), id).toBeDefined()
     })
 
-    it(`${s.id}: dùng cụm của đủ 5 nhóm`, () => {
-      const groups = new Set(s.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? [])).map((id) => findItem(lesson, id)?.group))
-      for (const g of lesson.groups) expect(groups.has(g.id), g.id).toBe(true)
+    it(`${L.id}/${s.id}: dùng cụm của đủ 5 nhóm`, () => {
+      const groups = new Set(s.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? [])).map((id) => findItem(L, id)?.group))
+      for (const g of L.groups) expect(groups.has(g.id), g.id).toBe(true)
     })
 
-    it(`${s.id}: mọi nhánh đều tới được một cái kết`, () => {
+    it(`${L.id}/${s.id}: mọi nhánh đều tới được một cái kết`, () => {
       const paths = allPaths(s)
       expect(paths.length).toBeGreaterThan(1) // có phân nhánh
       const byId = new Map(s.nodes.map((n) => [n.id, n]))
@@ -74,7 +84,7 @@ describe('Phim tương tác — kịch bản Bài 1', () => {
       explore(s.start, START_CLOSENESS, 0)
     })
 
-    it(`${s.id}: chơi toàn câu tốt → kết tốt nhất, toàn câu kém → kết gượng`, () => {
+    it(`${L.id}/${s.id}: chơi toàn câu tốt → kết tốt nhất, toàn câu kém → kết gượng`, () => {
       const run = (kind: 'good' | 'rude') => {
         let id: string | undefined = s.start
         let c = START_CLOSENESS
@@ -130,9 +140,9 @@ describe('Nhắn tin — kịch bản Bài 1', () => {
     expect(new Set(chats.map((c) => c.id)).size).toBe(chats.length)
   })
 
-  for (const c of chats) {
-    it(`${c.id}: dữ liệu hợp lệ`, () => expect(validateChat(c, lesson)).toEqual([]))
-    it(`${c.id}: ít nhất 6 lượt, mỗi lượt đúng 1 gợi ý đúng`, () => {
+  for (const L of lessons) for (const c of getChats(L.id)) {
+    it(`${L.id}/${c.id}: dữ liệu hợp lệ`, () => expect(validateChat(c, L)).toEqual([]))
+    it(`${L.id}/${c.id}: ít nhất 6 lượt, mỗi lượt đúng 1 gợi ý đúng`, () => {
       expect(c.turns.length).toBeGreaterThanOrEqual(6)
       for (const t of c.turns) expect(t.options.filter((o) => o.ok)).toHaveLength(1)
     })

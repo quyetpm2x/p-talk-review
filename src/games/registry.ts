@@ -73,6 +73,7 @@ export const GAMES: GameDef[] = [
     id: 'intensity', name: 'Thang bất ngờ', icon: '🌡️', tier: 'hieu',
     desc: 'Xếp các câu bất ngờ từ mạnh đến nhẹ',
     eligible: (i) => !!i.intensity,
+    availableIn: (lesson) => lesson.phrases.some((p) => !!p.intensity),
     lockReason: (items) => (intensityRoundsAvailable(items) ? null : 'Bộ này chưa có đủ câu có mức độ bất ngờ'),
     Custom: Intensity,
   },
