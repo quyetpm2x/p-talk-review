@@ -5,11 +5,19 @@ import { Sequence } from './Sequence'
 import { Intensity, intensityRoundsAvailable } from './Intensity'
 import { Challenge } from './Challenge'
 import { Review } from './Review'
+import { Balloons } from './arcade/Balloons'
 
 const byId = Object.fromEntries(QUESTION_GAMES.map((g) => [g.id, g]))
 
 /** 14 trò theo đúng thứ tự trong thiết kế. */
 export const GAMES: GameDef[] = [
+  {
+    id: 'balloons', name: 'Bắn bóng bay', icon: '🎈', tier: 'arcade',
+    desc: 'Chạm quả bóng có câu tiếng Anh đúng nghĩa trước khi nó bay mất',
+    eligible: () => true,
+    lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
+    Custom: Balloons,
+  },
   byId.flashcard,
   byId.quiz,
   {
