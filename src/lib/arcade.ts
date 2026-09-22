@@ -52,9 +52,26 @@ export function segmentHitsRect(p1: Pt, p2: Pt, r: Box): boolean {
   return segCross(p1, p2, tl, tr) || segCross(p1, p2, tr, br) || segCross(p1, p2, br, bl) || segCross(p1, p2, bl, tl)
 }
 
-/** Số bước xe ma đã đi: cứ `stepMs` tiến 1 bước, chỉ phụ thuộc thời gian, tối đa `track`. */
-export const ghostSteps = (elapsedMs: number, stepMs: number, track: number) =>
-  Math.max(0, Math.min(track, Math.floor(elapsedMs / stepMs)))
+/**
+ * Số bước xe ma đã đi, chỉ phụ thuộc thời gian: bước đầu mất `firstStepMs`,
+ * mỗi bước sau bằng bước trước × `accel` (< 1 là nhanh dần). Tối đa `track` bước.
+ */
+export function ghostSteps(elapsedMs: number, firstStepMs: number, track: number, accel = 1): number {
+  let t = 0, step = firstStepMs
+  for (let k = 0; k < track; k++) {
+    t += step
+    if (elapsedMs < t) return k
+    step *= accel
+  }
+  return track
+}
+
+/** Thời điểm xe ma về đích (ms). */
+export function ghostFinishMs(firstStepMs: number, track: number, accel = 1): number {
+  let t = 0, step = firstStepMs
+  for (let k = 0; k < track; k++) { t += step; step *= accel }
+  return t
+}
 
 /** Hệ số tốc độ theo cấp độ: tăng 12% mỗi cấp, tối đa ×2.2. */
 export const levelSpeed = (level: number) => Math.min(1 + level * 0.12, 2.2)
