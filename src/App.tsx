@@ -16,14 +16,12 @@ import './styles/base.css'
 
 function LessonTabs() {
   const { id = '' } = useParams()
-  const { pathname } = useLocation()
   const lesson = getLesson(id)
   if (!lesson) return <NotFound />
   return (
     <>
       <TopBar back="/" title={`${lesson.number}. ${lesson.title}`} sub={`Level ${lesson.level} · ${lesson.titleVi}`} />
-      {/* đổi tab: chỉ nội dung mờ dần vào, thanh tiêu đề và thanh tab đứng yên */}
-      <main key={pathname} className="page with-tabs tab-fade">
+      <main className="page with-tabs">
         <Outlet />
       </main>
       <TabBar lessonId={lesson.id} />
@@ -44,10 +42,10 @@ function NotFound() {
 
 /**
  * Hiệu ứng chuyển trang: trang cũ mờ dần rồi biến mất, sau đó trang mới hiện từ mờ đến rõ nét.
- * Các tab trong cùng một bài dùng chung khung nên chỉ đổi nội dung (xem .tab-fade).
+ * Các tab trong cùng một bài dùng chung khung nên chỉ đổi nội dung, không làm mờ cả trang.
  */
 const OUT_MS = 200
-const IN_MS = 700 // hiệu ứng hiện + nội dung nổi lên lần lượt
+const IN_MS = 400 // thời gian trang mới hiện rõ (khớp pageIn trong base.css)
 const pageKey = (pathname: string) => pathname.replace(/^(\/lesson\/[^/]+)\/(phrases|roleplay|grammar)$/, '$1')
 
 function AnimatedRoutes() {
