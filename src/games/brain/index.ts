@@ -7,7 +7,7 @@ import { Wheel } from './Wheel'
 /** Phần C: Lật thẻ tìm cặp, Wordle, Bingo, Vòng quay */
 export const BRAIN_GAMES: GameDef[] = [
   {
-    id: 'memory', name: 'Lật thẻ tìm cặp', icon: '🃏', tier: 'brain',
+    id: 'memory', name: 'Lật thẻ', icon: '🃏', tier: 'brain',
     desc: 'Lật 2 thẻ một lần, ghép câu với nghĩa hoặc câu đồng nghĩa',
     eligible: () => true,
     lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
@@ -21,7 +21,7 @@ export const BRAIN_GAMES: GameDef[] = [
     Custom: Wordle,
   },
   {
-    id: 'bingo', name: 'Bingo trên lớp', icon: '🎱', tier: 'brain',
+    id: 'bingo', name: 'Bingo', icon: '🎱', tier: 'brain',
     desc: 'Nghe máy gọi câu, đánh dấu nghĩa trên bảng 4×4 — đủ 1 hàng là BINGO!',
     eligible: () => true,
     lockReason: (items) =>
