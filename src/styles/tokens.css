@@ -1,0 +1,42 @@
+:root {
+  --bg: #f3f2ee;
+  --card: #ffffff;
+  --card-2: #f7f6f2;
+  --fg: #111111;
+  --muted: #6b6a66;
+  --line: #e2e0d9;
+  --ink: #111111;
+  --ink-fg: #ffffff;
+  --accent: #f5c400;
+  --accent-fg: #111111;
+  --accent-soft: #fff4c2;
+  --ok: #17803f;
+  --ok-bg: #e2f3e8;
+  --bad: #c8342a;
+  --bad-bg: #fbe5e3;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.05);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0d0d;
+    --card: #181818;
+    --card-2: #202020;
+    --fg: #f1f1ef;
+    --muted: #9b9a95;
+    --line: #2c2c2a;
+    --ink: #000000;
+    --ink-fg: #ffffff;
+    --accent-soft: #3a3210;
+    --ok: #4cc47c;
+    --ok-bg: #12301f;
+    --bad: #ff6b5f;
+    --bad-bg: #3a1714;
+    --shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+    color-scheme: dark;
+  }
+}
