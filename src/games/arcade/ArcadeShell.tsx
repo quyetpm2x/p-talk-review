@@ -28,9 +28,11 @@ const MAX_LIVES = 3
  * Khung chung cho trò hành động: đếm ngược, HUD, tạm dừng, hiệu ứng, hết mạng.
  * Trò con nhận `api` và tự vẽ sân chơi bên trong vùng `.arcade-stage`.
  */
-export function ArcadeShell({ record, finish, hint, children, lives: startLives = MAX_LIVES }: Pick<CustomGameProps, 'record' | 'finish'> & {
+export function ArcadeShell({ record, finish, hint, children, lives: startLives = MAX_LIVES, showLives = true }: Pick<CustomGameProps, 'record' | 'finish'> & {
   hint: ReactNode
   lives?: number
+  /** false: trò không dùng mạng (không hiện ❤️) */
+  showLives?: boolean
   children: (api: ArcadeApi) => ReactNode
 }) {
   const nav = useNavigate()
@@ -160,11 +162,13 @@ export function ArcadeShell({ record, finish, hint, children, lives: startLives 
   return (
     <div className="arcade">
       <div className="arcade-hud">
-        <span className="hud-lives" aria-label={`Còn ${lives} mạng`}>
-          {Array.from({ length: startLives }, (_, i) => (
-            <span key={i} className={i < lives ? 'heart' : 'heart lost'}>❤️</span>
-          ))}
-        </span>
+        {showLives && (
+          <span className="hud-lives" aria-label={`Còn ${lives} mạng`}>
+            {Array.from({ length: startLives }, (_, i) => (
+              <span key={i} className={i < lives ? 'heart' : 'heart lost'}>❤️</span>
+            ))}
+          </span>
+        )}
         {combo >= 2 && <span key={combo} className="hud-combo">🔥 {combo}</span>}
         <span className="grow" />
         <span className="score-pill hud-score" key={score}>{score}</span>

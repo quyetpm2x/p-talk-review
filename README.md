@@ -41,7 +41,7 @@ Tạo project mới trên Vercel và trỏ tới repo này. Vercel tự nhận r
 - Khung chung nằm ở `src/games/arcade/ArcadeShell.tsx`, gồm: đếm ngược 3-2-1, ❤️ mạng, combo (×2 từ 5 câu đúng liên tiếp, ×3 từ 10 câu), tạm dừng (tự dừng khi rời tab), tắt tiếng, điểm bay lên, rung màn hình và pháo hoa giấy.
 - Âm thanh hiệu ứng tạo bằng Web Audio (`src/lib/sfx.ts`), không cần file. Lựa chọn tắt tiếng được lưu trên máy.
 - **Chém cụm từ** tự tạo "💣 bom" sai ngữ pháp bằng cách đảo 2 từ liền nhau trong câu đúng, trừ 2 từ đầu câu (`makeBomb` trong `src/lib/arcade.ts`).
-- **Đua xe:** xe ma tiến từng bước theo thời gian, không phụ thuộc câu trả lời, và nhanh dần. Bước đầu mất 10 giây (`FIRST_STEP_MS`), mỗi bước sau ngắn hơn 12% (`GHOST_ACCEL`), về đích sau khoảng 60 giây. Khi đã có kỷ lục, nhịp bước được co giãn để xe ma về đích đúng bằng kỷ lục.
+- **Đua xe:** không dùng mạng. Trả lời đúng thì xe quay đầu lên và tiến 1 bước, trả lời sai thì xe quay ngược và lùi 1 bước. Xe ma tiến từng bước theo thời gian, không phụ thuộc câu trả lời, và nhanh dần. Bước đầu mất 10 giây (`FIRST_STEP_MS`), mỗi bước sau ngắn hơn 12% (`GHOST_ACCEL`), về đích sau khoảng 60 giây. Khi đã có kỷ lục, nhịp bước được co giãn để xe ma về đích đúng bằng kỷ lục.
 
 ## Giọng đọc Kokoro
 

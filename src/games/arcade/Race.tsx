@@ -16,7 +16,8 @@ const STUN_MS = 1200
 
 export function Race(props: CustomGameProps) {
   return (
-    <ArcadeShell {...props} hint={<>Trả lời đúng để <b>tăng tốc</b> 🔥<br />Về đích trước <b>xe ma 👻</b> — kỷ lục của chính bạn!</>}>
+    <ArcadeShell {...props} showLives={false}
+      hint={<>Trả lời đúng để <b>tiến lên</b> 🔥, sai thì xe <b>quay đầu lùi lại</b>.<br />Về đích trước <b>xe ma 👻</b>!</>}>
       {(api) => <Field api={api} {...props} />}
     </ArcadeShell>
   )
@@ -38,17 +39,18 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
     return Array.from({ length: 30 }, (_, i) => base[i % base.length])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const [qi, setQi] = useState(0)
-  const [pos, setPos] = useState(0) // số bước đã đi (đúng +1, sai khi đang quay ngược −1)
+  const [pos, setPos] = useState(0) // số bước đã đi (đúng +1, sai −1)
   const [elapsed, setElapsed] = useState(0)
   const [car, setCar] = useState<'idle' | 'boost' | 'turn' | 'reverse'>('idle')
-  // Sai lần đầu: xe quay ngược. Đang quay ngược mà sai tiếp: lùi 1 bước. Đúng: quay đầu lên và tiến.
+  // Sai: xe quay ngược và lùi 1 bước (không trừ mạng). Đúng: quay đầu lên và tiến 1 bước.
   const [facingBack, setFacingBack] = useState(false)
   const [picked, setPicked] = useState<number | null>(null)
   const [locked, setLocked] = useState(false)
   const [finished, setFinished] = useState(false)
   const apiRef = useRef(api)
   apiRef.current = api
-  const q: Item = queue[qi]
+  // không giới hạn số câu sai nên câu hỏi quay vòng
+  const q: Item = queue[qi % queue.length]
   const opts = useMemo(() => shuffle([q, ...distractors(q, pool, 2, (i) => i.en)]), [q, pool])
 
   // Đồng hồ (dừng khi tạm dừng / về đích)
@@ -90,16 +92,15 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
       }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, 650)
     } else {
-      if (facingBack && pos > 0) {
+      setFacingBack(true)
+      if (pos > 0) {
         setCar('reverse')
         setPos(pos - 1)
-        api.miss({ item: q, x, y: y - 30, label: '−1 ❤️  ↩ lùi 1 bước' })
+        api.miss({ item: q, x, y: y - 30, label: '↩ lùi 1 bước', loseLife: false })
       } else {
-        // ở vạch xuất phát mà đã quay ngược thì không lùi được nữa
-        const label = facingBack ? '−1 ❤️' : '−1 ❤️  🔄 quay đầu'
+        // ở vạch xuất phát thì chỉ quay đầu, không lùi được nữa
         setCar('turn')
-        setFacingBack(true)
-        api.miss({ item: q, x, y: y - 30, label })
+        api.miss({ item: q, x, y: y - 30, label: '🔄 quay đầu', loseLife: false })
       }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, STUN_MS)
     }
