@@ -1,5 +1,6 @@
 /** Logic thuần cho nhóm "Trí nhớ & đố vui" — không phụ thuộc React, có test ở tests/brain.test.ts */
 import { blankOf } from '../../lib/scoring'
+import { shuffle, type Rnd } from '../../lib/shuffle'
 
 /* ───────────── Lật thẻ tìm cặp ───────────── */
 
@@ -30,6 +31,28 @@ export type Mark = 'ok' | 'near' | 'miss'
 export function wordleKey(p: { en: string; blank?: string }): string | null {
   const w = blankOf(p).toLowerCase().replace(/['’]/g, '')
   return /^[a-z]{3,8}$/.test(w) ? w : null
+}
+
+/**
+ * Chọn `n` câu cho một lượt Wordle: ngẫu nhiên, ưu tiên câu KHÔNG có trong `recent`
+ * (lượt trước), không trùng từ khoá. Thiếu câu mới thì lấy thêm câu cũ.
+ */
+export function wordleRound<T extends { id: string }>(
+  pool: T[], n: number, recent: readonly string[], key: (x: T) => string | null, rnd: Rnd = Math.random,
+): T[] {
+  const old = new Set(recent)
+  const fresh = shuffle(pool.filter((x) => !old.has(x.id)), rnd)
+  const stale = shuffle(pool.filter((x) => old.has(x.id)), rnd)
+  const seen = new Set<string>()
+  const out: T[] = []
+  for (const x of [...fresh, ...stale]) {
+    const k = key(x)
+    if (!k || seen.has(k)) continue
+    seen.add(k)
+    out.push(x)
+    if (out.length === n) break
+  }
+  return out
 }
 
 /** Chấm màu một lượt đoán kiểu Wordle, xử lý đúng chữ lặp lại. */

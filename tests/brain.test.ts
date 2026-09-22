@@ -3,10 +3,33 @@ import {
   scoreGuess, mergeKeys, wordleKey, wordlePoints, splitAtKey,
   bingoLines, completedLines, hasBingo,
   segmentAt, spinTarget, shortGroupName,
-  memoryScore, mismatchBlame,
+  memoryScore, mismatchBlame, wordleRound,
 } from '../src/games/brain/logic'
 
 describe('Wordle', () => {
+  const mk = (keys: string[]) => keys.map((k, i) => ({ id: `p${i}`, key: k }))
+  const key = (x: { key: string }) => x.key
+  it('wordleRound: ngẫu nhiên, tránh câu vừa chơi, không trùng từ khoá', () => {
+    const pool = mk(['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg', 'hhh', 'bbb', 'iii', 'jjj', 'kkk'])
+    const recent = ['p0', 'p1', 'p2', 'p3', 'p4']
+    for (let s = 0; s < 30; s++) {
+      let seed = s + 1
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
+      const r = wordleRound(pool, 5, recent, key, rnd)
+      expect(r).toHaveLength(5)
+      expect(r.some((x) => recent.includes(x.id))).toBe(false)
+      expect(new Set(r.map(key)).size).toBe(5)
+    }
+    // Các lượt khác nhau cho ra bộ câu khác nhau
+    const sets = new Set(Array.from({ length: 10 }, () => wordleRound(pool, 5, [], key).map((x) => x.id).sort().join()))
+    expect(sets.size).toBeGreaterThan(1)
+  })
+  it('wordleRound: không đủ câu mới thì lấy lại câu cũ', () => {
+    const pool = mk(['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff'])
+    const r = wordleRound(pool, 5, ['p0', 'p1', 'p2', 'p3'], key)
+    expect(r).toHaveLength(5)
+    expect(r.slice(0, 2).map((x) => x.id).sort()).toEqual(['p4', 'p5'])
+  })
   it('chấm đúng chỗ / sai chỗ / không có', () => {
     expect(scoreGuess('ages', 'ages')).toEqual(['ok', 'ok', 'ok', 'ok'])
     expect(scoreGuess('sage', 'ages')).toEqual(['near', 'near', 'near', 'near'])

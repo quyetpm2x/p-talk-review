@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CustomGameProps } from '../types'
-import { pickItems, type Item } from '../../lib/picker'
-import { useProgress } from '../../lib/ProgressContext'
+import type { Item } from '../../lib/picker'
 import { speak } from '../../lib/speech'
 import { cleanPhrase } from '../../lib/scoring'
 import { sfx } from '../../lib/sfx'
@@ -9,7 +8,7 @@ import { buzz } from '../../lib/haptics'
 import { burst } from '../../lib/fx'
 import { SpeakButton } from '../../components/SpeakButton'
 import { ProgressBar } from '../../components/ProgressBar'
-import { mergeKeys, scoreGuess, splitAtKey, wordleKey, wordlePoints, type Mark } from './logic'
+import { mergeKeys, scoreGuess, splitAtKey, wordleKey, wordlePoints, wordleRound, type Mark } from './logic'
 import './brain.css'
 
 const ROUNDS = 5
@@ -23,9 +22,31 @@ export const wordleEligible = (i: Item) => {
   return !!k && !!splitAtKey(i.en, k)
 }
 
+/** Câu của lượt chơi trước (theo bài) — để lượt sau ra câu khác. */
+const RECENT_KEY = 'ptalk:v1:wordle-recent'
+function loadRecent(lessonId: string): string[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '{}')?.[lessonId]
+    return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []
+  } catch {
+    return []
+  }
+}
+function saveRecent(lessonId: string, ids: string[]) {
+  try {
+    const all = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '{}')
+    localStorage.setItem(RECENT_KEY, JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: ids }))
+  } catch {
+    /* bỏ qua */
+  }
+}
+
 export function Wordle({ lesson, items, record, finish }: CustomGameProps) {
-  const [p] = useProgress()
-  const list = useMemo(() => pickItems(items, p.phrases, lesson.id, ROUNDS, Date.now()), []) // eslint-disable-line react-hooks/exhaustive-deps
+  const list = useMemo(() => {
+    const picked = wordleRound(items.filter(wordleEligible), ROUNDS, loadRecent(lesson.id), wordleKey)
+    saveRecent(lesson.id, picked.map((i) => i.id))
+    return picked
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const answers = useRef<{ item: Item; correct: boolean }[]>([])
