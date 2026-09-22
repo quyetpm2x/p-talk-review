@@ -138,7 +138,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         <div className="lane lane-ghost">
           <div className="car ghost" style={{ bottom: `calc(${ghost * 100}% * 0.78 + 4%)` }} aria-label="Xe ma">
             <RaceCar body="#8fb3ff" accent="#e8f0ff" />
-            <span className="car-tag">{hasRecord ? `Kỷ lục ${(ghostMs / 1000).toFixed(1)}s` : `Xe ma · ${Math.round(ghostMs / 1000)}s`}</span>
+            <span className="car-tag">Xe ma</span>
           </div>
         </div>
         <div className="lane lane-me">
