@@ -7,6 +7,7 @@ import { ghostFinishMs, ghostSteps } from '../../lib/arcade'
 import { sfx } from '../../lib/sfx'
 import { speak } from '../../lib/speech'
 import { celebrate } from '../../lib/fx'
+import { RaceCar } from './RaceCar'
 import { useProgress } from '../../lib/ProgressContext'
 
 const TRACK = 10 // số câu đúng để về đích
@@ -98,6 +99,8 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         setFacingBack(true)
         setCar('reverse')
         setPos(pos - 1)
+        // lùi về tới vạch xuất phát thì tự quay mũi lên sau khi lùi xong
+        if (pos - 1 === 0) setTimeout(() => setFacingBack(false), 700)
         api.miss({ item: q, x, y: y - 30, label: '↩ lùi 1 bước · 👻 +1', loseLife: false })
       } else {
         // ở vạch xuất phát: xe đứng im (không quay, không lùi)
@@ -134,7 +137,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         <div className="finish-line" aria-hidden />
         <div className="lane lane-ghost">
           <div className="car ghost" style={{ bottom: `calc(${ghost * 100}% * 0.78 + 4%)` }} aria-label="Xe ma">
-            <span className="car-body">🏎️</span>
+            <RaceCar body="#8fb3ff" accent="#e8f0ff" />
             <span className="car-tag">{hasRecord ? `Kỷ lục ${(ghostMs / 1000).toFixed(1)}s` : `Xe ma · ${Math.round(ghostMs / 1000)}s`}</span>
           </div>
         </div>
@@ -143,7 +146,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
             aria-label={facingBack ? 'Xe của bạn (đang quay ngược)' : 'Xe của bạn'}>
             {car === 'boost' && <span className="nitro" aria-hidden>🔥</span>}
             {car === 'reverse' && <span className="dust" aria-hidden>💨</span>}
-            <span className="car-body">🏎️</span>
+            <RaceCar body="#d4ad5e" accent="#fff4d6" />
             <span className="car-tag">Bạn</span>
           </div>
         </div>

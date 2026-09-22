@@ -604,12 +604,12 @@ a { color: inherit; text-decoration: none; }
   transform: translateX(-50%); transition: bottom 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 .car-body {
-  font-size: 44px; line-height: 1; transform: rotate(-90deg); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
+  display: block; width: 34px; height: 58px; transform: rotate(0deg); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
   transition: transform 0.55s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
 /* quay ngược: mũi xe hướng xuống */
-.car.back .car-body { transform: rotate(90deg); }
-.car.ghost .car-body { opacity: 0.45; filter: grayscale(0.6) drop-shadow(0 0 10px rgba(180, 200, 255, 0.8)); }
+.car.back .car-body { transform: rotate(180deg); }
+.car.ghost .car-body { opacity: 0.55; filter: drop-shadow(0 0 10px rgba(180, 200, 255, 0.9)); }
 .car-tag {
   margin-top: 4px; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 99px; white-space: nowrap;
   background: var(--accent-grad); color: #13203f;
@@ -620,7 +620,7 @@ a { color: inherit; text-decoration: none; }
 .car.me.back .car-tag { background: var(--bad); color: #fff; }
 .dust { position: absolute; top: -26px; font-size: 26px; animation: dust 0.8s ease-out forwards; }
 @keyframes dust { from { opacity: 1; transform: translateY(0) scale(0.7); } to { opacity: 0; transform: translateY(-18px) scale(1.4); } }
-.nitro { position: absolute; top: 72px; font-size: 26px; transform: rotate(180deg); animation: flame 0.15s ease-in-out infinite alternate; }
+.nitro { position: absolute; top: 80px; font-size: 26px; transform: rotate(180deg); animation: flame 0.15s ease-in-out infinite alternate; }
 /* dùng thuộc tính scale/translate riêng để không ghi đè hướng xoay (transform) của xe */
 @keyframes boostKick { 30% { scale: 1.25; } }
 @keyframes wobble { 25% { translate: -4px 0; } 50% { translate: 4px 0; } 75% { translate: -2px 0; } }
