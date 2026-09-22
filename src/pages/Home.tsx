@@ -7,7 +7,11 @@ import { ProgressBar } from '../components/ProgressBar'
 export function Home() {
   const [p] = useProgress()
   const streak = currentStreak(p, Date.now())
-  const byLevel = lessons.reduce<Record<number, typeof lessons>>((acc, l) => ((acc[l.level] ??= []).push(l), acc), {})
+  const byLevel: Record<number, typeof lessons> = {}
+  for (const l of lessons) {
+    byLevel[l.level] ??= []
+    byLevel[l.level].push(l)
+  }
   return (
     <>
       <header className="hero">
@@ -53,9 +57,6 @@ export function Home() {
             })}
           </section>
         ))}
-        <p className="muted small center" style={{ marginTop: 'auto' }}>
-          Tiến độ được lưu trên máy này. 📲 Thêm vào màn hình chính để mở như app.
-        </p>
       </main>
     </>
   )
