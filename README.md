@@ -2,7 +2,9 @@
 
 Web app (PWA) để học sinh PTALK English ôn lại bài sau mỗi buổi học giao tiếp. Thiết kế cho điện thoại trước, không cần đăng nhập, và tiến độ được lưu ngay trên máy của học sinh.
 
-- **Kho cụm từ:** 14 trò chia thành 4 nhóm Nhớ / Hiểu / Dùng / Tổng hợp. Có lịch ôn lặp lại ngắt quãng theo kiểu Leitner.
+- **Kho cụm từ:** 18 trò chia thành 5 nhóm, có lịch ôn lặp lại ngắt quãng theo kiểu Leitner:
+  - **🎮 Giải trí** (game hành động): Bắn bóng bay, Mưa cụm từ, Chém cụm từ, Đua xe.
+  - **Nhớ / Hiểu / Dùng / Tổng hợp:** 14 trò luyện tập (thẻ lật, trắc nghiệm, nối cặp, nghe, nói…).
 - **Role-play:** hội thoại mẫu có 3 chế độ (Nghe / Điền cụm / Đóng vai bằng giọng nói) và thẻ nhiệm vụ có ghi âm.
 - **Ngữ pháp:** giải thích ngắn kèm bài tập.
 
@@ -33,6 +35,13 @@ Mẹo nhập dữ liệu:
 ## Đưa lên Vercel
 
 Tạo project mới trên Vercel và trỏ tới repo này. Vercel tự nhận ra đây là dự án Vite, lệnh build là `npm run build`, thư mục xuất là `dist`. Web dùng HashRouter nên không cần cấu hình chuyển hướng.
+
+## Game hành động (🎮 Giải trí)
+
+- Khung chung nằm ở `src/games/arcade/ArcadeShell.tsx`, gồm: đếm ngược 3-2-1, ❤️ mạng, combo (×2 từ 5 câu đúng liên tiếp, ×3 từ 10 câu), tạm dừng (tự dừng khi rời tab), tắt tiếng, điểm bay lên, rung màn hình và pháo hoa giấy.
+- Âm thanh hiệu ứng tạo bằng Web Audio (`src/lib/sfx.ts`), không cần file. Lựa chọn tắt tiếng được lưu trên máy.
+- **Chém cụm từ** tự tạo "💣 bom" sai ngữ pháp bằng cách đảo 2 từ liền nhau trong câu đúng, trừ 2 từ đầu câu (`makeBomb` trong `src/lib/arcade.ts`).
+- **Đua xe** lưu thời gian tốt nhất của học sinh để xe ma chạy theo ở lần sau.
 
 ## Giọng đọc Kokoro
 
