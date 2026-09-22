@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import type { Item } from '../lib/picker'
 import { SpeakButton } from './SpeakButton'
+import { Icon } from './Icon'
 
 type Answer = { item: Item; correct: boolean }
 
@@ -45,31 +47,64 @@ export function ResultScreen({ score, best, total, correct, wrong, answers, seco
         {seconds !== undefined && <div className="stat"><div className="stat-v">{fmtTime(seconds)}</div><div className="stat-k">thời gian</div></div>}
       </div>
 
-      {rows.length > 0 && (
-        <div className="card stack" style={{ gap: 0, padding: 0 }}>
-          <div className="label" style={{ padding: '12px 14px 8px' }}>
-            {answers ? 'Chi tiết từng câu' : `Cần ôn lại (${rows.length})`}
-          </div>
-          {rows.map((a, k) => (
-            <div key={k} className="row" style={{ padding: '10px 14px', borderTop: '1px solid var(--line)' }}>
-              <span className={`mark ${a.correct ? 'ok' : 'bad'}`} aria-label={a.correct ? 'Đúng' : 'Sai'}>{a.correct ? '✓' : '✕'}</span>
-              <div className="grow">
-                <div style={{ fontWeight: 600 }} lang="en">{a.item.en}</div>
-                <div className="muted small">{a.item.vi}</div>
-              </div>
-              <SpeakButton text={a.item.en} />
-            </div>
-          ))}
-        </div>
-      )}
+      {rows.length > 0 && <AnswerList rows={rows} detailed={!!answers} />}
 
       <div className="stack">
         {onReviewWrong && wrong.length > 0 && (
-          <button className="btn btn-primary btn-block" onClick={onReviewWrong}>🩹 Làm lại {wrong.length} câu sai</button>
+          <button className="btn btn-primary btn-block" onClick={onReviewWrong}>Làm lại {wrong.length} câu sai</button>
         )}
-        <button className={`btn btn-block ${onReviewWrong && wrong.length ? 'btn-dark' : 'btn-primary'}`} onClick={onRetry}>↻ Chơi lượt mới</button>
+        <button className={`btn btn-block ${onReviewWrong && wrong.length ? 'btn-dark' : 'btn-primary'}`} onClick={onRetry}>Chơi lượt mới</button>
         <button className="btn btn-ghost btn-block" onClick={onExit}>Về danh sách trò</button>
       </div>
     </div>
+  )
+}
+
+type Filter = 'all' | 'bad' | 'ok'
+
+function AnswerList({ rows, detailed }: { rows: Answer[]; detailed: boolean }) {
+  const nBad = rows.filter((r) => !r.correct).length
+  const nOk = rows.length - nBad
+  const [filter, setFilter] = useState<Filter>(detailed && nBad ? 'bad' : 'all')
+  const shown = rows
+    .map((r, i) => ({ ...r, n: i + 1 }))
+    .filter((r) => filter === 'all' || (filter === 'ok' ? r.correct : !r.correct))
+  const tabs: { id: Filter; label: string; n: number }[] = [
+    { id: 'all', label: 'Tất cả', n: rows.length },
+    { id: 'bad', label: 'Sai', n: nBad },
+    { id: 'ok', label: 'Đúng', n: nOk },
+  ]
+  return (
+    <section className="answers">
+      <div className="answers-head">
+        <div className="label">{detailed ? 'Chi tiết từng câu' : 'Cần ôn lại'}</div>
+        {detailed && (
+          <div className="seg" role="tablist" aria-label="Lọc câu">
+            {tabs.map((t) => (
+              <button key={t.id} role="tab" aria-selected={filter === t.id} className={filter === t.id ? 'on' : ''}
+                onClick={() => setFilter(t.id)} disabled={!t.n && t.id !== 'all'}>
+                {t.label} <span className="seg-n">{t.n}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <ol className="answer-list">
+        {shown.map((a) => (
+          <li key={a.n} className={a.correct ? 'ok' : 'bad'}>
+            <span className="answer-n">{a.n}</span>
+            <div className="grow">
+              <div className="answer-en" lang="en">{a.item.en}</div>
+              <div className="answer-vi">{a.item.vi}</div>
+            </div>
+            <span className={`mark ${a.correct ? 'ok' : 'bad'}`} aria-label={a.correct ? 'Đúng' : 'Sai'}>
+              <Icon name={a.correct ? 'check' : 'x'} size={14} stroke={3} />
+            </span>
+            <SpeakButton text={a.item.en} size="sm" />
+          </li>
+        ))}
+        {!shown.length && <li className="answer-empty">Không có câu nào 🎉</li>}
+      </ol>
+    </section>
   )
 }
