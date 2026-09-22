@@ -10,7 +10,7 @@ import { celebrate } from '../../lib/fx'
 import { useProgress } from '../../lib/ProgressContext'
 
 const TRACK = 10 // số câu đúng để về đích
-const DEFAULT_GHOST_MS = 60000
+const DEFAULT_GHOST_MS = 20000 // xe ma khi chưa có kỷ lục
 const STUN_MS = 1200
 
 export function Race(props: CustomGameProps) {
@@ -109,7 +109,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         <div className="lane lane-ghost">
           <div className="car ghost" style={{ bottom: `calc(${ghost * 100}% * 0.78 + 4%)` }} aria-label="Xe ma">
             <span className="car-body">🏎️</span>
-            <span className="car-tag">{hasRecord ? `Kỷ lục ${(ghostMs / 1000).toFixed(1)}s` : 'Xe ma 60s'}</span>
+            <span className="car-tag">{hasRecord ? `Kỷ lục ${(ghostMs / 1000).toFixed(1)}s` : `Xe ma ${DEFAULT_GHOST_MS / 1000}s`}</span>
           </div>
         </div>
         <div className="lane lane-me">
