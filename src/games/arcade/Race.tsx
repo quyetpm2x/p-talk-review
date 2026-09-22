@@ -93,7 +93,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         sfx('win')
         setTimeout(() => api.end(
           { seconds: Math.round(ms / 1000) },
-          { title: newRecord ? '🏆 Phá kỷ lục!' : '🏆 Bạn thắng xe ma!', sub: `Về đích sau ${(ms / 1000).toFixed(1)} giây`, ms: 1800 },
+          { title: newRecord ? '🏆 Phá kỷ lục!' : '🏆 Bạn thắng!', sub: `Về đích sau ${(ms / 1000).toFixed(1)} giây`, ms: 1800 },
         ), 700)
         return
       }
