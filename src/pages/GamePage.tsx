@@ -61,7 +61,7 @@ export function GamePage() {
           <div className="card center stack" style={{ padding: 28 }}>
             <div style={{ fontSize: 44 }}>🔒</div>
             <div>{lock}</div>
-            <button className="btn btn-primary" onClick={() => nav(back, { state: { back: true } })}>Quay lại</button>
+            <button className="btn btn-primary" onClick={() => nav(back)}>Quay lại</button>
           </div>
         ) : result ? (
           <ResultScreen
@@ -74,7 +74,7 @@ export function GamePage() {
             seconds={result.seconds}
             onRetry={() => restart()}
             onReviewWrong={def.Question ? () => restart(result.wrong) : undefined}
-            onExit={() => nav(back, { state: { back: true } })}
+            onExit={() => nav(back)}
             unit={def.autoNext ? `/ ${result.total} cụm đã nhớ` : 'điểm'}
           />
         ) : def.Custom ? (

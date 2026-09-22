@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { HashRouter, Navigate, Outlet, Route, Routes, useLocation, useNavigationType, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { HashRouter, Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { ProgressProvider } from './lib/ProgressContext'
 import { getLesson } from './lessons'
 import { Home } from './pages/Home'
@@ -43,22 +43,40 @@ function NotFound() {
 }
 
 /**
- * Hiệu ứng chuyển trang: đi tới trượt vào từ phải, quay lại trượt vào từ trái.
- * Các tab trong cùng một bài dùng chung khung nên không trượt cả trang.
+ * Hiệu ứng chuyển trang: trang cũ mờ dần rồi biến mất, sau đó trang mới hiện từ mờ đến rõ nét.
+ * Các tab trong cùng một bài dùng chung khung nên chỉ đổi nội dung (xem .tab-fade).
  */
+const OUT_MS = 200
+const IN_MS = 700 // hiệu ứng hiện + nội dung nổi lên lần lượt
+const pageKey = (pathname: string) => pathname.replace(/^(\/lesson\/[^/]+)\/(phrases|roleplay|grammar)$/, '$1')
+
 function AnimatedRoutes() {
   const location = useLocation()
-  const navType = useNavigationType()
-  const first = useRef(true)
-  const key = location.pathname.replace(/^(\/lesson\/[^/]+)\/(phrases|roleplay|grammar)$/, '$1')
-  // nút ← / "Về danh sách" gắn state.back để chạy hiệu ứng quay lại
-  const goingBack = navType === 'POP' || (location.state as { back?: boolean } | null)?.back
-  let dir = goingBack ? 'back' : 'fwd'
-  if (first.current || navType === 'REPLACE') dir = 'none'
-  first.current = false
+  const [shown, setShown] = useState(location)
+  const [stage, setStage] = useState<'none' | 'out' | 'in'>('none')
+
+  useEffect(() => {
+    if (location.key === shown.key) return
+    // đổi tab trong cùng một bài: đổi ngay, không làm mờ cả trang
+    if (pageKey(location.pathname) === pageKey(shown.pathname)) {
+      setShown(location)
+      return
+    }
+    setStage('out')
+    let t2: ReturnType<typeof setTimeout>
+    const t = setTimeout(() => {
+      setShown(location)
+      setStage('in')
+      window.scrollTo(0, 0)
+      // hiện xong thì bỏ trạng thái để lần đổi tab sau không làm nhòe lại cả trang
+      t2 = setTimeout(() => setStage('none'), IN_MS)
+    }, OUT_MS)
+    return () => { clearTimeout(t); clearTimeout(t2) }
+  }, [location]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <div key={key} className={`route-anim ${dir}`}>
-      <Routes location={location}>
+    <div key={pageKey(shown.pathname)} className={`route-anim ${stage}`}>
+      <Routes location={shown}>
         <Route path="/" element={<Home />} />
         <Route path="/lesson/:id" element={<LessonTabs />}>
           <Route index element={<Navigate to="phrases" replace />} />
