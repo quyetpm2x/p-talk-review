@@ -135,6 +135,10 @@ function FillMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
     if (done && blanks.length) update((pp) => setBest(pp, bestKey, score))
   }, [done]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (cur > 0) document.querySelector('.slot.active')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [cur])
+
   const pick = (bi: number) => {
     if (done) return
     const want = blanks[cur].text.toLowerCase()
@@ -187,8 +191,8 @@ function FillMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
       ) : (
         <div className="sticky-bottom">
           <div className="chips" lang="en" style={{ justifyContent: 'center' }}>
-            {bank.map((b, bi) => (
-              <button key={bi} className={`chip ${used.includes(bi) ? 'used' : ''} ${shake === bi ? 'shake' : ''}`}
+            {bank.map((b, bi) => used.includes(bi) ? null : (
+              <button key={bi} className={`chip ${shake === bi ? 'shake' : ''}`}
                 style={shake === bi ? { borderColor: 'var(--bad)' } : undefined} onClick={() => pick(bi)}>
                 {b.text}
               </button>

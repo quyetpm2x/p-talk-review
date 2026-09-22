@@ -64,7 +64,7 @@ export function MissionPage() {
               {rec.state === 'recording' ? (
                 <button className="mic-btn on" onClick={rec.stop} aria-label="Dừng ghi">■</button>
               ) : (
-                <button className="mic-btn" onClick={rec.start} aria-label="Bắt đầu ghi">⏺</button>
+                <button className="mic-btn" onClick={rec.start} aria-label="Bắt đầu ghi"><span style={{ width: 30, height: 30, borderRadius: "50%", background: "var(--bad)" }} /></button>
               )}
             </div>
           )}

@@ -36,7 +36,9 @@ export function GamePage() {
   const bestKey = `${lesson.id}:${def.id}`
   const lock = def.lockReason(items, set)
   const record = (itemId: string, correct: boolean) => update((pp) => recordAnswer(pp, lesson.id, itemId, correct, Date.now()))
-  const finish = (r: FinishResult) => {
+  const finish = (raw: FinishResult) => {
+    // Thẻ lật không tính điểm: dùng số cụm đã nhớ làm điểm
+    const r = def.autoNext ? { ...raw, score: raw.correct } : raw
     const prevBest = p.bestScores[bestKey] ?? 0
     if (!fixed) update((pp) => setBest(pp, bestKey, r.score))
     setResult({ ...r, prevBest })
@@ -68,6 +70,7 @@ export function GamePage() {
             onRetry={() => restart()}
             onReviewWrong={def.Question ? () => restart(result.wrong) : undefined}
             onExit={() => nav(back)}
+            unit={def.autoNext ? `/ ${result.total} cụm đã nhớ` : 'điểm'}
           />
         ) : def.Custom ? (
           <def.Custom key={run} lesson={lesson} items={items} pool={pool} record={record} finish={finish} />
