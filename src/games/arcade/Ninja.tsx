@@ -9,7 +9,12 @@ import { speak } from '../../lib/speech'
 import { useProgress } from '../../lib/ProgressContext'
 
 const ROUNDS = 12
-const GRAVITY = 1500 // px/s²
+// Trọng lực (px/s²) chọn cùng với độ cao đỉnh bên dưới để tổng thời gian bay lên + rơi
+// dài hơn ~30% so với bản đầu (trọng lực 1500, đỉnh 22–40%)
+// Mỗi thẻ trong đợt bay tới một tầng riêng để không chồng lên nhau
+const PEAK_TIERS = [0.16, 0.27, 0.38]
+const GRAVITY = 930
+const FLIGHT_SCALE = 1.3
 
 type Kind = 'target' | 'decoy' | 'bomb'
 type Flyer = {
@@ -56,14 +61,17 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
       ...(bomb ? [{ kind: 'bomb' as Kind, text: bomb }] : []),
     ])
     const speed = levelSpeed(apiRef.current.level)
+    const tiers = shuffle(PEAK_TIERS)
     flyers.current = list.map((f, k) => {
       const w = Math.min(170, W * 0.44), h = 64
       const x0 = W * (0.18 + 0.64 * ((k + 0.5) / list.length)) + (Math.random() - 0.5) * 30
-      // bay lên tới khoảng 25–40% chiều cao màn hình
-      const peak = H * (0.22 + Math.random() * 0.18)
-      const vy = -Math.sqrt(2 * GRAVITY * (H + h - peak)) * Math.min(1.08, 0.94 + speed * 0.05)
+      // tâm thẻ bay lên tới tầng riêng (16% / 27% / 38% chiều cao sân) ± một chút
+      const peak = H * (tiers[k % tiers.length] + (Math.random() - 0.5) * 0.04)
+      // thẻ tung sau xuất phát sâu hơn; tính vận tốc từ đúng điểm xuất phát để mọi thẻ tới cùng độ cao
+      const y0 = H + h + k * 150
+      const vy = -Math.sqrt(2 * GRAVITY * (y0 - peak)) * Math.min(1, 0.94 + speed * 0.05)
       return {
-        id: `${round}-${k}`, ...f, x: x0, y: H + h + k * 150, vx: (W / 2 - x0) * 0.35 + (Math.random() - 0.5) * 60,
+        id: `${round}-${k}`, ...f, x: x0, y: y0, vx: ((W / 2 - x0) * 0.12 + (Math.random() - 0.5) * 40) / FLIGHT_SCALE,
         vy, rot: (Math.random() - 0.5) * 12, vr: (Math.random() - 0.5) * 16, w, h, state: 'fly', cutAngle: 0,
       }
     })
