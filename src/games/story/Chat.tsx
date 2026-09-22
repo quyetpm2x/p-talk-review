@@ -10,7 +10,7 @@ import { burst } from '../../lib/fx'
 import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
 import { Icon } from '../../components/Icon'
-import { findItem, friendVoice, lastChatId, pickChat, playerVoice, saveLastChat, sayable, type ChatOption, type Line } from './data'
+import { findItem, friendVoice, lastPlayed, pickChat, playerVoice, savePlayed, sayable, type ChatOption, type Line } from './data'
 import './story.css'
 
 type Msg =
@@ -34,7 +34,7 @@ const bold = (s: string) => s.split(/\*\*(.+?)\*\*/g).map((x, i) => (i % 2 ? <b 
 /** 💬 Nhắn tin với bạn cũ: trả lời kịp giờ bằng gợi ý hoặc giọng nói. */
 export function Chat({ lesson, record, finish }: CustomGameProps) {
   // Mỗi lần vào: một kịch bản ngẫu nhiên, khác kịch bản lượt trước
-  const [chat] = useState(() => pickChat(lesson.id, lastChatId(lesson.id))!)
+  const [chat] = useState(() => pickChat(lesson.id, lastPlayed('chat', lesson.id))!)
   const fVoice = friendVoice(chat)
   const pVoice = playerVoice(chat)
   const total = chat.seconds * 1000
@@ -68,7 +68,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
 
   useEffect(() => {
     alive.current = true // StrictMode chạy effect 2 lần
-    saveLastChat(lesson.id, chat.id)
+    savePlayed('chat', lesson.id, chat.id)
     return () => {
       alive.current = false
       stopSpeaking()

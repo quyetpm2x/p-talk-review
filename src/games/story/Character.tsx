@@ -1,4 +1,4 @@
-import type { Mood } from './data'
+import type { Gender, Mood } from './data'
 
 const SKIN = '#f6d2b3'
 const SKIN_D = '#e8b793'
@@ -77,12 +77,13 @@ function Face({ mood }: { mood: Mood }) {
   }
 }
 
-/** Nhân vật bạn cũ vẽ bằng SVG — tóc bob, áo len navy cổ vàng. */
-export function Character({ mood }: { mood: Mood }) {
+/** Nhân vật bạn cũ vẽ bằng SVG — nữ: tóc bob, bông tai; nam: tóc ngắn. Áo len navy cổ vàng. */
+export function Character({ mood, look = 'f' }: { mood: Mood; look?: Gender }) {
+  const f = look === 'f'
   return (
     <svg className="char-svg" viewBox="0 0 200 210" aria-hidden>
       {/* tóc phía sau */}
-      <path d="M40 96 Q36 30 100 26 Q164 30 160 96 L162 150 Q130 160 100 158 Q70 160 38 150 Z" fill={HAIR} />
+      {f && <path d="M40 96 Q36 30 100 26 Q164 30 160 96 L162 150 Q130 160 100 158 Q70 160 38 150 Z" fill={HAIR} />}
       {/* thân */}
       <path d="M22 210 Q24 158 100 150 Q176 158 178 210 Z" fill="#1c2c55" />
       <path d="M78 152 Q100 176 122 152 L118 150 Q100 168 82 150 Z" fill="#c9a04e" />
@@ -90,13 +91,23 @@ export function Character({ mood }: { mood: Mood }) {
       {/* tai */}
       <ellipse cx="50" cy="100" rx="8" ry="11" fill={SKIN_D} />
       <ellipse cx="150" cy="100" rx="8" ry="11" fill={SKIN_D} />
-      <circle cx="50" cy="112" r="3" fill="#e0b453" />
-      <circle cx="150" cy="112" r="3" fill="#e0b453" />
+      {f && <circle cx="50" cy="112" r="3" fill="#e0b453" />}
+      {f && <circle cx="150" cy="112" r="3" fill="#e0b453" />}
       {/* đầu */}
       <ellipse cx="100" cy="94" rx="50" ry="54" fill={SKIN} />
       {/* mái tóc */}
-      <path d="M48 88 Q50 40 100 38 Q150 40 152 88 Q138 60 112 58 Q118 70 108 76 Q100 60 84 60 Q62 64 48 88 Z" fill={HAIR} />
-      <path d="M96 44 Q112 38 128 46" stroke="#4a3128" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.7" />
+      {f ? (
+        <>
+          <path d="M48 88 Q50 40 100 38 Q150 40 152 88 Q138 60 112 58 Q118 70 108 76 Q100 60 84 60 Q62 64 48 88 Z" fill={HAIR} />
+          <path d="M96 44 Q112 38 128 46" stroke="#4a3128" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.7" />
+        </>
+      ) : (
+        <>
+          {/* tóc ngắn, mái vuốt lệch */}
+          <path d="M49 92 Q44 42 98 32 Q146 30 153 76 Q154 86 151 92 Q146 70 132 62 Q112 70 90 60 Q70 72 58 68 Q52 78 49 92 Z" fill={HAIR} />
+          <path d="M84 42 Q108 32 132 44" stroke="#4a3128" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.7" />
+        </>
+      )}
       <g key={mood} className="face-swap">
         <Face mood={mood} />
       </g>

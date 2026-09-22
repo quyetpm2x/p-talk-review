@@ -10,8 +10,8 @@ import { SpeakButton } from '../../components/SpeakButton'
 import { Character, MOOD_EMOJI } from './Character'
 import { prefersReducedMotion, useTypewriter } from './useTypewriter'
 import {
-  choiceDelta, clamp100, endingFor, findItem, getStory, sayable, unlockedEndings, unlockEnding, PLAYER_VOICE, START_CLOSENESS,
-  type ChoiceKind, type Mood, type StoryChoice, type StoryEnding,
+  choiceDelta, clamp100, endingFor, findItem, friendVoice, genderOf, getStories, lastPlayed, pickStory, playerVoice, savePlayed, sayable, unlockedEndings, unlockEnding, START_CLOSENESS,
+  type ChoiceKind, type Mood, type Story as StoryData, type StoryChoice, type StoryEnding,
 } from './data'
 import './story.css'
 
@@ -20,9 +20,27 @@ type Phase = 'intro' | 'line' | 'choose' | 'react' | 'end'
 const KIND_MOOD: Record<ChoiceKind, Mood> = { good: 'happy', off: 'meh', rude: 'awkward' }
 const KIND_LABEL: Record<ChoiceKind, string> = { good: '✓ Hợp tình huống', off: '≈ Sai sắc thái', rude: '✕ Kém lịch sự' }
 
-/** 🎬 Phim tương tác: gặp lại bạn cũ ở quán cà phê, chọn câu đáp để giữ độ thân thiết. */
-export function Story({ lesson, record, finish }: CustomGameProps) {
-  const story = getStory(lesson.id)!
+/** Đồ trang trí theo bối cảnh: bảng, kệ, bàn. */
+const SCENE = {
+  cafe: { board: 'MENU', sub: 'latte · cà phê sữa', shelf: ['🪴', '☕', '🫖'], table: ['☕', '🍰'] },
+  street: { board: 'BUS 32', sub: 'trạm xe buýt', shelf: ['🌳', '🚏', '🏢'], table: ['🛵', '🌼'] },
+  wedding: { board: 'HAPPY WEDDING', sub: 'Chúc mừng hạnh phúc', shelf: ['💐', '🎀', '🥂'], table: ['🎂', '🥂'] },
+} as const
+
+/** 🎬 Phim tương tác: mỗi lần vào là một phim ngẫu nhiên (khác phim lượt trước). */
+export function Story(props: CustomGameProps) {
+  const { lesson } = props
+  const [story, setStory] = useState(() => pickStory(lesson.id, lastPlayed('story', lesson.id))!)
+  useEffect(() => savePlayed('story', lesson.id, story.id), [lesson.id, story.id])
+  const other = getStories(lesson.id).length > 1 ? () => { stopSpeaking(); setStory((s) => pickStory(lesson.id, s.id)!) } : undefined
+  return <StoryRun key={story.id} {...props} story={story} onOther={other} />
+}
+
+/** Một phim: gặp lại bạn cũ, chọn câu đáp để giữ độ thân thiết. */
+function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & { story: StoryData; onOther?: () => void }) {
+  const fVoice = friendVoice(story)
+  const pVoice = playerVoice(story)
+  const scene = SCENE[story.scene ?? 'cafe']
   const nodes = useMemo(() => new Map(story.nodes.map((n) => [n.id, n])), [story])
   const [run, setRun] = useState(0)
   const [phase, setPhase] = useState<Phase>('intro')
@@ -32,7 +50,7 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
   const [delta, setDelta] = useState<{ v: number; k: number } | null>(null)
   const [picked, setPicked] = useState<StoryChoice | null>(null)
   const [ending, setEnding] = useState<StoryEnding | null>(null)
-  const [unlocked, setUnlocked] = useState<string[]>(() => unlockedEndings(lesson.id))
+  const [unlocked, setUnlocked] = useState<string[]>(() => unlockedEndings(lesson.id, story.id))
   const [voiceOn, setVoiceOn] = useState(!isMuted())
   const answers = useRef<{ item: Item; correct: boolean }[]>([])
   const startedAt = useRef(Date.now())
@@ -60,7 +78,7 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
 
   // Tự đọc câu mới
   useEffect(() => {
-    if (text && voiceOn) speak(sayable(text), { kokoro: story.friend.voice, voice: 'B' })
+    if (text && voiceOn) speak(sayable(text), { kokoro: fVoice, voice: 'B' })
   }, [text]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => stopSpeaking(), [])
 
@@ -106,7 +124,7 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
     const end = endingFor(story, closeness)
     const best = [...story.endings].sort((a, b) => b.min - a.min)[0]
     setEnding(end)
-    setUnlocked(unlockEnding(lesson.id, end.id))
+    setUnlocked(unlockEnding(lesson.id, story.id, end.id))
     setPhase('end')
     if (end.id === best.id) { sfx('win'); celebrate() } else sfx(end.min > 0 ? 'ok' : 'lose')
   }
@@ -169,18 +187,18 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
         <button className="hud-btn" onClick={toggleVoice} aria-label={voiceOn ? 'Tắt tiếng' : 'Bật tiếng'}>{voiceOn ? '🔊' : '🔇'}</button>
       </div>
 
-      <div className="story-scene" aria-hidden>
+      <div className={`story-scene scene-${story.scene ?? 'cafe'}`} aria-hidden>
         <div className="cafe-window"><span /></div>
         <div className="cafe-lamp l1" />
         <div className="cafe-lamp l2" />
-        <div className="cafe-board">MENU<small>latte · cà phê sữa</small></div>
-        <div className="cafe-shelf"><span>🪴</span><span>☕</span><span>🫖</span></div>
+        <div className="cafe-board">{scene.board}<small>{scene.sub}</small></div>
+        <div className="cafe-shelf">{scene.shelf.map((e) => <span key={e}>{e}</span>)}</div>
         <div className="cafe-wainscot" />
         <div className={`char-wrap ${phase === 'react' && picked ? `react-${picked.kind}` : ''}`} key={`${nodeId}-${phase === "react" || phase === "end" ? phase : "t"}`}>
-          <Character mood={mood} />
+          <Character mood={mood} look={genderOf(story.friend) ?? 'f'} />
           {MOOD_EMOJI[mood] && <span className="mood-badge" key={mood}>{MOOD_EMOJI[mood]}</span>}
         </div>
-        <div className="cafe-table"><span className="cup">☕</span><span className="cake">🍰</span></div>
+        <div className="cafe-table"><span className="cup">{scene.table[0]}</span><span className="cake">{scene.table[1]}</span></div>
         <div className="scene-name">{story.friend.name}</div>
       </div>
 
@@ -200,7 +218,7 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
               <div className="talk-bubble" onClick={tw.skip}>
                 <div className="bubble-head">
                   <span className="bubble-name">{story.friend.name}</span>
-                  <SpeakButton text={sayable(text)} size="sm" kokoro={story.friend.voice} voice="B" />
+                  <SpeakButton text={sayable(text)} size="sm" kokoro={fVoice} voice="B" />
                 </div>
                 <div className="bubble-en" aria-live="polite">
                   {tw.shown}
@@ -245,7 +263,7 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
                 <div className="label">Câu hợp hơn</div>
                 <div className="row">
                   <span className="grow"><b>{good.en}</b><div className="small muted">{good.vi}</div></span>
-                  <SpeakButton text={sayable(good.en)} size="sm" kokoro={PLAYER_VOICE} />
+                  <SpeakButton text={sayable(good.en)} size="sm" kokoro={pVoice} />
                 </div>
               </div>
             )}
@@ -289,6 +307,7 @@ export function Story({ lesson, record, finish }: CustomGameProps) {
             <div className="story-end-actions">
               <button className="btn btn-primary btn-block" onClick={showResult}>Xem kết quả</button>
               <button className="btn btn-ghost btn-block" onClick={restart}>↻ Chơi lại, thử cái kết khác</button>
+              {onOther && <button className="btn btn-ghost btn-block" onClick={onOther}>🎬 Xem phim khác</button>}
             </div>
           </div>
         )}

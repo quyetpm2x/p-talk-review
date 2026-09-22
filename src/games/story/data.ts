@@ -5,7 +5,7 @@
 import type { Lesson } from '../../types'
 import type { Item } from '../../lib/picker'
 import { cleanPhrase, matchRatio } from '../../lib/scoring'
-import story_l2_01 from '../../lessons/stories/level2-01.json'
+import stories_l2_01 from '../../lessons/stories/level2-01.json'
 import chats_l2_01 from '../../lessons/chats/level2-01.json'
 import { shuffle, type Rnd } from '../../lib/shuffle'
 
@@ -48,10 +48,16 @@ export type StoryEnding = Line & {
 }
 
 export type Story = {
+  id: string
   lessonId: string
   title: string
   setting: string
-  friend: { name: string; voice: string }
+  /** Bối cảnh vẽ phía sau nhân vật */
+  scene?: 'cafe' | 'street' | 'wedding'
+  /** Giọng đọc và dáng nhân vật chọn theo tên (NAME_GENDER); `voice` chỉ để ghi đè */
+  friend: { name: string; voice?: string }
+  /** Vai của người chơi; không có = “bạn” (giọng PLAYER_VOICE) */
+  player?: { name: string; voice?: string }
   start: string
   nodes: StoryNode[]
   endings: StoryEnding[]
@@ -88,33 +94,39 @@ export type Chat = {
 // ================= Kho kịch bản =================
 
 // Thêm bài mới: import JSON và thêm vào 2 mảng này.
-const STORIES: Story[] = [story_l2_01 as unknown as Story]
+type StoryFile = { lessonId: string; stories: Omit<Story, 'lessonId'>[] }
+const STORIES: Story[] = ([stories_l2_01] as unknown as StoryFile[]).flatMap((f) => f.stories.map((x) => ({ ...x, lessonId: f.lessonId })))
 type ChatFile = { lessonId: string; chats: Omit<Chat, 'lessonId'>[] }
 const CHATS: Chat[] = ([chats_l2_01] as unknown as ChatFile[]).flatMap((f) => f.chats.map((c) => ({ ...c, lessonId: f.lessonId })))
 
-export const getStory = (lessonId: string) => STORIES.find((s) => s.lessonId === lessonId)
+export const getStories = (lessonId: string) => STORIES.filter((s) => s.lessonId === lessonId)
+export const getStory = (lessonId: string) => getStories(lessonId)[0]
+
+/** Chọn ngẫu nhiên một phần tử, tránh `lastId` (lượt trước) nếu còn lựa chọn khác. */
+function pickFresh<T extends { id: string }>(all: T[], lastId: string | null | undefined, rnd: Rnd): T | undefined {
+  const fresh = all.filter((x) => x.id !== lastId)
+  return shuffle(fresh.length ? fresh : all, rnd)[0]
+}
+export const pickStory = (lessonId: string, lastId?: string | null, rnd: Rnd = Math.random) => pickFresh(getStories(lessonId), lastId, rnd)
 export const getChats = (lessonId: string) => CHATS.filter((c) => c.lessonId === lessonId)
 
 /** Kịch bản nhắn tin ngẫu nhiên của bài, tránh lặp lại kịch bản `lastId` (lượt trước) nếu còn kịch bản khác. */
-export function pickChat(lessonId: string, lastId?: string | null, rnd: Rnd = Math.random): Chat | undefined {
-  const all = getChats(lessonId)
-  const fresh = all.filter((c) => c.id !== lastId)
-  return shuffle(fresh.length ? fresh : all, rnd)[0]
-}
+export const pickChat = (lessonId: string, lastId?: string | null, rnd: Rnd = Math.random) => pickFresh(getChats(lessonId), lastId, rnd)
 
-const LAST_CHAT_KEY = 'ptalk:v1:chat-last'
-export function lastChatId(lessonId: string): string | null {
+/** Kịch bản đã chơi lượt trước (theo bài) — để lượt sau ra kịch bản khác. */
+const lastKey = (kind: 'chat' | 'story') => `ptalk:v1:${kind}-last`
+export function lastPlayed(kind: 'chat' | 'story', lessonId: string): string | null {
   try {
-    const v = JSON.parse(localStorage.getItem(LAST_CHAT_KEY) ?? '{}')?.[lessonId]
+    const v = JSON.parse(localStorage.getItem(lastKey(kind)) ?? '{}')?.[lessonId]
     return typeof v === 'string' ? v : null
   } catch {
     return null
   }
 }
-export function saveLastChat(lessonId: string, chatId: string) {
+export function savePlayed(kind: 'chat' | 'story', lessonId: string, id: string) {
   try {
-    const all = JSON.parse(localStorage.getItem(LAST_CHAT_KEY) ?? '{}')
-    localStorage.setItem(LAST_CHAT_KEY, JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: chatId }))
+    const all = JSON.parse(localStorage.getItem(lastKey(kind)) ?? '{}')
+    localStorage.setItem(lastKey(kind), JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: id }))
   } catch {
     /* bỏ qua */
   }
@@ -141,7 +153,7 @@ export function findItem(lesson: Lesson, id: string): Item | undefined {
   return x ? { ...x, extra: true } : undefined
 }
 
-export const storyLockReason = (lesson: Lesson) => (getStory(lesson.id) ? null : 'Bài này chưa có kịch bản')
+export const storyLockReason = (lesson: Lesson) => (getStories(lesson.id).length ? null : 'Bài này chưa có kịch bản')
 export const chatLockReason = (lesson: Lesson) => (getChats(lesson.id).length ? null : 'Bài này chưa có kịch bản')
 
 // ================= Âm thanh =================
@@ -153,17 +165,22 @@ export const sayable = (text: string) =>
 /** Giọng đọc câu của người chơi (lựa chọn tốt trong phim). */
 export const PLAYER_VOICE = 'af_heart'
 
-const MALE = 'am_michael'
-const FEMALE = 'af_heart'
-/** Giọng Kokoro theo tên nhân vật (nam/nữ). Thêm nhân vật mới vào đây. */
-export const NAME_VOICES: Record<string, string> = {
-  Tuấn: MALE, Hùng: MALE, Nam: MALE, Minh: MALE,
-  Mai: FEMALE, Linh: FEMALE, Lan: FEMALE, Hoa: FEMALE,
+export type Gender = 'm' | 'f'
+/** Giới tính theo tên nhân vật — quyết định giọng đọc (và dáng vẽ trong phim). Thêm nhân vật mới vào đây. */
+export const NAME_GENDER: Record<string, Gender> = {
+  Tuấn: 'm', Hùng: 'm', Nam: 'm', Minh: 'm',
+  Mai: 'f', Linh: 'f', Lan: 'f', Hoa: 'f',
 }
-export const voiceOf = (who: { name: string; voice?: string } | undefined, fallback = PLAYER_VOICE) =>
-  who?.voice ?? (who ? NAME_VOICES[who.name] : undefined) ?? fallback
-export const friendVoice = (c: Chat) => voiceOf(c.friend, MALE)
-export const playerVoice = (c: Chat) => voiceOf(c.player)
+export const GENDER_VOICE: Record<Gender, string> = { m: 'am_michael', f: 'af_heart' }
+type Who = { name: string; voice?: string }
+export const genderOf = (who: Who | undefined): Gender | undefined => (who ? NAME_GENDER[who.name] : undefined)
+export const voiceOf = (who: Who | undefined, fallback = PLAYER_VOICE) => {
+  const g = genderOf(who)
+  return who?.voice ?? (g ? GENDER_VOICE[g] : fallback)
+}
+/** Giọng bạn cũ và giọng người chơi của một kịch bản (phim hoặc nhắn tin). */
+export const friendVoice = (x: Chat | Story) => voiceOf(x.friend, GENDER_VOICE.m)
+export const playerVoice = (x: Chat | Story) => voiceOf(x.player)
 
 /** Mọi câu tiếng Anh có nút nghe / được đọc trong 2 trò của bài — để tạo file Kokoro. */
 export function collectStoryClips(lessonId: string): { text: string; voice: string }[] {
@@ -172,14 +189,14 @@ export function collectStoryClips(lessonId: string): { text: string; voice: stri
     const t = text && sayable(text)
     if (t) out.set(`${voice}|${t}`, { text: t, voice })
   }
-  const s = getStory(lessonId)
-  if (s) {
-    const v = s.friend.voice
+  for (const s of getStories(lessonId)) {
+    const v = friendVoice(s)
+    const pv = playerVoice(s)
     for (const n of s.nodes) {
       add(n.en, v)
       for (const c of n.choices) {
         add(c.reply?.en, v)
-        if (c.kind === 'good') add(c.en, PLAYER_VOICE)
+        if (c.kind === 'good') add(c.en, pv)
       }
     }
     for (const e of s.endings) add(e.en, v)
@@ -213,9 +230,18 @@ function checkToolkit(errs: string[], where: string, ids: string[] | undefined, 
 
 const hasLine = (l: Partial<Line> | undefined) => !!l && typeof l.en === 'string' && !!l.en.trim() && typeof l.vi === 'string' && !!l.vi.trim()
 
+/** Mọi nhân vật phải biết nam/nữ (để chọn giọng) — hoặc ghi rõ `voice`. */
+function checkNames(errs: string[], x: Chat | Story) {
+  if (!x.id?.trim()) errs.push('thiếu id kịch bản')
+  for (const who of [x.friend, x.player]) {
+    if (who && !who.voice && !NAME_GENDER[who.name]) errs.push(`chưa biết nam/nữ của “${who.name}” — thêm vào NAME_GENDER`)
+  }
+}
+
 export function validateStory(story: Story, lesson: Lesson): string[] {
   const errs: string[] = []
   if (story.lessonId !== lesson.id) errs.push(`lessonId “${story.lessonId}” khác bài “${lesson.id}”`)
+  checkNames(errs, story)
   const ids = new Set<string>()
   for (const n of story.nodes) {
     if (ids.has(n.id)) errs.push(`node “${n.id}” bị trùng id`)
@@ -296,10 +322,7 @@ export function allPaths(story: Story, limit = 1000): string[][] {
 export function validateChat(chat: Chat, lesson: Lesson): string[] {
   const errs: string[] = []
   if (chat.lessonId !== lesson.id) errs.push(`lessonId “${chat.lessonId}” khác bài “${lesson.id}”`)
-  if (!chat.id?.trim()) errs.push('thiếu id kịch bản')
-  for (const who of [chat.friend, chat.player]) {
-    if (who && !who.voice && !NAME_VOICES[who.name]) errs.push(`chưa biết giọng nam/nữ của “${who.name}” — thêm vào NAME_VOICES`)
-  }
+  checkNames(errs, chat)
   if (!(chat.seconds >= 5)) errs.push('seconds phải ≥ 5')
   if (!hasLine(chat.timeout)) errs.push('timeout thiếu en/vi')
   if (!chat.turns.length) errs.push('cần ít nhất 1 lượt')
@@ -338,17 +361,22 @@ function readEndings(): Record<string, string[]> {
   }
 }
 
-export const unlockedEndings = (lessonId: string): string[] => {
-  const v = readEndings()[lessonId]
-  return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []
+const strs = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [])
+/** Khoá lưu theo từng phim: “bài/phim”. Dữ liệu cũ (chỉ theo bài) thuộc phim đầu tiên của bài. */
+const endingsKey = (lessonId: string, storyId: string) => `${lessonId}/${storyId}`
+
+export const unlockedEndings = (lessonId: string, storyId: string): string[] => {
+  const all = readEndings()
+  const legacy = getStories(lessonId)[0]?.id === storyId ? strs(all[lessonId]) : []
+  return [...new Set([...legacy, ...strs(all[endingsKey(lessonId, storyId)])])]
 }
 
 /** Lưu cái kết vừa mở; trả về danh sách đã mở (kể cả khi không lưu được). */
-export function unlockEnding(lessonId: string, endingId: string): string[] {
+export function unlockEnding(lessonId: string, storyId: string, endingId: string): string[] {
   const all = readEndings()
-  const list = [...new Set([...unlockedEndings(lessonId), endingId])]
+  const list = [...new Set([...unlockedEndings(lessonId, storyId), endingId])]
   try {
-    localStorage.setItem(ENDINGS_KEY, JSON.stringify({ ...all, [lessonId]: list }))
+    localStorage.setItem(ENDINGS_KEY, JSON.stringify({ ...all, [endingsKey(lessonId, storyId)]: list }))
   } catch { /* không lưu được (chế độ riêng tư…) */ }
   return list
 }

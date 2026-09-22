@@ -1,292 +1,1086 @@
 {
   "lessonId": "level2-01",
-  "title": "Gặp lại Mai ở quán cà phê",
-  "setting": "Bạn đang xếp hàng mua cà phê thì một cô gái quay lại nhìn bạn chăm chú… Đó là Mai — bạn cùng lớp cấp 3, đã 8 năm không gặp!",
-  "friend": { "name": "Mai", "voice": "af_heart" },
-  "start": "t1",
-  "nodes": [
+  "stories": [
     {
-      "id": "t1",
-      "en": "Wait a second... is that really you? We were in the same class in high school!",
-      "vi": "Khoan đã… có phải cậu thật không? Hồi cấp 3 tụi mình học cùng lớp mà!",
-      "next": "t2",
-      "choices": [
+      "id": "mai-cafe",
+      "title": "Gặp lại Mai ở quán cà phê",
+      "setting": "Bạn đang xếp hàng mua cà phê thì một cô gái quay lại nhìn bạn chăm chú… Đó là Mai — bạn cùng lớp cấp 3, đã 8 năm không gặp!",
+      "scene": "cafe",
+      "friend": {
+        "name": "Mai"
+      },
+      "start": "t1",
+      "nodes": [
         {
-          "kind": "good",
-          "en": "Mai! Long time no see! I almost didn't recognize you!",
-          "vi": "Mai! Lâu lắm không gặp! Suýt nữa không nhận ra cậu!",
-          "toolkit": ["g1", "g2"],
-          "explain": "Gọi tên + “Long time no see!” là câu chào bật ra tự nhiên khi gặp lại bạn cũ lâu năm; “I almost didn't recognize you!” thêm chút bất ngờ, thân mật.",
-          "reply": { "en": "Ha! I know, I cut my hair short. It's so good to see you!", "vi": "Ha! Biết mà, tớ cắt tóc ngắn rồi. Gặp cậu vui quá!" }
+          "id": "t1",
+          "en": "Wait a second... is that really you? We were in the same class in high school!",
+          "vi": "Khoan đã… có phải cậu thật không? Hồi cấp 3 tụi mình học cùng lớp mà!",
+          "next": "t2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Mai! Long time no see! I almost didn't recognize you!",
+              "vi": "Mai! Lâu lắm không gặp! Suýt nữa không nhận ra cậu!",
+              "toolkit": [
+                "g1",
+                "g2"
+              ],
+              "explain": "Gọi tên + “Long time no see!” là câu chào bật ra tự nhiên khi gặp lại bạn cũ lâu năm; “I almost didn't recognize you!” thêm chút bất ngờ, thân mật.",
+              "reply": {
+                "en": "Ha! I know, I cut my hair short. It's so good to see you!",
+                "vi": "Ha! Biết mà, tớ cắt tóc ngắn rồi. Gặp cậu vui quá!"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Hello. Nice to meet you.",
+              "vi": "Xin chào. Rất vui được gặp bạn.",
+              "explain": "Đúng ngữ pháp, nhưng “Nice to meet you” chỉ dùng khi gặp ai đó LẦN ĐẦU — với bạn cũ, nghe như cậu đã quên mất người ta.",
+              "reply": {
+                "en": "Meet me? We sat next to each other for three years!",
+                "vi": "Gặp lần đầu á? Tụi mình ngồi cạnh nhau ba năm liền mà!"
+              },
+              "next": "t1b"
+            },
+            {
+              "kind": "rude",
+              "en": "Yes. What do you want?",
+              "vi": "Ừ. Muốn gì?",
+              "explain": "Cộc lốc, nghe như khó chịu vì bị làm phiền — bạn cũ đang mừng rỡ sẽ chột dạ ngay.",
+              "reply": {
+                "en": "Oh... um, sorry. I just wanted to say hi.",
+                "vi": "Ơ… ừm, xin lỗi. Tớ chỉ muốn chào thôi."
+              },
+              "next": "t1b"
+            }
+          ]
         },
         {
-          "kind": "off",
-          "en": "Hello. Nice to meet you.",
-          "vi": "Xin chào. Rất vui được gặp bạn.",
-          "explain": "Đúng ngữ pháp, nhưng “Nice to meet you” chỉ dùng khi gặp ai đó LẦN ĐẦU — với bạn cũ, nghe như cậu đã quên mất người ta.",
-          "reply": { "en": "Meet me? We sat next to each other for three years!", "vi": "Gặp lần đầu á? Tụi mình ngồi cạnh nhau ba năm liền mà!" },
-          "next": "t1b"
+          "id": "t1b",
+          "en": "Don't you remember me? It's Mai! We used to sit together in class.",
+          "vi": "Cậu không nhớ tớ à? Mai đây! Hồi trước tụi mình ngồi cùng bàn đó.",
+          "next": "t2",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Of course I remember! Sorry, I'm just surprised. It's so good to see you again!",
+              "vi": "Nhớ chứ! Xin lỗi, tại tớ bất ngờ quá. Mừng quá được gặp lại cậu!",
+              "toolkit": [
+                "g5"
+              ],
+              "explain": "Cứu vãn khéo: xin lỗi nhẹ, giải thích vì bất ngờ, rồi “It's so good to see you again!” thể hiện niềm vui thật lòng.",
+              "reply": {
+                "en": "Phew! For a second I thought I had the wrong person.",
+                "vi": "Phù! Tớ cứ tưởng mình nhận nhầm người."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Yes, I remember you. You were a student in my class.",
+              "vi": "Ừ, tôi nhớ bạn. Bạn là học sinh lớp tôi.",
+              "explain": "Đúng ngữ pháp nhưng khô như đọc hồ sơ — không có chút vui mừng nào khi gặp lại bạn thân cũ.",
+              "reply": {
+                "en": "Ha... yes, that's one way to say it.",
+                "vi": "Ha… ừ, nói vậy cũng đúng."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Not really. There were a lot of students.",
+              "vi": "Không nhớ lắm. Lớp đông mà.",
+              "explain": "Nói thẳng là không nhớ và coi người ta như “một trong số đông” — rất dễ làm bạn tổn thương.",
+              "reply": {
+                "en": "Oh. Right... it was a long time ago.",
+                "vi": "Ồ. Ừ nhỉ… lâu lắm rồi mà."
+              }
+            }
+          ]
         },
         {
-          "kind": "rude",
-          "en": "Yes. What do you want?",
-          "vi": "Ừ. Muốn gì?",
-          "explain": "Cộc lốc, nghe như khó chịu vì bị làm phiền — bạn cũ đang mừng rỡ sẽ chột dạ ngay.",
-          "reply": { "en": "Oh... um, sorry. I just wanted to say hi.", "vi": "Ơ… ừm, xin lỗi. Tớ chỉ muốn chào thôi." },
-          "next": "t1b"
+          "id": "t2",
+          "en": "I just moved back to the city last week, and this is the first café I tried!",
+          "vi": "Tớ mới chuyển về thành phố tuần trước, và đây là quán cà phê đầu tiên tớ ghé!",
+          "next": "t3",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "What are the odds! I come here every single morning.",
+              "vi": "Trùng hợp ghê! Sáng nào tớ cũng ra quán này.",
+              "toolkit": [
+                "s1"
+              ],
+              "explain": "“What are the odds!” diễn tả sự trùng hợp cực hiếm — đúng lúc tình cờ gặp nhau ở quán mình hay tới.",
+              "reply": {
+                "en": "No way! Then we're basically neighbors now!",
+                "vi": "Không thể nào! Vậy là tụi mình coi như hàng xóm luôn!"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "I see. That is an interesting piece of information.",
+              "vi": "Tôi hiểu. Đó là một thông tin thú vị.",
+              "explain": "Đúng ngữ pháp nhưng trang trọng, lạnh như đang họp — mất hẳn sự hào hứng của một cuộc tình cờ gặp lại.",
+              "reply": {
+                "en": "Um... yes, I guess it is.",
+                "vi": "Ừm… chắc là vậy."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Why here? This is my café.",
+              "vi": "Sao lại là quán này? Quán của tớ mà.",
+              "explain": "Nghe như trách móc, giành chỗ — kém lịch sự, khiến bạn thấy mình không được chào đón.",
+              "reply": {
+                "en": "Oh... sorry, I didn't know it was yours.",
+                "vi": "Ơ… xin lỗi, tớ không biết đây là quán của cậu."
+              }
+            }
+          ]
+        },
+        {
+          "id": "t3",
+          "en": "Seriously, it's been ages! How long has it been — eight years?",
+          "vi": "Thật đấy, lâu ơi là lâu! Bao lâu rồi nhỉ — tám năm?",
+          "next": "t4",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "At least! So, how have you been? What have you been up to?",
+              "vi": "Ít nhất là vậy! Thế dạo này cậu sao rồi? Bao lâu nay làm gì?",
+              "toolkit": [
+                "c1",
+                "c2"
+              ],
+              "explain": "“How have you been?” + “What have you been up to?” hỏi thăm cả quãng thời gian xa cách — đúng kiểu gặp lại sau nhiều năm.",
+              "reply": {
+                "en": "Oh, where do I even start?",
+                "vi": "Ôi, biết kể từ đâu bây giờ?"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Are you fine? I am fine, thank you.",
+              "vi": "Bạn khoẻ không? Tôi khoẻ, cảm ơn.",
+              "explain": "Câu kiểu sách giáo khoa, chỉ hỏi “hôm nay” — không hỏi thăm được 8 năm qua bạn ấy sống thế nào.",
+              "reply": {
+                "en": "Ha, yes, I'm fine... thank you.",
+                "vi": "Ha, ừ, tớ khoẻ… cảm ơn."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Eight years? Wow, you look much older now.",
+              "vi": "Tám năm á? Chà, trông cậu già đi nhiều.",
+              "explain": "Chê người khác già đi — rất bất lịch sự, nhất là khi vừa gặp lại.",
+              "reply": {
+                "en": "Oh... thanks, I guess.",
+                "vi": "Ơ… cảm ơn, chắc vậy."
+              }
+            }
+          ]
+        },
+        {
+          "id": "t4",
+          "en": "I've been working in Singapore for five years, but I finally came home. How's life treating you?",
+          "vi": "Tớ làm ở Singapore năm năm, cuối cùng cũng về nhà. Còn cậu, dạo này ổn không?",
+          "next": "t5",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Pretty good! Actually, I've got some big news — I'm opening my own bakery!",
+              "vi": "Khá ổn! Thật ra tớ có tin lớn đây — tớ sắp mở tiệm bánh riêng!",
+              "toolkit": [
+                "n4",
+                "n3"
+              ],
+              "explain": "“Actually, …” + “I've got some big news” mở màn kể tin vui thật tự nhiên, khiến bạn tò mò muốn nghe tiếp.",
+              "reply": {
+                "en": "No way! That's amazing — you always made the best cakes!",
+                "vi": "Không thể nào! Tuyệt quá — hồi xưa cậu làm bánh ngon nhất lớp!"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Same old, same old.",
+              "vi": "Vẫn vậy thôi.",
+              "explain": "“Same old, same old” hợp khi hai người gặp nhau thường xuyên. Sau 8 năm mà nói vậy thì cụt hứng — chẳng chia sẻ gì với bạn.",
+              "reply": {
+                "en": "Oh... okay. Nothing new at all?",
+                "vi": "Ồ… vậy à. Không có gì mới hết sao?"
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Why do you care? Anyway, Singapore sounds boring.",
+              "vi": "Hỏi làm gì? Mà Singapore nghe chán phèo.",
+              "explain": "Gạt phắt câu hỏi và chê nơi bạn vừa sống — vừa lạnh lùng vừa kém lịch sự.",
+              "reply": {
+                "en": "Oh. Well... I liked it there.",
+                "vi": "Ồ. Thì… tớ thấy ở đó cũng thích mà."
+              }
+            }
+          ]
+        },
+        {
+          "id": "t5",
+          "en": "My parents are coming back from Da Lat tomorrow. They'll be so surprised when I tell them I saw you!",
+          "vi": "Mai bố mẹ tớ ở Đà Lạt về. Kể là gặp cậu chắc bố mẹ bất ngờ lắm!",
+          "next": "t6",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Say hi to them for me! How's the family? Is your little brother still crazy about football?",
+              "vi": "Cho tớ gửi lời chào nhé! Gia đình cậu thế nào? Em trai cậu còn mê bóng đá không?",
+              "toolkit": [
+                "c4"
+              ],
+              "explain": "“How's the family?” hỏi thăm gia đình, lại còn nhớ chi tiết cũ về em trai — cho thấy cậu thật sự quan tâm.",
+              "reply": {
+                "en": "Ha! He's a football coach now, can you believe it?",
+                "vi": "Ha! Giờ nó làm huấn luyện viên bóng đá luôn, tin nổi không?"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "Please give my kind regards to your parents.",
+              "vi": "Xin vui lòng chuyển lời hỏi thăm trân trọng của tôi tới bố mẹ bạn.",
+              "explain": "Lịch sự nhưng trang trọng như viết thư công việc — với bạn thân cũ nghe xa cách, thiếu ấm áp.",
+              "reply": {
+                "en": "Ha... sure, I'll tell them.",
+                "vi": "Ha… ừ, tớ sẽ nói lại."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "I don't really remember your parents.",
+              "vi": "Tớ chẳng nhớ bố mẹ cậu lắm.",
+              "explain": "Thật thà quá mức làm bạn hụt hẫng — nên đáp khéo hơn, ví dụ gửi lời chào.",
+              "reply": {
+                "en": "Oh... right. It was a long time ago.",
+                "vi": "Ồ… ừ. Cũng lâu lắm rồi."
+              }
+            }
+          ]
+        },
+        {
+          "id": "t6",
+          "en": "Oh, and guess what? My new office is right across the street, in that blue building.",
+          "vi": "À, đoán xem? Văn phòng mới của tớ ở ngay bên kia đường, trong toà nhà màu xanh đó.",
+          "next": "t7",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "What a small world! My sister works in that building too!",
+              "vi": "Trái đất tròn thật! Chị tớ cũng làm ở toà đó!",
+              "toolkit": [
+                "s2"
+              ],
+              "explain": "“What a small world!” dùng khi phát hiện một mối liên hệ bất ngờ — chuẩn tình huống.",
+              "reply": {
+                "en": "Seriously? Then we'll see each other all the time!",
+                "vi": "Thật á? Vậy là sẽ gặp nhau suốt cho xem!"
+              }
+            },
+            {
+              "kind": "off",
+              "en": "That's nice. It's really hot today, isn't it?",
+              "vi": "Hay đấy. Hôm nay nóng thật nhỉ?",
+              "explain": "Đúng ngữ pháp nhưng lảng sang chuyện thời tiết — như không quan tâm tới tin của bạn.",
+              "reply": {
+                "en": "Um... yes, it's really hot.",
+                "vi": "Ừm… ừ, nóng thật."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "That building? It's so ugly.",
+              "vi": "Toà đó á? Xấu hoắc.",
+              "explain": "Chê chỗ làm mới của bạn — thẳng thừng và kém tế nhị.",
+              "reply": {
+                "en": "Oh... I kind of like it.",
+                "vi": "Ơ… tớ thấy cũng được mà."
+              }
+            }
+          ]
+        },
+        {
+          "id": "t7",
+          "en": "Oh no, look at the time! I have to meet a client in ten minutes.",
+          "vi": "Thôi chết, muộn rồi! Mười phút nữa tớ phải gặp khách hàng.",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "We should catch up properly! Are you on Zalo?",
+              "vi": "Phải hẹn nói chuyện đàng hoàng mới được! Cậu có Zalo không?",
+              "toolkit": [
+                "w1",
+                "w3"
+              ],
+              "explain": "Kết thúc khéo: hẹn nói chuyện đàng hoàng (“catch up properly”) và xin Zalo để giữ liên lạc.",
+              "reply": {
+                "en": "Of course! Let's not leave it so long this time.",
+                "vi": "Có chứ! Lần này đừng để lâu thế nữa nhé."
+              }
+            },
+            {
+              "kind": "off",
+              "en": "OK. It was nice to meet you.",
+              "vi": "Ừ. Rất vui được làm quen.",
+              "explain": "“Nice to meet you” dành cho người mới quen — nghe như hai người xa lạ, và cũng không giữ liên lạc.",
+              "reply": {
+                "en": "Oh... yes. Nice to... see you too.",
+                "vi": "Ơ… ừ. Vui được… gặp lại cậu."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Finally! I have to go too.",
+              "vi": "Cuối cùng! Tớ cũng phải đi đây.",
+              "explain": "“Finally!” nghe như mừng vì cuộc nói chuyện kết thúc — rất phũ.",
+              "reply": {
+                "en": "Oh... okay. Bye, then.",
+                "vi": "Ơ… ừ. Vậy chào nhé."
+              }
+            }
+          ]
+        }
+      ],
+      "endings": [
+        {
+          "id": "coffee",
+          "min": 85,
+          "icon": "☕",
+          "title": "Hai bạn trao Zalo và hẹn cà phê",
+          "desc": "Mai lưu ngay Zalo của bạn và hẹn sáng thứ Bảy gặp lại ở chính quán này — còn rủ cả lớp họp mặt!",
+          "mood": "happy",
+          "en": "See you on Saturday — I'll bring our old class photos!",
+          "vi": "Hẹn thứ Bảy nhé — tớ sẽ mang ảnh lớp mình ngày xưa!"
+        },
+        {
+          "id": "zalo",
+          "min": 65,
+          "icon": "📱",
+          "title": "Kết bạn Zalo, hứa sẽ nhắn tin",
+          "desc": "Hai bạn kết bạn Zalo và hứa sẽ nhắn tin… nhưng chưa hẹn ngày gặp cụ thể.",
+          "mood": "happy",
+          "en": "I'll text you later, okay? Take care!",
+          "vi": "Lát tớ nhắn cho cậu nhé? Giữ gìn sức khoẻ!"
+        },
+        {
+          "id": "bye",
+          "min": 40,
+          "icon": "👋",
+          "title": "Chào tạm biệt vui vẻ nhưng chưa hẹn gặp",
+          "desc": "Cuộc trò chuyện khá ổn, nhưng hai bạn chia tay mà không trao đổi liên lạc.",
+          "mood": "idle",
+          "en": "Well, it was nice seeing you. Bye!",
+          "vi": "Thôi, gặp cậu vui lắm. Chào nhé!"
+        },
+        {
+          "id": "awkward",
+          "min": 0,
+          "icon": "😬",
+          "title": "Cuộc gặp hơi gượng…",
+          "desc": "Mai cười gượng rồi vội vàng rời đi. Chơi lại và thử chọn câu thân thiện hơn nhé!",
+          "mood": "awkward",
+          "en": "Um... I really have to go. Bye.",
+          "vi": "Ừm… tớ phải đi thật rồi. Chào."
         }
       ]
     },
     {
-      "id": "t1b",
-      "en": "Don't you remember me? It's Mai! We used to sit together in class.",
-      "vi": "Cậu không nhớ tớ à? Mai đây! Hồi trước tụi mình ngồi cùng bàn đó.",
-      "next": "t2",
-      "choices": [
+      "id": "tuan-street",
+      "title": "Gặp lại Tuấn trên phố",
+      "setting": "Bạn đang vội đi làm thì nghe ai đó gọi tên mình… Là Tuấn — đồng nghiệp cũ ở PTALK, đã 3 năm không gặp! Bạn vào vai Linh.",
+      "scene": "street",
+      "friend": {
+        "name": "Tuấn"
+      },
+      "player": {
+        "name": "Linh"
+      },
+      "start": "b1",
+      "nodes": [
         {
-          "kind": "good",
-          "en": "Of course I remember! Sorry, I'm just surprised. It's so good to see you again!",
-          "vi": "Nhớ chứ! Xin lỗi, tại tớ bất ngờ quá. Mừng quá được gặp lại cậu!",
-          "toolkit": ["g5"],
-          "explain": "Cứu vãn khéo: xin lỗi nhẹ, giải thích vì bất ngờ, rồi “It's so good to see you again!” thể hiện niềm vui thật lòng.",
-          "reply": { "en": "Phew! For a second I thought I had the wrong person.", "vi": "Phù! Tớ cứ tưởng mình nhận nhầm người." }
+          "id": "b1",
+          "en": "Linh? Linh from PTALK? Is that really you?",
+          "vi": "Linh? Linh ở PTALK phải không? Cậu thật đấy à?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Tuấn! What are the odds! It's been ages!",
+              "vi": "Tuấn! Trùng hợp quá! Lâu lắm rồi!",
+              "explain": "Vui mừng, bất ngờ đúng lúc — dùng 2 cụm gặp lại rất tự nhiên.",
+              "reply": {
+                "en": "I know! Three years at least! You look great!",
+                "vi": "Đúng vậy! Ít nhất ba năm rồi! Trông cậu tuyệt lắm!"
+              },
+              "toolkit": [
+                "s1",
+                "g4"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Yes, I am Linh. Good morning.",
+              "vi": "Vâng, tôi là Linh. Chào buổi sáng.",
+              "explain": "Đúng ngữ pháp nhưng cứng như đi phỏng vấn — thiếu niềm vui gặp lại bạn cũ.",
+              "reply": {
+                "en": "Ha... good morning to you too.",
+                "vi": "Ha… chào buổi sáng."
+              },
+              "next": "b1b"
+            },
+            {
+              "kind": "rude",
+              "en": "Yes. I'm late, so be quick.",
+              "vi": "Ừ. Mình trễ rồi, nói nhanh đi.",
+              "explain": "Vội vàng và cộc lốc — làm bạn cũ cụt hứng ngay câu đầu.",
+              "reply": {
+                "en": "Oh... sorry, I'll be quick.",
+                "vi": "Ơ… xin lỗi, mình nói nhanh thôi."
+              },
+              "next": "b1b"
+            }
+          ],
+          "next": "b2"
         },
         {
-          "kind": "off",
-          "en": "Yes, I remember you. You were a student in my class.",
-          "vi": "Ừ, tôi nhớ bạn. Bạn là học sinh lớp tôi.",
-          "explain": "Đúng ngữ pháp nhưng khô như đọc hồ sơ — không có chút vui mừng nào khi gặp lại bạn thân cũ.",
-          "reply": { "en": "Ha... yes, that's one way to say it.", "vi": "Ha… ừ, nói vậy cũng đúng." }
+          "id": "b1b",
+          "en": "It's me, Tuấn! We worked on the same team for two years, remember?",
+          "vi": "Mình đây, Tuấn nè! Tụi mình làm cùng nhóm hai năm, nhớ không?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Of course! Sorry, I was miles away. I can't believe it's you!",
+              "vi": "Tất nhiên rồi! Xin lỗi, mình đang lơ đãng. Không tin nổi là cậu!",
+              "explain": "Xin lỗi khéo rồi bày tỏ niềm vui gặp lại — cứu vãn tình huống.",
+              "reply": {
+                "en": "Ha! For a second I thought you'd forgotten me.",
+                "vi": "Ha! Mình cứ tưởng cậu quên mình rồi."
+              },
+              "toolkit": [
+                "s4"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Yes, I remember. You were my colleague.",
+              "vi": "Ừ, mình nhớ. Cậu từng là đồng nghiệp của mình.",
+              "explain": "Đúng nhưng nhạt — như đọc lý lịch.",
+              "reply": {
+                "en": "Ha... yes, that's one way to put it.",
+                "vi": "Ha… ừ, nói vậy cũng được."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Maybe. There were a lot of people.",
+              "vi": "Chắc vậy. Hồi đó đông người lắm.",
+              "explain": "Tỏ ra không nhớ — làm bạn cũ chạnh lòng.",
+              "reply": {
+                "en": "Oh. Right... it was a while ago.",
+                "vi": "Ồ. Ừ… cũng lâu rồi."
+              }
+            }
+          ],
+          "next": "b2"
         },
         {
-          "kind": "rude",
-          "en": "Not really. There were a lot of students.",
-          "vi": "Không nhớ lắm. Lớp đông mà.",
-          "explain": "Nói thẳng là không nhớ và coi người ta như “một trong số đông” — rất dễ làm bạn tổn thương.",
-          "reply": { "en": "Oh. Right... it was a long time ago.", "vi": "Ồ. Ừ nhỉ… lâu lắm rồi mà." }
+          "id": "b2",
+          "en": "So, how have you been? Are you still at PTALK?",
+          "vi": "Vậy dạo này cậu thế nào? Vẫn làm ở PTALK chứ?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Really good, thanks! Actually, I'm leading the team now.",
+              "vi": "Tốt lắm, cảm ơn cậu! Thật ra giờ mình đang dẫn dắt cả nhóm.",
+              "explain": "Đáp lời hỏi thăm rồi báo tin mới bằng “Actually, …” — đúng kiểu cập nhật tin tức.",
+              "reply": {
+                "en": "Wow, team leader! You earned it.",
+                "vi": "Oa, trưởng nhóm luôn! Cậu xứng đáng mà."
+              },
+              "toolkit": [
+                "n4"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "I have been at PTALK. PTALK is a company.",
+              "vi": "Mình đã ở PTALK. PTALK là một công ty.",
+              "explain": "Trả lời như đọc sách, không có thông tin gì mới — cuộc trò chuyện bị chững lại.",
+              "reply": {
+                "en": "Um... yes, I know it's a company.",
+                "vi": "Ừm… ừ, mình biết nó là công ty mà."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Why? Do you want my job?",
+              "vi": "Sao? Cậu muốn giành việc của mình à?",
+              "explain": "Nghi ngờ, phòng thủ vô cớ — Tuấn chỉ đang hỏi thăm.",
+              "reply": {
+                "en": "What? No, no... I was just asking.",
+                "vi": "Hả? Không, không… mình chỉ hỏi thôi."
+              }
+            }
+          ],
+          "next": "b3"
+        },
+        {
+          "id": "b3",
+          "en": "Me? Believe it or not, I quit last year and started my own business!",
+          "vi": "Mình á? Tin được không, năm ngoái mình nghỉ việc và tự kinh doanh!",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "No way — good for you! So what have you been up to since then?",
+              "vi": "Không thể nào — giỏi quá! Vậy từ đó tới giờ cậu làm những gì rồi?",
+              "explain": "Chúc mừng thật lòng và hỏi tiếp để bạn được kể thêm.",
+              "reply": {
+                "en": "A small coffee brand! We just opened our second shop.",
+                "vi": "Một thương hiệu cà phê nhỏ! Tụi mình vừa mở cửa hàng thứ hai."
+              },
+              "toolkit": [
+                "s3",
+                "c2"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Business is difficult. Many businesses fail.",
+              "vi": "Kinh doanh khó lắm. Nhiều nơi thất bại.",
+              "explain": "Nói sự thật phũ phàng đúng lúc bạn đang hào hứng — lạc sắc thái.",
+              "reply": {
+                "en": "Ha... yes, I know. Thanks for the reminder.",
+                "vi": "Ha… ừ, mình biết. Cảm ơn đã nhắc nhé."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "You quit? That was a stupid idea.",
+              "vi": "Cậu nghỉ á? Ý tưởng ngớ ngẩn thật.",
+              "explain": "Chê thẳng quyết định của bạn — rất kém lịch sự.",
+              "reply": {
+                "en": "Oh... well, I'm happy with it.",
+                "vi": "Ồ… mình thấy vui với nó mà."
+              }
+            }
+          ],
+          "next": "b4"
+        },
+        {
+          "id": "b4",
+          "en": "It's a lot of work, but I don't regret it. And you look so happy!",
+          "vi": "Vất vả lắm, nhưng mình không hối hận. Mà trông cậu vui thế!",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "I am! And I've got some big news — I'm getting married next month!",
+              "vi": "Có chứ! Mà mình có tin lớn — tháng sau mình cưới!",
+              "explain": "Dùng “I've got some big news” để mở màn tin vui — tự nhiên và hào hứng.",
+              "reply": {
+                "en": "Congratulations!! That's amazing news!",
+                "vi": "Chúc mừng!! Tin tuyệt vời quá!"
+              },
+              "toolkit": [
+                "n3"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Yes. My face is happy.",
+              "vi": "Ừ. Mặt mình vui.",
+              "explain": "Dịch từng chữ nên nghe kỳ và máy móc.",
+              "reply": {
+                "en": "Ha... okay, good to know.",
+                "vi": "Ha… ừ, biết rồi."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Stop looking at my face.",
+              "vi": "Đừng nhìn mặt mình nữa.",
+              "explain": "Gắt gỏng vô cớ khi bạn đang khen mình.",
+              "reply": {
+                "en": "Oh! Sorry, I didn't mean...",
+                "vi": "Ơ! Xin lỗi, mình không có ý…"
+              }
+            }
+          ],
+          "next": "b5"
+        },
+        {
+          "id": "b5",
+          "en": "Do you still hear from the others? Nam, Hoa, the whole old team?",
+          "vi": "Cậu còn liên lạc với mọi người không? Nam, Hoa, cả nhóm cũ ấy?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Not really. But what a small world — I saw Hoa on this street last week!",
+              "vi": "Không nhiều lắm. Nhưng trái đất tròn thật — tuần trước mình gặp Hoa ngay phố này!",
+              "explain": "Trả lời thật lòng rồi kể chuyện tình cờ — “What a small world” dùng đúng chỗ.",
+              "reply": {
+                "en": "Seriously? This street is full of old friends!",
+                "vi": "Thật á? Con phố này toàn bạn cũ!"
+              },
+              "toolkit": [
+                "s2"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "I hear from the radio every morning.",
+              "vi": "Sáng nào mình cũng nghe đài.",
+              "explain": "Hiểu sai “hear from someone” — nghĩa là có tin tức, liên lạc với ai.",
+              "reply": {
+                "en": "Um... I meant our old team.",
+                "vi": "Ừm… ý mình là nhóm cũ ấy."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "No. I don't miss that team at all.",
+              "vi": "Không. Mình chẳng nhớ gì nhóm đó.",
+              "explain": "Chê nhóm cũ trước mặt người trong nhóm — kém tế nhị.",
+              "reply": {
+                "en": "Oh... okay. I had good times there.",
+                "vi": "Ồ… vậy à. Mình thì có nhiều kỷ niệm vui ở đó."
+              }
+            }
+          ],
+          "next": "b6"
+        },
+        {
+          "id": "b6",
+          "en": "Oh no, my bus is here! I have to run!",
+          "vi": "Ôi, xe buýt của mình tới rồi! Mình phải chạy đây!",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Let's not leave it so long this time! Give me your number.",
+              "vi": "Lần này đừng để lâu vậy nữa nhé! Cho mình số điện thoại đi.",
+              "explain": "Chủ động giữ liên lạc bằng 2 cụm kết thúc trò chuyện chuẩn.",
+              "reply": {
+                "en": "Of course! Here — text me this weekend!",
+                "vi": "Tất nhiên! Đây — cuối tuần nhắn mình nhé!"
+              },
+              "toolkit": [
+                "w2",
+                "w4"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "OK. Nice to meet you.",
+              "vi": "Ừ. Rất vui được làm quen.",
+              "explain": "“Nice to meet you” dùng cho lần đầu gặp — với bạn cũ nên nói “Nice to see you”.",
+              "reply": {
+                "en": "Ha... nice to see you too.",
+                "vi": "Ha… gặp lại cậu cũng vui."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Good. I'm late anyway.",
+              "vi": "Tốt. Dù sao mình cũng trễ rồi.",
+              "explain": "Nghe như mừng vì bạn đi — rất phũ.",
+              "reply": {
+                "en": "Oh... right. Bye, then.",
+                "vi": "Ồ… ừ. Thôi chào nhé."
+              }
+            }
+          ]
+        }
+      ],
+      "endings": [
+        {
+          "id": "t-shop",
+          "min": 85,
+          "icon": "☕",
+          "title": "Trao số và hẹn cà phê ở quán của Tuấn",
+          "desc": "Tuấn lưu số của bạn, hẹn thứ Bảy mời cà phê ở quán mới — còn hứa sẽ tới dự đám cưới của bạn!",
+          "mood": "happy",
+          "en": "Come by my shop on Saturday — coffee's on me!",
+          "vi": "Thứ Bảy ghé quán mình nhé — mình mời cà phê!"
+        },
+        {
+          "id": "t-text",
+          "min": 65,
+          "icon": "📱",
+          "title": "Hứa sẽ nhắn tin cho nhau",
+          "desc": "Hai bạn hứa sẽ nhắn tin cho nhau… nhưng chưa hẹn ngày gặp cụ thể.",
+          "mood": "happy",
+          "en": "I'll message you on Zalo, okay? Take care!",
+          "vi": "Mình nhắn Zalo cho cậu nhé? Giữ gìn sức khoẻ!"
+        },
+        {
+          "id": "t-bye",
+          "min": 40,
+          "icon": "👋",
+          "title": "Chào nhau vội vàng",
+          "desc": "Cuộc gặp khá vui, nhưng Tuấn lên xe mà hai bạn chưa kịp trao liên lạc.",
+          "mood": "idle",
+          "en": "Well, good to see you. Bye!",
+          "vi": "Thôi, gặp cậu vui lắm. Chào nhé!"
+        },
+        {
+          "id": "t-awkward",
+          "min": 0,
+          "icon": "😬",
+          "title": "Cuộc gặp hơi gượng…",
+          "desc": "Tuấn cười gượng rồi vội lên xe. Chơi lại và thử chọn câu thân thiện hơn nhé!",
+          "mood": "awkward",
+          "en": "Um... okay. I have to go. Bye.",
+          "vi": "Ừm… ừ. Mình phải đi. Chào."
         }
       ]
     },
     {
-      "id": "t2",
-      "en": "I just moved back to the city last week, and this is the first café I tried!",
-      "vi": "Tớ mới chuyển về thành phố tuần trước, và đây là quán cà phê đầu tiên tớ ghé!",
-      "next": "t3",
-      "choices": [
+      "id": "nam-wedding",
+      "title": "Gặp lại Nam ở tiệc cưới",
+      "setting": "Tại tiệc cưới của một người bạn, bạn ngồi cùng bàn với một anh chàng trông rất quen… Là Nam — bạn ở chung phòng trọ hồi đại học, đã 6 năm mất liên lạc!",
+      "scene": "wedding",
+      "friend": {
+        "name": "Nam"
+      },
+      "start": "w1",
+      "nodes": [
         {
-          "kind": "good",
-          "en": "What are the odds! I come here every single morning.",
-          "vi": "Trùng hợp ghê! Sáng nào tớ cũng ra quán này.",
-          "toolkit": ["s1"],
-          "explain": "“What are the odds!” diễn tả sự trùng hợp cực hiếm — đúng lúc tình cờ gặp nhau ở quán mình hay tới.",
-          "reply": { "en": "No way! Then we're basically neighbors now!", "vi": "Không thể nào! Vậy là tụi mình coi như hàng xóm luôn!" }
+          "id": "w1",
+          "en": "Excuse me... you look familiar — have we met before?",
+          "vi": "Xin lỗi… trông bạn quen quen — mình gặp nhau rồi phải không?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Nam?! I can't believe it's you! We shared that tiny apartment back in college!",
+              "vi": "Nam?! Không tin nổi là cậu! Hồi đại học tụi mình ở chung căn phòng trọ bé xíu đó!",
+              "explain": "Nhận ra bạn cũ với niềm vui thật sự — nhắc kỷ niệm chung rất ghi điểm.",
+              "reply": {
+                "en": "No way! It's you! You haven't changed a bit!",
+                "vi": "Không thể nào! Là cậu thật! Cậu chẳng thay đổi gì cả!"
+              },
+              "toolkit": [
+                "s4",
+                "x10"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Maybe. I meet many people.",
+              "vi": "Có thể. Mình gặp nhiều người lắm.",
+              "explain": "Hờ hững, không cố nhớ ra bạn — nghe xa cách.",
+              "reply": {
+                "en": "Oh... we were roommates in college, remember?",
+                "vi": "Ơ… hồi đại học tụi mình ở chung phòng mà, nhớ không?"
+              },
+              "next": "w1b"
+            },
+            {
+              "kind": "rude",
+              "en": "No. Please don't talk to me.",
+              "vi": "Không. Làm ơn đừng nói chuyện với tôi.",
+              "explain": "Từ chối thẳng thừng — rất kém lịch sự ở tiệc cưới.",
+              "reply": {
+                "en": "Oh... sorry to bother you.",
+                "vi": "Ồ… xin lỗi đã làm phiền."
+              },
+              "next": "w1b"
+            }
+          ],
+          "next": "w2"
         },
         {
-          "kind": "off",
-          "en": "I see. That is an interesting piece of information.",
-          "vi": "Tôi hiểu. Đó là một thông tin thú vị.",
-          "explain": "Đúng ngữ pháp nhưng trang trọng, lạnh như đang họp — mất hẳn sự hào hứng của một cuộc tình cờ gặp lại.",
-          "reply": { "en": "Um... yes, I guess it is.", "vi": "Ừm… chắc là vậy." }
+          "id": "w1b",
+          "en": "It's me, Nam! Room 12, the tiny apartment near the university!",
+          "vi": "Mình đây, Nam nè! Phòng 12, căn trọ bé xíu gần trường ấy!",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Nam! Fancy running into you here! It's so good to see you again!",
+              "vi": "Nam! Không ngờ gặp cậu ở đây! Gặp lại cậu vui quá!",
+              "explain": "Nhận ra bạn, bày tỏ bất ngờ và vui mừng — cứu vãn khéo léo.",
+              "reply": {
+                "en": "Ha! I knew it was you!",
+                "vi": "Ha! Mình biết ngay là cậu mà!"
+              },
+              "toolkit": [
+                "s5",
+                "g5"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Oh. Room 12 was very small.",
+              "vi": "Ồ. Phòng 12 bé lắm.",
+              "explain": "Chỉ nhận xét căn phòng, quên mất người bạn trước mặt.",
+              "reply": {
+                "en": "Ha... yes, it really was.",
+                "vi": "Ha… ừ, bé thật."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "I don't remember. Sorry.",
+              "vi": "Mình không nhớ. Xin lỗi.",
+              "explain": "Lạnh nhạt, không cố nhớ ra bạn cũ.",
+              "reply": {
+                "en": "Oh... never mind, then.",
+                "vi": "Ồ… thôi không sao."
+              }
+            }
+          ],
+          "next": "w2"
         },
         {
-          "kind": "rude",
-          "en": "Why here? This is my café.",
-          "vi": "Sao lại là quán này? Quán của tớ mà.",
-          "explain": "Nghe như trách móc, giành chỗ — kém lịch sự, khiến bạn thấy mình không được chào đón.",
-          "reply": { "en": "Oh... sorry, I didn't know it was yours.", "vi": "Ơ… xin lỗi, tớ không biết đây là quán của cậu." }
+          "id": "w2",
+          "en": "So how do you know the groom?",
+          "vi": "Thế cậu quen chú rể thế nào?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "We go way back — we played on the same football team! And you?",
+              "vi": "Tụi mình quen nhau lâu lắm rồi — từng chung đội bóng! Còn cậu?",
+              "explain": "“We go way back” = quen nhau từ lâu; hỏi lại để trò chuyện tiếp.",
+              "reply": {
+                "en": "Ha! I'm a friend of the bride — I work with her.",
+                "vi": "Ha! Mình là bạn cô dâu — mình làm cùng cô ấy."
+              },
+              "toolkit": [
+                "x17"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "I know him with my eyes.",
+              "vi": "Mình biết anh ấy bằng mắt.",
+              "explain": "Dịch từng chữ nên vô nghĩa trong tiếng Anh.",
+              "reply": {
+                "en": "Ha... okay?",
+                "vi": "Ha… vậy à?"
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "That's none of your business.",
+              "vi": "Không phải việc của cậu.",
+              "explain": "Câu hỏi xã giao bình thường mà trả lời gay gắt.",
+              "reply": {
+                "en": "Oh... sorry, just asking.",
+                "vi": "Ồ… xin lỗi, mình chỉ hỏi thôi."
+              }
+            }
+          ],
+          "next": "w3"
+        },
+        {
+          "id": "w3",
+          "en": "It's been way too long! How's life treating you?",
+          "vi": "Lâu quá rồi! Dạo này cuộc sống thế nào?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Pretty good! You'll never guess what — I became a nurse!",
+              "vi": "Khá tốt! Cậu không đoán được đâu — mình thành y tá rồi!",
+              "explain": "Trả lời rồi hào hứng kể tin bất ngờ bằng “You'll never guess what —”.",
+              "reply": {
+                "en": "No way! Tell me everything!",
+                "vi": "Không thể nào! Kể mình nghe hết đi!"
+              },
+              "toolkit": [
+                "n2"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Life is treating me. Thank you.",
+              "vi": "Cuộc sống đang đối xử với mình. Cảm ơn.",
+              "explain": "Hiểu “How's life treating you?” theo nghĩa đen — câu này hỏi dạo này sống thế nào.",
+              "reply": {
+                "en": "Ha... okay, good.",
+                "vi": "Ha… ừ, tốt."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Terrible. And stop asking questions.",
+              "vi": "Tệ lắm. Mà đừng hỏi nữa.",
+              "explain": "Than thở rồi gạt đi — làm bạn cũ ngại.",
+              "reply": {
+                "en": "Oh... sorry to hear that.",
+                "vi": "Ồ… tiếc quá."
+              }
+            }
+          ],
+          "next": "w4"
+        },
+        {
+          "id": "w4",
+          "en": "A nurse? Wow! Isn't the work really hard?",
+          "vi": "Y tá á? Oa! Công việc không vất vả lắm à?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "It's hard, but I love it. What's new with you?",
+              "vi": "Vất vả nhưng mình thích. Còn cậu có gì mới không?",
+              "explain": "Trả lời ngắn gọn rồi hỏi lại bằng “What's new with you?” — giữ nhịp trò chuyện hai chiều.",
+              "reply": {
+                "en": "I just moved back from Da Nang. New job, new city!",
+                "vi": "Mình vừa từ Đà Nẵng chuyển về. Việc mới, thành phố mới!"
+              },
+              "toolkit": [
+                "c5"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "Yes. Nurses work in hospitals.",
+              "vi": "Ừ. Y tá làm ở bệnh viện.",
+              "explain": "Nói điều ai cũng biết, không chia sẻ gì về bản thân.",
+              "reply": {
+                "en": "Ha... yes, they do.",
+                "vi": "Ha… ừ, đúng vậy."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Hard? It's harder than your job, for sure.",
+              "vi": "Vất vả á? Chắc chắn vất vả hơn việc của cậu.",
+              "explain": "So sánh để hạ thấp công việc của bạn — kém lịch sự.",
+              "reply": {
+                "en": "Oh... maybe, yes.",
+                "vi": "Ồ… chắc vậy."
+              }
+            }
+          ],
+          "next": "w5"
+        },
+        {
+          "id": "w5",
+          "en": "Do you still hear from the others? The guys from room 12?",
+          "vi": "Cậu còn liên lạc với mọi người không? Mấy đứa phòng 12 ấy?",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Sadly no. We really fell out of touch, didn't we? It's been ages!",
+              "vi": "Tiếc là không. Tụi mình mất liên lạc thật rồi nhỉ? Lâu quá rồi!",
+              "explain": "Thừa nhận mất liên lạc một cách nuối tiếc — mở đường cho lời hẹn gặp.",
+              "reply": {
+                "en": "We did. We should have a proper reunion!",
+                "vi": "Đúng vậy. Tụi mình nên họp mặt một buổi đàng hoàng!"
+              },
+              "toolkit": [
+                "x12",
+                "g4"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "I hear them sometimes. They are noisy.",
+              "vi": "Thỉnh thoảng mình nghe thấy họ. Họ ồn lắm.",
+              "explain": "Hiểu sai “hear from” — nghĩa là có tin tức, không phải nghe tiếng.",
+              "reply": {
+                "en": "Ha... I meant, do you keep in touch?",
+                "vi": "Ha… ý mình là cậu còn liên lạc không?"
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "No. I didn't like them.",
+              "vi": "Không. Mình không ưa họ.",
+              "explain": "Chê bạn chung của cả hai — kém tế nhị.",
+              "reply": {
+                "en": "Oh... I thought we all got along.",
+                "vi": "Ồ… mình tưởng cả bọn hợp nhau mà."
+              }
+            }
+          ],
+          "next": "w6"
+        },
+        {
+          "id": "w6",
+          "en": "Oh, they're about to cut the cake! Let's go and watch!",
+          "vi": "Ôi, sắp cắt bánh rồi! Ra xem thôi!",
+          "choices": [
+            {
+              "kind": "good",
+              "en": "Sure! But first — are you on Zalo? We'll sort out a day to meet up!",
+              "vi": "Được! Nhưng trước tiên — cậu có Zalo không? Tụi mình chốt ngày gặp nhé!",
+              "explain": "Chủ động xin liên lạc và hẹn gặp — kết thúc trò chuyện thật ấm áp.",
+              "reply": {
+                "en": "Of course! Here's my QR code.",
+                "vi": "Tất nhiên! Mã QR của mình đây."
+              },
+              "toolkit": [
+                "w3",
+                "w5"
+              ]
+            },
+            {
+              "kind": "off",
+              "en": "OK. Nice to meet you.",
+              "vi": "Ừ. Rất vui được làm quen.",
+              "explain": "“Nice to meet you” dành cho người mới quen — với bạn cũ nên nói “Great to see you”.",
+              "reply": {
+                "en": "Ha... nice to see you too.",
+                "vi": "Ha… gặp lại cậu cũng vui."
+              }
+            },
+            {
+              "kind": "rude",
+              "en": "Go. I'll stay here and eat.",
+              "vi": "Đi đi. Mình ở đây ăn.",
+              "explain": "Nghe hờ hững như đuổi khéo.",
+              "reply": {
+                "en": "Oh... okay. Enjoy, then.",
+                "vi": "Ồ… ừ. Cậu ăn ngon nhé."
+              }
+            }
+          ]
+        }
+      ],
+      "endings": [
+        {
+          "id": "n-reunion",
+          "min": 85,
+          "icon": "🎉",
+          "title": "Hẹn họp mặt hội phòng trọ cũ",
+          "desc": "Nam lưu Zalo của bạn và lập luôn nhóm chat hội phòng trọ — hẹn cả nhóm họp mặt tháng sau!",
+          "mood": "happy",
+          "en": "I'll make a group chat for the old roommates tonight!",
+          "vi": "Tối nay mình lập nhóm chat cho hội phòng trọ cũ nhé!"
+        },
+        {
+          "id": "n-zalo",
+          "min": 65,
+          "icon": "📱",
+          "title": "Kết bạn Zalo",
+          "desc": "Hai bạn kết bạn Zalo và hứa giữ liên lạc… nhưng chưa hẹn ngày gặp.",
+          "mood": "happy",
+          "en": "Let's keep in touch this time, okay?",
+          "vi": "Lần này giữ liên lạc nhé?"
+        },
+        {
+          "id": "n-bye",
+          "min": 40,
+          "icon": "👋",
+          "title": "Vui vẻ rồi mỗi người một ngả",
+          "desc": "Buổi trò chuyện khá ổn, nhưng tiệc tan mà hai bạn chưa trao liên lạc.",
+          "mood": "idle",
+          "en": "Well, enjoy the party!",
+          "vi": "Thôi, cậu vui nhé!"
+        },
+        {
+          "id": "n-awkward",
+          "min": 0,
+          "icon": "😬",
+          "title": "Cuộc gặp hơi gượng…",
+          "desc": "Nam lúng túng quay về bàn mình. Chơi lại và thử chọn câu thân thiện hơn nhé!",
+          "mood": "awkward",
+          "en": "Um... I should go and find my table.",
+          "vi": "Ừm… mình đi tìm bàn mình đây."
         }
       ]
-    },
-    {
-      "id": "t3",
-      "en": "Seriously, it's been ages! How long has it been — eight years?",
-      "vi": "Thật đấy, lâu ơi là lâu! Bao lâu rồi nhỉ — tám năm?",
-      "next": "t4",
-      "choices": [
-        {
-          "kind": "good",
-          "en": "At least! So, how have you been? What have you been up to?",
-          "vi": "Ít nhất là vậy! Thế dạo này cậu sao rồi? Bao lâu nay làm gì?",
-          "toolkit": ["c1", "c2"],
-          "explain": "“How have you been?” + “What have you been up to?” hỏi thăm cả quãng thời gian xa cách — đúng kiểu gặp lại sau nhiều năm.",
-          "reply": { "en": "Oh, where do I even start?", "vi": "Ôi, biết kể từ đâu bây giờ?" }
-        },
-        {
-          "kind": "off",
-          "en": "Are you fine? I am fine, thank you.",
-          "vi": "Bạn khoẻ không? Tôi khoẻ, cảm ơn.",
-          "explain": "Câu kiểu sách giáo khoa, chỉ hỏi “hôm nay” — không hỏi thăm được 8 năm qua bạn ấy sống thế nào.",
-          "reply": { "en": "Ha, yes, I'm fine... thank you.", "vi": "Ha, ừ, tớ khoẻ… cảm ơn." }
-        },
-        {
-          "kind": "rude",
-          "en": "Eight years? Wow, you look much older now.",
-          "vi": "Tám năm á? Chà, trông cậu già đi nhiều.",
-          "explain": "Chê người khác già đi — rất bất lịch sự, nhất là khi vừa gặp lại.",
-          "reply": { "en": "Oh... thanks, I guess.", "vi": "Ơ… cảm ơn, chắc vậy." }
-        }
-      ]
-    },
-    {
-      "id": "t4",
-      "en": "I've been working in Singapore for five years, but I finally came home. How's life treating you?",
-      "vi": "Tớ làm ở Singapore năm năm, cuối cùng cũng về nhà. Còn cậu, dạo này ổn không?",
-      "next": "t5",
-      "choices": [
-        {
-          "kind": "good",
-          "en": "Pretty good! Actually, I've got some big news — I'm opening my own bakery!",
-          "vi": "Khá ổn! Thật ra tớ có tin lớn đây — tớ sắp mở tiệm bánh riêng!",
-          "toolkit": ["n4", "n3"],
-          "explain": "“Actually, …” + “I've got some big news” mở màn kể tin vui thật tự nhiên, khiến bạn tò mò muốn nghe tiếp.",
-          "reply": { "en": "No way! That's amazing — you always made the best cakes!", "vi": "Không thể nào! Tuyệt quá — hồi xưa cậu làm bánh ngon nhất lớp!" }
-        },
-        {
-          "kind": "off",
-          "en": "Same old, same old.",
-          "vi": "Vẫn vậy thôi.",
-          "explain": "“Same old, same old” hợp khi hai người gặp nhau thường xuyên. Sau 8 năm mà nói vậy thì cụt hứng — chẳng chia sẻ gì với bạn.",
-          "reply": { "en": "Oh... okay. Nothing new at all?", "vi": "Ồ… vậy à. Không có gì mới hết sao?" }
-        },
-        {
-          "kind": "rude",
-          "en": "Why do you care? Anyway, Singapore sounds boring.",
-          "vi": "Hỏi làm gì? Mà Singapore nghe chán phèo.",
-          "explain": "Gạt phắt câu hỏi và chê nơi bạn vừa sống — vừa lạnh lùng vừa kém lịch sự.",
-          "reply": { "en": "Oh. Well... I liked it there.", "vi": "Ồ. Thì… tớ thấy ở đó cũng thích mà." }
-        }
-      ]
-    },
-    {
-      "id": "t5",
-      "en": "My parents are coming back from Da Lat tomorrow. They'll be so surprised when I tell them I saw you!",
-      "vi": "Mai bố mẹ tớ ở Đà Lạt về. Kể là gặp cậu chắc bố mẹ bất ngờ lắm!",
-      "next": "t6",
-      "choices": [
-        {
-          "kind": "good",
-          "en": "Say hi to them for me! How's the family? Is your little brother still crazy about football?",
-          "vi": "Cho tớ gửi lời chào nhé! Gia đình cậu thế nào? Em trai cậu còn mê bóng đá không?",
-          "toolkit": ["c4"],
-          "explain": "“How's the family?” hỏi thăm gia đình, lại còn nhớ chi tiết cũ về em trai — cho thấy cậu thật sự quan tâm.",
-          "reply": { "en": "Ha! He's a football coach now, can you believe it?", "vi": "Ha! Giờ nó làm huấn luyện viên bóng đá luôn, tin nổi không?" }
-        },
-        {
-          "kind": "off",
-          "en": "Please give my kind regards to your parents.",
-          "vi": "Xin vui lòng chuyển lời hỏi thăm trân trọng của tôi tới bố mẹ bạn.",
-          "explain": "Lịch sự nhưng trang trọng như viết thư công việc — với bạn thân cũ nghe xa cách, thiếu ấm áp.",
-          "reply": { "en": "Ha... sure, I'll tell them.", "vi": "Ha… ừ, tớ sẽ nói lại." }
-        },
-        {
-          "kind": "rude",
-          "en": "I don't really remember your parents.",
-          "vi": "Tớ chẳng nhớ bố mẹ cậu lắm.",
-          "explain": "Thật thà quá mức làm bạn hụt hẫng — nên đáp khéo hơn, ví dụ gửi lời chào.",
-          "reply": { "en": "Oh... right. It was a long time ago.", "vi": "Ồ… ừ. Cũng lâu lắm rồi." }
-        }
-      ]
-    },
-    {
-      "id": "t6",
-      "en": "Oh, and guess what? My new office is right across the street, in that blue building.",
-      "vi": "À, đoán xem? Văn phòng mới của tớ ở ngay bên kia đường, trong toà nhà màu xanh đó.",
-      "next": "t7",
-      "choices": [
-        {
-          "kind": "good",
-          "en": "What a small world! My sister works in that building too!",
-          "vi": "Trái đất tròn thật! Chị tớ cũng làm ở toà đó!",
-          "toolkit": ["s2"],
-          "explain": "“What a small world!” dùng khi phát hiện một mối liên hệ bất ngờ — chuẩn tình huống.",
-          "reply": { "en": "Seriously? Then we'll see each other all the time!", "vi": "Thật á? Vậy là sẽ gặp nhau suốt cho xem!" }
-        },
-        {
-          "kind": "off",
-          "en": "That's nice. It's really hot today, isn't it?",
-          "vi": "Hay đấy. Hôm nay nóng thật nhỉ?",
-          "explain": "Đúng ngữ pháp nhưng lảng sang chuyện thời tiết — như không quan tâm tới tin của bạn.",
-          "reply": { "en": "Um... yes, it's really hot.", "vi": "Ừm… ừ, nóng thật." }
-        },
-        {
-          "kind": "rude",
-          "en": "That building? It's so ugly.",
-          "vi": "Toà đó á? Xấu hoắc.",
-          "explain": "Chê chỗ làm mới của bạn — thẳng thừng và kém tế nhị.",
-          "reply": { "en": "Oh... I kind of like it.", "vi": "Ơ… tớ thấy cũng được mà." }
-        }
-      ]
-    },
-    {
-      "id": "t7",
-      "en": "Oh no, look at the time! I have to meet a client in ten minutes.",
-      "vi": "Thôi chết, muộn rồi! Mười phút nữa tớ phải gặp khách hàng.",
-      "choices": [
-        {
-          "kind": "good",
-          "en": "We should catch up properly! Are you on Zalo?",
-          "vi": "Phải hẹn nói chuyện đàng hoàng mới được! Cậu có Zalo không?",
-          "toolkit": ["w1", "w3"],
-          "explain": "Kết thúc khéo: hẹn nói chuyện đàng hoàng (“catch up properly”) và xin Zalo để giữ liên lạc.",
-          "reply": { "en": "Of course! Let's not leave it so long this time.", "vi": "Có chứ! Lần này đừng để lâu thế nữa nhé." }
-        },
-        {
-          "kind": "off",
-          "en": "OK. It was nice to meet you.",
-          "vi": "Ừ. Rất vui được làm quen.",
-          "explain": "“Nice to meet you” dành cho người mới quen — nghe như hai người xa lạ, và cũng không giữ liên lạc.",
-          "reply": { "en": "Oh... yes. Nice to... see you too.", "vi": "Ơ… ừ. Vui được… gặp lại cậu." }
-        },
-        {
-          "kind": "rude",
-          "en": "Finally! I have to go too.",
-          "vi": "Cuối cùng! Tớ cũng phải đi đây.",
-          "explain": "“Finally!” nghe như mừng vì cuộc nói chuyện kết thúc — rất phũ.",
-          "reply": { "en": "Oh... okay. Bye, then.", "vi": "Ơ… ừ. Vậy chào nhé." }
-        }
-      ]
-    }
-  ],
-  "endings": [
-    {
-      "id": "coffee",
-      "min": 85,
-      "icon": "☕",
-      "title": "Hai bạn trao Zalo và hẹn cà phê",
-      "desc": "Mai lưu ngay Zalo của bạn và hẹn sáng thứ Bảy gặp lại ở chính quán này — còn rủ cả lớp họp mặt!",
-      "mood": "happy",
-      "en": "See you on Saturday — I'll bring our old class photos!",
-      "vi": "Hẹn thứ Bảy nhé — tớ sẽ mang ảnh lớp mình ngày xưa!"
-    },
-    {
-      "id": "zalo",
-      "min": 65,
-      "icon": "📱",
-      "title": "Kết bạn Zalo, hứa sẽ nhắn tin",
-      "desc": "Hai bạn kết bạn Zalo và hứa sẽ nhắn tin… nhưng chưa hẹn ngày gặp cụ thể.",
-      "mood": "happy",
-      "en": "I'll text you later, okay? Take care!",
-      "vi": "Lát tớ nhắn cho cậu nhé? Giữ gìn sức khoẻ!"
-    },
-    {
-      "id": "bye",
-      "min": 40,
-      "icon": "👋",
-      "title": "Chào tạm biệt vui vẻ nhưng chưa hẹn gặp",
-      "desc": "Cuộc trò chuyện khá ổn, nhưng hai bạn chia tay mà không trao đổi liên lạc.",
-      "mood": "idle",
-      "en": "Well, it was nice seeing you. Bye!",
-      "vi": "Thôi, gặp cậu vui lắm. Chào nhé!"
-    },
-    {
-      "id": "awkward",
-      "min": 0,
-      "icon": "😬",
-      "title": "Cuộc gặp hơi gượng…",
-      "desc": "Mai cười gượng rồi vội vàng rời đi. Chơi lại và thử chọn câu thân thiện hơn nhé!",
-      "mood": "awkward",
-      "en": "Um... I really have to go. Bye.",
-      "vi": "Ừm… tớ phải đi thật rồi. Chào."
     }
   ]
 }

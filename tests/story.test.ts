@@ -1,76 +1,96 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import lessonJson from '../src/lessons/level2-01.json'
-import storyJson from '../src/lessons/stories/level2-01.json'
 import type { Lesson } from '../src/types'
 import {
-  allPaths, clamp100, collectStoryClips, endingFor, getChats, getStory, pickChat, friendVoice, playerVoice, sayable, storyLockReason, chatLockReason,
+  allPaths, clamp100, collectStoryClips, endingFor, getChats, getStories, getStory, pickChat, pickStory, genderOf, friendVoice, playerVoice, sayable, storyLockReason, chatLockReason,
   unlockEnding, unlockedEndings, validateChat, validateStory, START_CLOSENESS, choiceDelta, findItem,
-  type Story,
 } from '../src/games/story/data'
 
 const lesson = lessonJson as unknown as Lesson
-const story = storyJson as unknown as Story
+const stories = getStories('level2-01')
+const story = stories[0]
 const chats = getChats('level2-01')
 const chat = chats[0]
 const clone = <T,>(x: T) => structuredClone(x) as T
 
 describe('Phim tương tác — kịch bản Bài 1', () => {
-  it('dữ liệu hợp lệ', () => expect(validateStory(story, lesson)).toEqual([]))
-
-  it('có ít nhất 6 lượt và 3 cái kết', () => {
-    expect(story.nodes.length).toBeGreaterThanOrEqual(6)
-    expect(story.endings.length).toBeGreaterThanOrEqual(3)
-    expect(Math.min(...allPaths(story).map((p) => p.length))).toBeGreaterThanOrEqual(6)
+  it('có nhiều phim, id không trùng, có cả bạn nam và nữ', () => {
+    expect(stories.length).toBeGreaterThanOrEqual(3)
+    expect(new Set(stories.map((x) => x.id)).size).toBe(stories.length)
+    expect(new Set(stories.map((x) => genderOf(x.friend)))).toEqual(new Set(['m', 'f']))
   })
 
-  it('mỗi lượt có đúng 1 lựa chọn tốt, 1 sai sắc thái, 1 kém lịch sự', () => {
-    for (const n of story.nodes) expect(n.choices.map((c) => c.kind).sort()).toEqual(['good', 'off', 'rude'])
+  it('pickStory: ngẫu nhiên và không lặp lại phim vừa xem', () => {
+    for (const x of stories) for (let i = 0; i < 20; i++) expect(pickStory('level2-01', x.id)!.id).not.toBe(x.id)
+    expect(new Set(Array.from({ length: 60 }, () => pickStory('level2-01', null)!.id)).size).toBe(stories.length)
   })
 
-  it('mọi id cụm toolkit tham chiếu đều có trong bài', () => {
-    const ids = story.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? []))
-    expect(ids.length).toBeGreaterThan(8)
-    for (const id of ids) expect(findItem(lesson, id), id).toBeDefined()
+  it('giọng theo tên: Mai nữ, Tuấn/Nam nam; vai Linh đọc giọng nữ', () => {
+    const by = (id: string) => stories.find((x) => x.id === id)!
+    expect(friendVoice(by('mai-cafe'))).toBe('af_heart')
+    expect(friendVoice(by('tuan-street'))).toBe('am_michael')
+    expect(playerVoice(by('tuan-street'))).toBe('af_heart')
+    expect(friendVoice(by('nam-wedding'))).toBe('am_michael')
   })
 
-  it('dùng cụm của đủ 5 nhóm', () => {
-    const groups = new Set(story.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? [])).map((id) => findItem(lesson, id)?.group))
-    for (const g of lesson.groups) expect(groups.has(g.id), g.id).toBe(true)
-  })
+  for (const s of stories) {
+    it(`${s.id}: dữ liệu hợp lệ`, () => expect(validateStory(s, lesson)).toEqual([]))
 
-  it('mọi nhánh đều tới được một cái kết', () => {
-    const paths = allPaths(story)
-    expect(paths.length).toBeGreaterThan(1) // có phân nhánh
-    const byId = new Map(story.nodes.map((n) => [n.id, n]))
-    // Duyệt mọi tổ hợp lựa chọn: độ thân thiết nào cũng có cái kết
-    const explore = (id: string | undefined, c: number, depth: number): void => {
-      expect(depth).toBeLessThanOrEqual(story.nodes.length)
-      if (!id) {
-        expect(endingFor(story, c)).toBeDefined()
-        return
+    it(`${s.id}: có ít nhất 6 lượt và 3 cái kết`, () => {
+      expect(s.nodes.length).toBeGreaterThanOrEqual(6)
+      expect(s.endings.length).toBeGreaterThanOrEqual(3)
+      expect(Math.min(...allPaths(s).map((p) => p.length))).toBeGreaterThanOrEqual(6)
+    })
+
+    it(`${s.id}: mỗi lượt có đúng 1 lựa chọn tốt, 1 sai sắc thái, 1 kém lịch sự`, () => {
+      for (const n of s.nodes) expect(n.choices.map((c) => c.kind).sort()).toEqual(['good', 'off', 'rude'])
+    })
+
+    it(`${s.id}: mọi id cụm toolkit tham chiếu đều có trong bài`, () => {
+      const ids = s.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? []))
+      expect(ids.length).toBeGreaterThan(8)
+      for (const id of ids) expect(findItem(lesson, id), id).toBeDefined()
+    })
+
+    it(`${s.id}: dùng cụm của đủ 5 nhóm`, () => {
+      const groups = new Set(s.nodes.flatMap((n) => n.choices.flatMap((c) => c.toolkit ?? [])).map((id) => findItem(lesson, id)?.group))
+      for (const g of lesson.groups) expect(groups.has(g.id), g.id).toBe(true)
+    })
+
+    it(`${s.id}: mọi nhánh đều tới được một cái kết`, () => {
+      const paths = allPaths(s)
+      expect(paths.length).toBeGreaterThan(1) // có phân nhánh
+      const byId = new Map(s.nodes.map((n) => [n.id, n]))
+      // Duyệt mọi tổ hợp lựa chọn: độ thân thiết nào cũng có cái kết
+      const explore = (id: string | undefined, c: number, depth: number): void => {
+        expect(depth).toBeLessThanOrEqual(s.nodes.length)
+        if (!id) {
+          expect(endingFor(s, c)).toBeDefined()
+          return
+        }
+        const n = byId.get(id)!
+        for (const ch of n.choices) explore(ch.next ?? n.next, clamp100(c + choiceDelta(ch)), depth + 1)
       }
-      const n = byId.get(id)!
-      for (const ch of n.choices) explore(ch.next ?? n.next, clamp100(c + choiceDelta(ch)), depth + 1)
-    }
-    explore(story.start, START_CLOSENESS, 0)
-  })
+      explore(s.start, START_CLOSENESS, 0)
+    })
 
-  it('chơi toàn câu tốt → kết tốt nhất, toàn câu kém → kết gượng', () => {
-    const run = (kind: 'good' | 'rude') => {
-      let id: string | undefined = story.start
-      let c = START_CLOSENESS
-      while (id) {
-        const n = story.nodes.find((x) => x.id === id)!
-        const ch = n.choices.find((x) => x.kind === kind)!
-        c = clamp100(c + choiceDelta(ch))
-        id = ch.next ?? n.next
+    it(`${s.id}: chơi toàn câu tốt → kết tốt nhất, toàn câu kém → kết gượng`, () => {
+      const run = (kind: 'good' | 'rude') => {
+        let id: string | undefined = s.start
+        let c = START_CLOSENESS
+        while (id) {
+          const n = s.nodes.find((x) => x.id === id)!
+          const ch = n.choices.find((x) => x.kind === kind)!
+          c = clamp100(c + choiceDelta(ch))
+          id = ch.next ?? n.next
+        }
+        return endingFor(s, c).id
       }
-      return endingFor(story, c).id
-    }
-    const top = [...story.endings].sort((a, b) => b.min - a.min)
-    expect(run('good')).toBe(top[0].id)
-    expect(run('rude')).toBe(top[top.length - 1].id)
-  })
+      const top = [...s.endings].sort((a, b) => b.min - a.min)
+      expect(run('good')).toBe(top[0].id)
+      expect(run('rude')).toBe(top[top.length - 1].id)
+    })
+  }
 
   it('báo lỗi khi có 2 lựa chọn tốt', () => {
     const bad = clone(story)
@@ -175,13 +195,21 @@ describe('Tiện ích', () => {
     expect(chatLockReason(fake)).toBe('Bài này chưa có kịch bản')
   })
 
-  it('lưu cái kết đã mở khoá', () => {
-    expect(unlockedEndings('level2-01')).toEqual([])
-    unlockEnding('level2-01', 'bye')
-    unlockEnding('level2-01', 'bye')
-    unlockEnding('level2-01', 'coffee')
-    expect(unlockedEndings('level2-01')).toEqual(['bye', 'coffee'])
+  it('lưu cái kết đã mở khoá theo từng phim', () => {
+    expect(unlockedEndings('level2-01', 'mai-cafe')).toEqual([])
+    unlockEnding('level2-01', 'mai-cafe', 'bye')
+    unlockEnding('level2-01', 'mai-cafe', 'bye')
+    unlockEnding('level2-01', 'mai-cafe', 'coffee')
+    expect(unlockedEndings('level2-01', 'mai-cafe')).toEqual(['bye', 'coffee'])
+    expect(unlockedEndings('level2-01', 'tuan-street')).toEqual([])
     localStorage.setItem('ptalk:v1:story-endings', '{hỏng')
-    expect(unlockedEndings('level2-01')).toEqual([])
+    expect(unlockedEndings('level2-01', 'mai-cafe')).toEqual([])
+  })
+
+  it('cái kết đã mở ở bản cũ (lưu theo bài) vẫn còn ở phim đầu tiên', () => {
+    localStorage.setItem('ptalk:v1:story-endings', JSON.stringify({ 'level2-01': ['zalo'] }))
+    expect(unlockedEndings('level2-01', 'mai-cafe')).toEqual(['zalo'])
+    expect(unlockedEndings('level2-01', 'tuan-street')).toEqual([])
+    expect(unlockEnding('level2-01', 'mai-cafe', 'coffee')).toEqual(['zalo', 'coffee'])
   })
 })
