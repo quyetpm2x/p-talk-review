@@ -143,7 +143,11 @@ export function collectStoryClips(lessonId: string): { text: string; voice: stri
   if (c) {
     const v = c.friend.voice
     add(c.timeout.en, v)
-    for (const t of c.turns) for (const m of [...t.friend, ...t.replyOk, ...t.replyBad]) add(m.en, v)
+    for (const t of c.turns) {
+      for (const m of [...t.friend, ...t.replyOk, ...t.replyBad]) add(m.en, v)
+      // Tin người chơi gửi (cả gợi ý sai) cũng được đọc lên
+      for (const o of t.options) add(o.en, PLAYER_VOICE)
+    }
     for (const m of c.outro) add(m.en, v)
   }
   return [...out.values()]

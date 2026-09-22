@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { CustomGameProps } from '../types'
 import type { Item } from '../../lib/picker'
 import { shuffle } from '../../lib/shuffle'
-import { stopSpeaking } from '../../lib/speech'
+import { speak, stopSpeaking } from '../../lib/speech'
 import { matchRatio } from '../../lib/scoring'
 import { hasRecognition, listen, type ListenError } from '../../lib/recognition'
 import { sfx } from '../../lib/sfx'
@@ -10,7 +10,7 @@ import { burst } from '../../lib/fx'
 import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
 import { Icon } from '../../components/Icon'
-import { findItem, getChat, sayable, type ChatOption, type Line } from './data'
+import { findItem, getChat, sayable, PLAYER_VOICE, type ChatOption, type Line } from './data'
 import './story.css'
 
 type Msg =
@@ -77,6 +77,13 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
 
   const wait = (ms: number) => new Promise<void>((res, rej) => setTimeout(() => (alive.current ? res() : rej(new Error('unmounted'))), ms))
 
+  /** Đọc to một tin nhắn, đợi đọc xong (rời trang giữa chừng → dừng chuỗi). */
+  async function say(text: string, kokoro: string | undefined, voice: 'A' | 'B') {
+    await wait(120) // để tiếng “pop/whoosh” vang trước
+    await speak(sayable(text), { kokoro, voice })
+    if (!alive.current) throw new Error('unmounted')
+  }
+
   /** Bạn cũ gửi lần lượt từng tin, mỗi tin có “đang soạn tin…” trước. */
   async function friendSays(lines: Line[]) {
     for (const l of lines) {
@@ -85,7 +92,8 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
       setTyping(false)
       push({ from: 'friend', en: l.en, vi: l.vi, time: hhmm() })
       sfx('pop')
-      await wait(450)
+      await say(l.en, chat.friend.voice, 'A')
+      await wait(350)
     }
   }
 
@@ -134,7 +142,8 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
     } else sfx('bad')
 
     try {
-      await wait(opt ? 700 : 200)
+      if (opt) await say(opt.en, PLAYER_VOICE, 'B')
+      await wait(opt ? 400 : 200)
       if (!opt) await friendSays([chat.timeout])
       else await friendSays(ok ? t.replyOk : t.replyBad)
       if (!ok) push({ from: 'sys', tone: 'tip', text: `${opt ? `💡 ${opt.why ?? 'Chưa hợp tình huống.'} ` : '⏰ Hết giờ! '}Nên trả lời: “${good.en}”` })
