@@ -351,3 +351,10 @@
 .chat-sum-turn span { text-transform: none; letter-spacing: 0; font-weight: 700; }
 .chat-sum-fix { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; border-radius: 12px; background: var(--card); border: 1px dashed var(--line); }
 .chat-sum-fix .row { gap: 8px; }
+
+/* Chọn đúng → đọc to câu của bạn trước khi hiện phản hồi */
+.story-choices.saying .choice { animation: none; }
+.story-choices .choice.speaking { opacity: 1; animation: sayPulse 1s ease-in-out infinite; }
+.story-choices .choice.speaking .key { background: var(--accent); color: var(--accent-fg); }
+@keyframes sayPulse { 50% { box-shadow: 0 0 0 5px rgba(201, 160, 78, 0.28); } }
+@media (prefers-reduced-motion: reduce) { .story-choices .choice.speaking { animation: none; } }

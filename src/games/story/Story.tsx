@@ -16,7 +16,7 @@ import {
 } from './data'
 import './story.css'
 
-type Phase = 'intro' | 'line' | 'choose' | 'react' | 'end'
+type Phase = 'intro' | 'line' | 'choose' | 'say' | 'react' | 'end'
 
 const KIND_MOOD: Record<ChoiceKind, Mood> = { good: 'happy', off: 'meh', rude: 'awkward' }
 const KIND_LABEL: Record<ChoiceKind, string> = { good: '✓ Hợp tình huống', off: '≈ Sai sắc thái', rude: '✕ Kém lịch sự' }
@@ -80,7 +80,10 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
 
   // Tự đọc câu mới
   useEffect(() => {
-    if (text && voiceOn) speak(sayable(text), { kokoro: fVoice, voice: 'B' })
+    if (!text || !voiceOn) return
+    // Câu đáp lại: đợi một nhịp cho người chơi thấy phản hồi “hợp tình huống” trước
+    const t = setTimeout(() => speak(sayable(text), { kokoro: fVoice, voice: 'B' }), phase === 'react' ? 700 : 0)
+    return () => clearTimeout(t)
   }, [text]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => stopSpeaking(), [])
 
@@ -88,7 +91,7 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
   const choicesRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (phase === 'choose') choicesRef.current?.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
-    else bodyRef.current?.scrollTo({ top: 0 })
+    else if (phase !== 'say') bodyRef.current?.scrollTo({ top: 0 })
   }, [phase, nodeId])
 
   const start = () => {
@@ -97,20 +100,41 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
     setPhase('line')
   }
 
-  const choose = (c: StoryChoice, e: React.MouseEvent) => {
+  // Mỗi lần chọn/chơi lại tăng số này — lời đọc của lượt cũ (nếu còn chạy) sẽ bị bỏ qua
+  const sayToken = useRef(0)
+  useEffect(() => () => { sayToken.current++ }, [])
+
+  /** Hiện phản hồi (hợp tình huống / chưa hợp) và cập nhật độ thân thiết; bạn cũ đáp lại ngay sau. */
+  const react = (c: StoryChoice, at?: { x: number; y: number }) => {
+    const ok = c.kind === 'good'
+    const d = choiceDelta(c)
+    setCloseness((x) => clamp100(x + d))
+    setDelta({ v: d, k: Date.now() })
+    setPhase('react')
+    sfx(ok ? 'ok' : 'bad')
+    buzz(ok)
+    if (ok && at) burst(at.x, at.y, 22)
+  }
+
+  const choose = async (c: StoryChoice, e: React.MouseEvent) => {
     if (phase !== 'choose') return
     const ok = c.kind === 'good'
     const items = (good.toolkit ?? []).map((id) => findItem(lesson, id)).filter((x): x is Item => !!x)
     items.forEach((it) => record(it.id, ok))
     if (items[0]) answers.current.push({ item: items[0], correct: ok })
-    const d = choiceDelta(c)
-    setCloseness((x) => clamp100(x + d))
-    setDelta({ v: d, k: Date.now() })
     setPicked(c)
-    setPhase('react')
-    sfx(ok ? 'ok' : 'bad')
-    buzz(ok)
-    if (ok) burst(e.clientX, e.clientY, 22)
+    if (!ok) return react(c)
+    // Chọn đúng: đọc to câu vừa chọn trước, rồi mới hiện “hợp tình huống” và để bạn cũ đáp lại
+    const token = ++sayToken.current
+    const at = { x: e.clientX, y: e.clientY }
+    setPhase('say')
+    sfx('pop')
+    if (voiceOn) await speak(sayable(c.en), { kokoro: pVoice })
+    else await new Promise((r) => setTimeout(r, 700))
+    if (token !== sayToken.current) return // đã rời trang / chơi lại
+    await new Promise((r) => setTimeout(r, 250))
+    if (token !== sayToken.current) return
+    react(c, at)
   }
 
   const next = () => {
@@ -132,6 +156,7 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
   }
 
   const restart = () => {
+    sayToken.current++
     stopSpeaking()
     answers.current = []
     setRun((r) => r + 1)
@@ -216,7 +241,7 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
           </div>
         ) : (
           line && (
-            <div className="bubble-wrap" key={`${nodeId}-${phase === 'choose' ? 'line' : phase}`}>
+            <div className="bubble-wrap" key={`${nodeId}-${phase === 'choose' || phase === 'say' ? 'line' : phase}`}>
               <div className="talk-bubble" onClick={tw.skip}>
                 <div className="bubble-head">
                   <span className="bubble-name">{story.friend.name}</span>
@@ -236,15 +261,19 @@ function StoryRun({ lesson, record, finish, story, onOther }: CustomGameProps & 
 
         {phase === 'line' && <div className="story-hint small muted">Chạm vào bong bóng để hiện hết câu</div>}
 
-        {phase === 'choose' && (
-          <div className="choices story-choices" ref={choicesRef}>
-            <div className="q-label">Bạn đáp lại thế nào?</div>
-            {order.map((c, i) => (
-              <button key={c.en} className="choice" style={{ animationDelay: `${i * 70}ms` }} onClick={(e) => choose(c, e)}>
-                <span className="key">{'ABC'[i]}</span>
-                <span className="grow">{c.en}</span>
-              </button>
-            ))}
+        {(phase === 'choose' || phase === 'say') && (
+          <div className={`choices story-choices ${phase === 'say' ? 'saying' : ''}`} ref={choicesRef}>
+            <div className="q-label">{phase === 'say' ? '🔊 Bạn đang nói…' : 'Bạn đáp lại thế nào?'}</div>
+            {order.map((c, i) => {
+              const me = phase === 'say' && picked === c
+              return (
+                <button key={c.en} className={`choice ${me ? 'picked speaking' : phase === 'say' ? 'dim' : ''}`}
+                  style={{ animationDelay: `${i * 70}ms` }} onClick={(e) => choose(c, e)} disabled={phase === 'say'}>
+                  <span className="key">{me ? '🔊' : 'ABC'[i]}</span>
+                  <span className="grow">{c.en}</span>
+                </button>
+              )
+            })}
           </div>
         )}
 
