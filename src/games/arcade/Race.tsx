@@ -42,8 +42,10 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
   const [pos, setPos] = useState(0) // số bước đã đi (đúng +1, sai −1)
   const [elapsed, setElapsed] = useState(0)
   const [car, setCar] = useState<'idle' | 'boost' | 'turn' | 'reverse'>('idle')
-  // Sai: xe quay ngược và lùi 1 bước (không trừ mạng). Đúng: quay đầu lên và tiến 1 bước.
+  // Sai: xe quay ngược và lùi 1 bước (ở vạch xuất phát thì đứng im), xe ma được thưởng 1 bước.
+  // Đúng: quay đầu lên và tiến 1 bước. Không trừ mạng.
   const [facingBack, setFacingBack] = useState(false)
+  const [ghostBonus, setGhostBonus] = useState(0) // số bước xe ma được thưởng khi mình trả lời sai
   const [picked, setPicked] = useState<number | null>(null)
   const [locked, setLocked] = useState(false)
   const [finished, setFinished] = useState(false)
@@ -83,36 +85,42 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
       if (np >= TRACK) {
         setFinished(true)
         const ms = Math.round(elapsed)
-        const beat = ms < ghostMs
-        if (beat || !hasRecord) update((pp) => ({ ...pp, bestScores: { ...pp.bestScores, [bestKey]: ms } }))
-        celebrate()
-        sfx('win')
+        // kỷ lục = thời gian về đích nhanh nhất (ghostMs chính là kỷ lục cũ khi đã có)
+        if (!hasRecord || ms < ghostMs) update((pp) => ({ ...pp, bestScores: { ...pp.bestScores, [bestKey]: ms } }))
+        if (gSteps < TRACK) { celebrate(); sfx('win') } else sfx('lose')
         setTimeout(() => api.end({ seconds: Math.round(ms / 1000) }), 1600)
         return
       }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, 650)
     } else {
-      setFacingBack(true)
+      setGhostBonus((g) => g + 1)
       if (pos > 0) {
+        setFacingBack(true)
         setCar('reverse')
         setPos(pos - 1)
-        api.miss({ item: q, x, y: y - 30, label: '↩ lùi 1 bước', loseLife: false })
+        api.miss({ item: q, x, y: y - 30, label: '↩ lùi 1 bước · 👻 +1', loseLife: false })
       } else {
-        // ở vạch xuất phát thì chỉ quay đầu, không lùi được nữa
-        setCar('turn')
-        api.miss({ item: q, x, y: y - 30, label: '🔄 quay đầu', loseLife: false })
+        // ở vạch xuất phát: xe đứng im (không quay, không lùi)
+        api.miss({ item: q, x, y: y - 30, label: '👻 +1 bước', loseLife: false })
       }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, STUN_MS)
     }
   }
 
   const me = pos / TRACK
-  const gSteps = ghostSteps(elapsed, firstStepMs, TRACK, GHOST_ACCEL)
+  // xe ma = bước tự đi theo thời gian + bước thưởng khi mình sai
+  const gSteps = Math.min(TRACK, ghostSteps(elapsed, firstStepMs, TRACK, GHOST_ACCEL) + ghostBonus)
   const ghost = gSteps / TRACK
   const ahead = pos >= gSteps
-  const beat = finished && elapsed < ghostMs
   let status = ahead ? 'Đang dẫn!' : 'Bị xe ma vượt!'
-  if (finished) status = beat ? '🏆 Phá kỷ lục!' : '🏁 Về đích'
+  if (!finished && gSteps >= TRACK) status = '👻 Xe ma về đích!'
+  if (finished) {
+    const won = gSteps < TRACK
+    const newRecord = hasRecord && elapsed < ghostMs
+    if (!won) status = '🏁 Về đích'
+    else if (newRecord) status = '🏆 Phá kỷ lục!'
+    else status = '🏆 Thắng xe ma!'
+  }
 
   return (
     <div className="race">
