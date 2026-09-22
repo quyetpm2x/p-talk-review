@@ -8,6 +8,7 @@ import { Review } from './Review'
 import { Balloons } from './arcade/Balloons'
 import { Rain } from './arcade/Rain'
 import { Ninja } from './arcade/Ninja'
+import { Race } from './arcade/Race'
 
 const byId = Object.fromEntries(QUESTION_GAMES.map((g) => [g.id, g]))
 
@@ -33,6 +34,13 @@ export const GAMES: GameDef[] = [
     eligible: () => true,
     lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
     Custom: Ninja,
+  },
+  {
+    id: 'race', name: 'Đua xe', icon: '🏎️', tier: 'arcade',
+    desc: 'Trả lời đúng để tăng tốc — đua với xe ma kỷ lục của bạn',
+    eligible: () => true,
+    lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
+    Custom: Race,
   },
   byId.flashcard,
   byId.quiz,

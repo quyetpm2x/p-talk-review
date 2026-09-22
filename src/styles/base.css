@@ -576,3 +576,68 @@ a { color: inherit; text-decoration: none; }
   fill: none; stroke: #f3dc9f; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
   filter: drop-shadow(0 0 6px rgba(243, 220, 159, 0.9));
 }
+
+/* ---------- Đua xe ---------- */
+.race {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  background: repeating-linear-gradient(180deg, #1d4a33 0 40px, #1a432e 40px 80px);
+}
+.road {
+  position: relative; flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
+  margin: 0 18%; border-left: 6px solid #f3ead8; border-right: 6px solid #f3ead8;
+  background: linear-gradient(90deg, #2a2f3a, #343a47 50%, #2a2f3a);
+}
+.road-lines {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 6px; transform: translateX(-50%);
+  background: repeating-linear-gradient(180deg, #f3dc9f 0 26px, transparent 26px 52px);
+  background-size: 6px 52px; animation: roadRun 0.9s linear infinite;
+}
+.road-lines.fast { animation-duration: 0.25s; }
+@keyframes roadRun { from { background-position: 0 0; } to { background-position: 0 52px; } }
+.finish-line {
+  position: absolute; left: 0; right: 0; top: 6%; height: 16px; z-index: 1;
+  background: repeating-conic-gradient(#fff 0 25%, #13203f 0 50%) 0 0 / 16px 16px;
+}
+.lane { position: relative; }
+.car {
+  position: absolute; left: 50%; z-index: 2; display: flex; flex-direction: column; align-items: center;
+  transform: translateX(-50%); transition: bottom 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.car-body { font-size: 44px; line-height: 1; transform: rotate(-90deg); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5)); }
+.car.ghost .car-body { opacity: 0.45; filter: grayscale(0.6) drop-shadow(0 0 10px rgba(180, 200, 255, 0.8)); }
+.car-tag {
+  margin-top: 4px; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 99px; white-space: nowrap;
+  background: var(--accent-grad); color: #13203f;
+}
+.car.ghost .car-tag { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.car.boost .car-body { animation: boostKick 0.6s ease-out; }
+.car.spin .car-body { animation: spinOut 1.1s ease-out; }
+.nitro { position: absolute; top: 72px; font-size: 26px; transform: rotate(180deg); animation: flame 0.15s ease-in-out infinite alternate; }
+@keyframes boostKick { 0% { transform: rotate(-90deg) scale(1); } 30% { transform: rotate(-90deg) scale(1.25); } 100% { transform: rotate(-90deg) scale(1); } }
+@keyframes spinOut { 0% { transform: rotate(-90deg); } 100% { transform: rotate(630deg); } }
+@keyframes flame { from { transform: rotate(180deg) scale(0.8); opacity: 0.7; } to { transform: rotate(180deg) scale(1.2); opacity: 1; } }
+.race-info {
+  position: absolute; left: 0; top: 40%; transform: translateY(-50%); width: 18%;
+  display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 800; text-align: center; z-index: 3;
+}
+.race-time { font-size: 13px; }
+.race-status { font-size: 11px; padding: 3px 6px; border-radius: 8px; }
+.race-status.ok { background: var(--ok); }
+.race-status.bad { background: var(--bad); }
+.race-progress { font-size: 18px; color: #f3dc9f; }
+.race-panel {
+  background: var(--card); color: var(--fg); border-top: 3px solid var(--accent);
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px;
+}
+.race-q { text-align: center; }
+.race-q .label { font-size: 11px; }
+.race-q .big { font-size: 18px; font-weight: 800; line-height: 1.25; }
+.race-opts { display: flex; flex-direction: column; gap: 8px; }
+.race-opt {
+  min-height: 50px; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--card-2);
+  font-weight: 700; font-size: 15.5px; text-align: center; touch-action: none; transition: transform 0.08s;
+}
+.race-opt:active { transform: scale(0.97); }
+.race-opt.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+.race-opt.bad { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); animation: rainWrongBasket 0.35s; }
+.race-opt.dim { opacity: 0.45; }
