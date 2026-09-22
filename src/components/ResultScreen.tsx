@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { Item } from '../lib/picker'
 import { SpeakButton } from './SpeakButton'
 import { Icon } from './Icon'
@@ -20,9 +20,11 @@ const SAY: Record<Mood, string> = {
 const fmtTime = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}p ${s % 60}s` : `${s}s`)
 
 /** Trang thống kê sau khi làm xong một lượt. */
-export function ResultScreen({ score, best, total, correct, wrong, answers, seconds, onRetry, onReviewWrong, onExit, unit = 'điểm', reward }: {
+export function ResultScreen({ score, best, total, correct, wrong, answers, seconds, details, onRetry, onReviewWrong, onExit, unit = 'điểm', reward }: {
   score: number; best?: number; total?: number; correct?: number; wrong: Item[]
   answers?: Answer[]; seconds?: number
+  /** Phần thống kê riêng của trò */
+  details?: ReactNode
   onRetry: () => void; onReviewWrong?: () => void; onExit: () => void; unit?: string
   /** Phần thưởng của lượt này (XP, nhiệm vụ, huy hiệu) */
   reward?: RewardReport | null
@@ -64,6 +66,8 @@ export function ResultScreen({ score, best, total, correct, wrong, answers, seco
         )}
         {seconds !== undefined && <div className="stat"><div className="stat-v">{fmtTime(seconds)}</div><div className="stat-k">thời gian</div></div>}
       </div>
+
+      {details}
 
       {rows.length > 0 && <AnswerList rows={rows} detailed={!!answers} />}
 

@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import type { FC, ReactNode } from 'react'
 import type { Lesson } from '../types'
 import type { Item } from '../lib/picker'
 
@@ -21,6 +21,8 @@ export type FinishResult = {
   answers?: { item: Item; correct: boolean }[]
   /** Thời gian làm bài, giây */
   seconds?: number
+  /** Phần thống kê riêng của trò (vd. xem lại cuộc trò chuyện), hiện trong trang kết quả */
+  details?: ReactNode
 }
 
 export type CustomGameProps = {

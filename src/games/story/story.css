@@ -329,3 +329,25 @@
   .bubble-vi { font-size: 13px; }
   .story-choices .choice { min-height: 50px; padding: 10px 14px; font-size: 15px; }
 }
+
+/* ───── Thống kê cuộc trò chuyện (trang kết quả) ───── */
+.chat-sum { display: flex; flex-direction: column; gap: 10px; }
+.chat-sum-head { gap: 10px; }
+.chat-sum-head .chat-avatar { flex: none; }
+.chat-sum-verdict { margin: 0; font-weight: 700; }
+.chat-sum-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.chat-sum-stats > div { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
+.chat-sum-stats b { font-size: 22px; line-height: 1.1; }
+.chat-sum-stats b.ok { color: var(--ok); }
+.chat-sum-stats b.bad { color: var(--bad); }
+.chat-sum-stats span { font-size: 12px; color: var(--muted); }
+.chat-sum-fast { overflow-wrap: anywhere; }
+.chat-sum-title { margin-top: 4px; }
+.chat-sum-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.chat-sum-list > li { display: flex; flex-direction: column; gap: 6px; padding: 10px; border-radius: 16px; background: var(--bg); border: 1px solid var(--line); }
+.chat-sum-list > li.bad { border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+.chat-sum-list .msg-row { animation: none; }
+.chat-sum-turn { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.chat-sum-turn span { text-transform: none; letter-spacing: 0; font-weight: 700; }
+.chat-sum-fix { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; border-radius: 12px; background: var(--card); border: 1px dashed var(--line); }
+.chat-sum-fix .row { gap: 8px; }

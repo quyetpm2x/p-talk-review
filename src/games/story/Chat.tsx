@@ -11,6 +11,7 @@ import { buzz } from '../../lib/haptics'
 import { SpeakButton } from '../../components/SpeakButton'
 import { Icon } from '../../components/Icon'
 import { findItem, friendVoice, lastPlayed, pickChat, playerVoice, savePlayed, sayable, type ChatOption, type Line } from './data'
+import { ChatSummary, type TurnLog } from './ChatSummary'
 import './story.css'
 
 type Msg =
@@ -55,6 +56,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
   const turnRef = useRef(0)
   const msgId = useRef(0)
   const answers = useRef<{ item: Item; correct: boolean }[]>([])
+  const log = useRef<TurnLog[]>([])
   const scoreRef = useRef(0)
   const startedAt = useRef(Date.now())
   const listenRef = useRef<{ stop: () => void } | null>(null)
@@ -134,6 +136,7 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
     const items = (good.toolkit ?? []).map((id) => findItem(lesson, id)).filter((x): x is Item => !!x)
     items.forEach((it) => record(it.id, ok))
     if (items[0]) answers.current.push({ item: items[0], correct: ok })
+    log.current.push({ friend: t.friend, reply: opt, good, ok, voice, secs: opt ? (total - leftRef.current) / 1000 : chat.seconds })
     if (ok) scoreRef.current += 10 + Math.ceil(secsLeft / 2) + (voice ? 5 : 0)
     setStat({ correct: answers.current.filter((a) => a.correct).length, score: scoreRef.current })
 
@@ -162,6 +165,9 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
         push({ from: 'sys', tone: 'end', text: 'Cuộc trò chuyện đã kết thúc' })
         sfx(answers.current.filter((a) => a.correct).length >= Math.ceil(chat.turns.length * 0.7) ? 'win' : 'lose')
         go('done')
+        // Tự mở trang thống kê cuộc trò chuyện
+        await wait(1600)
+        showResult()
       }
     } catch { /* đã rời trang */ }
   }
@@ -218,17 +224,21 @@ export function Chat({ lesson, record, finish }: CustomGameProps) {
     }
   }
 
+  const shown = useRef(false)
   const showResult = () => {
-      stopSpeaking()
+    if (shown.current) return
+    shown.current = true
+    stopSpeaking()
     const a = answers.current
-    const correct = a.filter((x) => x.correct).length
+    const l = log.current
     finish({
       score: scoreRef.current,
-      correct,
-      total: a.length,
+      correct: l.filter((x) => x.ok).length,
+      total: l.length,
+      // Cụm toolkit cần ôn (của các lượt trả lời chưa hợp)
       wrong: a.filter((x) => !x.correct).map((x) => x.item),
-      answers: a,
       seconds: Math.round((Date.now() - startedAt.current) / 1000),
+      details: <ChatSummary chat={chat} log={l} friendVoice={fVoice} playerVoice={pVoice} />,
     })
   }
 

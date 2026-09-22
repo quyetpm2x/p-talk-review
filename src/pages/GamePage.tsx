@@ -79,6 +79,7 @@ export function GamePage() {
             wrong={result.wrong}
             answers={result.answers}
             seconds={result.seconds}
+            details={result.details}
             onRetry={() => restart()}
             onReviewWrong={def.Question ? () => restart(result.wrong) : undefined}
             onExit={() => nav(back)}
