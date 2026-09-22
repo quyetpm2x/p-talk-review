@@ -6,7 +6,7 @@ export function TopBar({ title, sub, back, right }: { title: ReactNode; sub?: Re
   return (
     <header className="topbar">
       {back && (
-        <button className="icon-btn" aria-label="Quay lại" onClick={() => (back === true ? nav(-1) : nav(back))}>
+        <button className="icon-btn" aria-label="Quay lại" onClick={() => (back === true ? nav(-1) : nav(back, { state: { back: true } }))}>
           ←
         </button>
       )}
