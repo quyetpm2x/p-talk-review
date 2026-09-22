@@ -26,6 +26,6 @@
 - [x] **Task 1 — Nền tảng arcade:** `lib/arcade.ts` (+ test), `lib/sfx.ts`, `components/fx.ts` (confetti, điểm bay), `games/arcade/ArcadeShell.tsx` (đếm ngược, HUD, tạm dừng, game over), nhóm "🎮 Giải trí" trên trang Kho cụm từ.
 - [x] **Task 2 — 🎈 Bắn bóng bay:** nghĩa tiếng Việt ở trên, 3 bóng chứa cụm tiếng Anh bay lên theo 3 làn; chạm đúng → nổ + confetti mini; chạm sai → xì hơi, mất mạng; bóng đúng bay mất → mất mạng; tốc độ tăng dần.
 - [x] **Task 3 — ☔ Mưa cụm từ:** thẻ cụm từ rơi xuống, chạm 1 trong 5 giỏ nhóm; đúng → thẻ bay vào giỏ, giỏ nảy; sai/chạm đáy → mất mạng; rơi nhanh dần.
-- [ ] **Task 4 — ⚔️ Chém cụm từ:** thẻ bị tung lên theo đường parabol (đúng, nhiễu, bom sai ngữ pháp); vuốt để chém, có vệt kiếm; chém đúng → tách đôi; chém nhầm/bom → nổ, mất mạng.
+- [x] **Task 4 — ⚔️ Chém cụm từ:** thẻ bị tung lên theo đường parabol (đúng, nhiễu, bom sai ngữ pháp); vuốt để chém, có vệt kiếm; chém đúng → tách đôi; chém nhầm/bom → nổ, mất mạng.
 - [ ] **Task 5 — 🏎️ Đua xe:** trả lời nhanh 3 lựa chọn, đúng → xe tăng tốc, sai → xe xoay trượt; đua với xe ma theo kỷ lục thời gian; vạch đích + confetti.
 - [ ] **Task 6 — Kiểm thử & hoàn thiện:** test, build, chơi thử từng trò ở 390×844, chế độ tối, cập nhật README.
