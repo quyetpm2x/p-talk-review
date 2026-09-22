@@ -304,6 +304,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Tự chuyển câu */
 .autonext {
+  cursor: default;
   position: relative; overflow: hidden; width: 100%; min-height: 44px; border-radius: 12px;
   border: 1.5px solid var(--line); background: var(--card); color: var(--muted); font-weight: 600; font-size: 14px;
 }
@@ -361,3 +362,74 @@ a { color: inherit; text-decoration: none; }
 .answer-empty { justify-content: center; color: var(--muted); font-size: 14px; padding: 18px !important; }
 
 .title-icon { margin-right: 8px; }
+
+/* ================= Arcade ================= */
+.app:has(.arcade-page) { height: 100dvh; overflow: hidden; }
+.page.arcade-page { padding: 0; gap: 0; min-height: 0; }
+.arcade { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.arcade-hud {
+  display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+  background: var(--card); border-bottom: 1px solid var(--line);
+}
+.hud-lives { display: inline-flex; gap: 2px; font-size: 18px; }
+.heart { transition: transform 0.3s, filter 0.3s, opacity 0.3s; }
+.heart.lost { filter: grayscale(1); opacity: 0.3; transform: scale(0.75); }
+.hud-combo { font-weight: 800; font-size: 14px; color: #d9480f; animation: pop 0.25s ease-out; }
+.hud-score { animation: bump 0.25s ease-out; min-width: 44px; text-align: center; }
+.hud-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--card-2); font-size: 16px; }
+.hud-btn:disabled { opacity: 0.4; }
+@keyframes bump { 0% { transform: scale(1.35); } 100% { transform: none; } }
+
+.arcade-stage {
+  position: relative; flex: 1; min-height: 0; overflow: hidden;
+  touch-action: none; user-select: none; -webkit-user-select: none;
+  background:
+    radial-gradient(90% 60% at 50% 0%, rgba(201, 160, 78, 0.18), transparent 60%),
+    linear-gradient(180deg, #1c2c55 0%, #13203f 60%, #0b1530 100%);
+  color: #fff;
+}
+.arcade-field { position: absolute; inset: 0; }
+.arcade-stage.is-paused .arcade-field * { animation-play-state: paused !important; }
+.arcade-stage.shake-a { animation: stageShake 0.35s; }
+.arcade-stage.shake-b { animation: stageShake2 0.35s; }
+@keyframes stageShake { 0%, 100% { transform: none; } 20% { transform: translate(-8px, 3px); } 40% { transform: translate(7px, -4px); } 60% { transform: translate(-5px, 2px); } 80% { transform: translate(3px, -1px); } }
+@keyframes stageShake2 { 0%, 100% { transform: none; } 20% { transform: translate(8px, -3px); } 40% { transform: translate(-7px, 4px); } 60% { transform: translate(5px, -2px); } 80% { transform: translate(-3px, 1px); } }
+
+.arcade-overlay {
+  position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; align-content: center; gap: 18px;
+  background: rgba(8, 14, 32, 0.72); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); padding: 24px; text-align: center;
+}
+.arcade-hint { font-size: 17px; font-weight: 600; line-height: 1.45; max-width: 300px; color: #f3ebdd; }
+.countdown {
+  font-family: var(--font-brand); font-size: 110px; font-weight: 800; line-height: 1;
+  background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: countIn 0.7s ease-out;
+}
+@keyframes countIn { 0% { transform: scale(2.4); opacity: 0; } 35% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.2; } }
+.arcade-card {
+  width: min(300px, 100%); background: var(--card); color: var(--fg); border-radius: 18px; padding: 22px;
+  display: flex; flex-direction: column; gap: 12px; align-items: center; border: 1.5px solid var(--accent);
+}
+.game-over {
+  font-size: 40px; font-weight: 800; color: #fff; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  animation: overIn 0.6s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+@keyframes overIn { from { transform: scale(0.3) rotate(-8deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.score-pop {
+  position: absolute; z-index: 15; pointer-events: none; transform: translate(-50%, -50%);
+  font-weight: 800; font-size: 22px; color: #f3dc9f; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  animation: floatUp 0.9s ease-out forwards;
+}
+.score-pop.bad { color: #ff8a80; }
+@keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, -30%) scale(0.6); } 20% { opacity: 1; transform: translate(-50%, -60%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -180%) scale(1); } }
+
+/* Khung đề bài trên sân chơi */
+.arcade-prompt {
+  position: absolute; z-index: 5; top: 10px; left: 12px; right: 12px; text-align: center;
+  background: rgba(255, 255, 255, 0.96); color: #13203f; border-radius: 14px; padding: 10px 14px;
+  border: 2px solid var(--accent); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.arcade-prompt .label { color: #6d6a62; font-size: 11px; }
+.arcade-prompt .big { font-size: 19px; font-weight: 800; line-height: 1.25; }
+.arcade-prompt.swap { animation: pop 0.3s ease-out; }

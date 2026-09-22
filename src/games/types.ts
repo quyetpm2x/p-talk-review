@@ -33,7 +33,7 @@ export type CustomGameProps = {
   finish: (r: FinishResult) => void
 }
 
-export type Tier = 'nho' | 'hieu' | 'dung' | 'tong-hop'
+export type Tier = 'arcade' | 'nho' | 'hieu' | 'dung' | 'tong-hop'
 
 export type GameDef = {
   id: string
@@ -52,6 +52,7 @@ export type GameDef = {
 }
 
 export const TIERS: { id: Tier; name: string; desc: string }[] = [
+  { id: 'arcade', name: '🎮 Giải trí', desc: 'Game hành động — nhanh tay, nhớ lâu' },
   { id: 'nho', name: 'Nhớ', desc: 'Nhận ra cụm và nghĩa' },
   { id: 'hieu', name: 'Hiểu', desc: 'Dùng đúng chỗ, đúng sắc thái' },
   { id: 'dung', name: 'Dùng', desc: 'Tự viết, tự nói ra' },
