@@ -7,6 +7,7 @@ import { Challenge } from './Challenge'
 import { Review } from './Review'
 import { Balloons } from './arcade/Balloons'
 import { Rain } from './arcade/Rain'
+import { Ninja } from './arcade/Ninja'
 
 const byId = Object.fromEntries(QUESTION_GAMES.map((g) => [g.id, g]))
 
@@ -25,6 +26,13 @@ export const GAMES: GameDef[] = [
     eligible: (i) => !!i.group,
     lockReason: (items) => (items.length ? null : 'Cụm gợi ý thêm không có nhóm — chọn bộ khác'),
     Custom: Rain,
+  },
+  {
+    id: 'ninja', name: 'Chém cụm từ', icon: '⚔️', tier: 'arcade',
+    desc: 'Vuốt chém câu đúng nghĩa, né 💣 câu sai ngữ pháp',
+    eligible: () => true,
+    lockReason: (items) => (items.length >= 3 ? null : 'Cần ít nhất 3 cụm'),
+    Custom: Ninja,
   },
   byId.flashcard,
   byId.quiz,
