@@ -31,6 +31,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; gap: 8px;
   padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
   background: var(--ink); color: var(--ink-fg);
+  border-bottom: 2px solid var(--accent);
 }
 .topbar h1 { flex: 1; margin: 0; font-size: 17px; font-weight: 700; line-height: 1.2; min-width: 0; }
 .topbar h1 small { display: block; font-size: 12px; font-weight: 500; opacity: 0.65; }
@@ -61,7 +62,8 @@ a { color: inherit; text-decoration: none; }
 /* Section bar (giống thanh đen trong giáo trình) */
 .section-bar {
   display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
-  background: var(--ink); color: var(--ink-fg);
+  background: linear-gradient(90deg, var(--ink), var(--ink-2)); color: var(--ink-fg);
+  border-left: 4px solid var(--accent);
   border-radius: var(--radius-sm); padding: 10px 14px;
   font-weight: 700; font-size: 15px;
 }
@@ -88,8 +90,8 @@ a { color: inherit; text-decoration: none; }
 }
 .btn:active:not(:disabled) { transform: scale(0.97); }
 .btn:disabled { opacity: 0.45; cursor: default; }
-.btn-primary { background: var(--accent); color: var(--accent-fg); }
-.btn-dark { background: var(--fg); color: var(--bg); }
+.btn-primary { background: var(--accent-grad); color: var(--accent-fg); box-shadow: 0 2px 10px rgba(169, 125, 53, 0.25); }
+.btn-dark { background: var(--ink); color: var(--ink-fg); border-color: var(--accent); }
 .btn-ghost { background: var(--card); border-color: var(--line); }
 .btn-block { width: 100%; }
 .btn-sm { min-height: 40px; padding: 8px 12px; font-size: 14px; }
@@ -127,7 +129,7 @@ a { color: inherit; text-decoration: none; }
 /* Game */
 .game-head { display: flex; align-items: center; gap: 12px; }
 .game-head .pbar { flex: 1; }
-.score-pill { font-weight: 800; font-size: 14px; background: var(--accent); color: var(--accent-fg); padding: 4px 10px; border-radius: 99px; }
+.score-pill { font-weight: 800; font-size: 14px; background: var(--accent-grad); color: var(--accent-fg); padding: 4px 10px; border-radius: 99px; }
 .prompt { font-size: 24px; font-weight: 700; line-height: 1.3; }
 .prompt-vi { font-size: 20px; font-weight: 600; }
 .q-label { font-size: 13px; font-weight: 600; color: var(--muted); }
@@ -183,13 +185,13 @@ a { color: inherit; text-decoration: none; }
   position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 24px;
 }
-.flip-back { transform: rotateY(180deg); background: var(--ink); color: var(--ink-fg); border-color: var(--ink); }
+.flip-back { transform: rotateY(180deg); background: linear-gradient(160deg, var(--ink-2), var(--ink)); color: var(--ink-fg); border-color: var(--accent); }
 .flip-back .muted, .flip-back .label { color: rgba(255, 255, 255, 0.6); }
 
 /* Mic */
 .mic-btn {
-  width: 84px; height: 84px; border-radius: 50%; border: 0; font-size: 34px;
-  background: var(--fg); color: var(--bg); display: grid; place-items: center; margin: 0 auto;
+  width: 84px; height: 84px; border-radius: 50%; border: 3px solid var(--accent); font-size: 34px;
+  background: var(--ink); color: var(--ink-fg); display: grid; place-items: center; margin: 0 auto;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
 .mic-btn.on { background: var(--bad); color: #fff; animation: pulse 1.2s infinite; }
@@ -204,7 +206,7 @@ a { color: inherit; text-decoration: none; }
   flex: none; min-height: 40px; padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--line);
   background: var(--card); font-weight: 600; font-size: 14px; white-space: nowrap;
 }
-.set-chip.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.set-chip.on { background: var(--ink); color: var(--ink-fg); border-color: var(--accent); }
 
 /* Lưới trò chơi */
 .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -229,7 +231,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px; min-height: 72px;
   border-radius: 12px; border: 1.5px solid var(--line); background: var(--card-2); font-weight: 700; font-size: 14px; text-align: center;
 }
-.mode-btn:active, .mode-btn.on { border-color: var(--fg); background: var(--fg); color: var(--bg); }
+.mode-btn:active, .mode-btn.on { border-color: var(--accent); background: var(--ink); color: var(--ink-fg); }
 .mode-btn.on .muted { color: inherit; }
 
 /* Chat */
@@ -266,3 +268,26 @@ a { color: inherit; text-decoration: none; }
 .notes { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
 .notes li { line-height: 1.45; }
 .card-2 { background: var(--card-2); border-radius: var(--radius-sm); padding: 14px; }
+
+/* Chữ thương hiệu */
+.brand { font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.02em; }
+.gold-text { background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Trang chủ */
+.hero {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 12px;
+  padding: calc(22px + env(safe-area-inset-top)) 16px 22px;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(201, 160, 78, 0.28), transparent 55%),
+    linear-gradient(160deg, #1c2c55 0%, #13203f 55%, #0b1530 100%);
+  color: #fff;
+  border-bottom: 3px solid var(--accent);
+}
+.hero-sub { font-size: 12px; font-weight: 700; letter-spacing: 0.42em; margin-top: 4px; color: #e9dcc0; }
+.hero-slogan { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; margin-top: 4px; color: #c9b88f; }
+.hero-title { font-size: 22px; font-weight: 800; line-height: 1.25; margin-top: 4px; }
+.streak {
+  text-align: center; min-width: 64px; padding: 8px 12px; border-radius: 14px;
+  background: var(--accent-grad); color: #13203f;
+}

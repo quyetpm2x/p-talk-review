@@ -1,37 +1,43 @@
+/* Bảng màu theo nhận diện PTALK English: navy đậm + vàng gold + kem */
 :root {
-  --bg: #f3f2ee;
+  --bg: #f5efe3;
   --card: #ffffff;
-  --card-2: #f7f6f2;
-  --fg: #111111;
-  --muted: #6b6a66;
-  --line: #e2e0d9;
-  --ink: #111111;
+  --card-2: #faf6ee;
+  --fg: #14203f;
+  --muted: #6d6a62;
+  --line: #e6dcc7;
+  --ink: #13203f;
+  --ink-2: #1c2c55;
   --ink-fg: #ffffff;
-  --accent: #f5c400;
-  --accent-fg: #111111;
-  --accent-soft: #fff4c2;
+  --accent: #c9a04e;
+  --accent-fg: #13203f;
+  --accent-soft: #f4e8c8;
+  --accent-grad: linear-gradient(135deg, #ecd08f 0%, #c9a04e 50%, #a97d35 100%);
+  --gold-text: linear-gradient(180deg, #f3dc9f 0%, #d4ad5e 55%, #a97d35 100%);
   --ok: #17803f;
   --ok-bg: #e2f3e8;
   --bad: #c8342a;
   --bad-bg: #fbe5e3;
-  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 0 rgba(19, 32, 63, 0.04), 0 4px 16px rgba(19, 32, 63, 0.06);
   --radius: 14px;
   --radius-sm: 10px;
   --font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-brand: 'Cinzel', 'Times New Roman', serif;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0d0d0d;
-    --card: #181818;
-    --card-2: #202020;
-    --fg: #f1f1ef;
-    --muted: #9b9a95;
-    --line: #2c2c2a;
-    --ink: #000000;
-    --ink-fg: #ffffff;
-    --accent-soft: #3a3210;
+    --bg: #0a1226;
+    --card: #111b36;
+    --card-2: #17234a;
+    --fg: #f3ebdd;
+    --muted: #a39e90;
+    --line: #25325a;
+    --ink: #060c1d;
+    --ink-2: #0f1a38;
+    --accent: #d9b36a;
+    --accent-soft: #3a3119;
     --ok: #4cc47c;
     --ok-bg: #12301f;
     --bad: #ff6b5f;

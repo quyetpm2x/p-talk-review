@@ -34,7 +34,7 @@ export function MissionPage() {
           <div className="label">🎯 Situation</div>
           <div lang="en">{m.situation}</div>
         </div>
-        <div className="card row" style={{ background: 'var(--ink)', color: 'var(--ink-fg)', borderColor: 'var(--ink)' }}>
+        <div className="card row" style={{ background: 'var(--ink)', color: 'var(--ink-fg)', borderColor: 'var(--accent)' }}>
           <div className="grow">
             <div className="label" style={{ color: 'rgba(255,255,255,.6)' }}>🎬 Kick-off — A</div>
             <div lang="en" style={{ fontWeight: 600, fontSize: 17 }}>“{m.kickoff}”</div>
