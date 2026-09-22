@@ -1,0 +1,92 @@
+{
+  "lessonId": "level2-01",
+  "title": "Tin nhắn từ bạn cũ",
+  "friend": { "name": "Tuấn", "avatar": "🧑🏻", "voice": "am_michael" },
+  "seconds": 20,
+  "timeout": { "en": "Hello? Are you still there? 😅", "vi": "Alo? Cậu còn đó không? 😅" },
+  "turns": [
+    {
+      "id": "c1",
+      "friend": [
+        { "en": "Hey!! Is this really you? 😮", "vi": "Ê!! Có phải cậu thật không? 😮" },
+        { "en": "I just saw your photo in our old class group!", "vi": "Tớ vừa thấy ảnh cậu trong nhóm lớp cũ!" }
+      ],
+      "options": [
+        { "ok": true, "en": "Tuấn! Long time no see! 😄", "vi": "Tuấn! Lâu lắm không gặp! 😄", "toolkit": ["g1"] },
+        { "ok": false, "en": "Who is this? Stop messaging me.", "vi": "Ai đấy? Đừng nhắn cho tôi nữa.", "why": "Kém lịch sự — người ta là bạn cũ đang vui mừng nhắn hỏi." },
+        { "ok": false, "en": "Yes, this photo was taken last year.", "vi": "Ừ, ảnh đó chụp năm ngoái.", "why": "Đúng ngữ pháp nhưng lạc đề — bạn đang mừng vì gặp lại, không hỏi về tấm ảnh." }
+      ],
+      "replyOk": [{ "en": "Haha yes! It's been ages! 🤗", "vi": "Haha đúng rồi! Lâu ơi là lâu! 🤗" }],
+      "replyBad": [{ "en": "Uh... it's me, Tuấn? From class 12A? 😅", "vi": "Ơ… tớ đây, Tuấn nè? Lớp 12A đó? 😅" }]
+    },
+    {
+      "id": "c2",
+      "friend": [
+        { "en": "Wait, are you in Hanoi now?", "vi": "Khoan, giờ cậu ở Hà Nội à?" },
+        { "en": "I just moved here last month! 🏙️", "vi": "Tớ mới chuyển ra đây tháng trước! 🏙️" }
+      ],
+      "options": [
+        { "ok": true, "en": "No way! Me too! What a small world! 😲", "vi": "Không thể nào! Tớ cũng vậy! Trái đất tròn thật! 😲", "toolkit": ["s3", "s2"] },
+        { "ok": false, "en": "Hanoi is the capital of Vietnam.", "vi": "Hà Nội là thủ đô Việt Nam.", "why": "Đúng ngữ pháp nhưng như đọc sách địa lý — không phản hồi gì tới tin của bạn." },
+        { "ok": false, "en": "So what?", "vi": "Thì sao?", "why": "Cộc lốc, tỏ ra không quan tâm — kém lịch sự." }
+      ],
+      "replyOk": [{ "en": "Haha seriously! We could be neighbors 😂", "vi": "Haha thật luôn! Có khi tụi mình là hàng xóm đó 😂" }],
+      "replyBad": [{ "en": "Haha... okay 😅", "vi": "Haha… ừ thì 😅" }]
+    },
+    {
+      "id": "c3",
+      "friend": [
+        { "en": "So how have you been? What have you been up to? 😊", "vi": "Thế dạo này cậu sao rồi? Bao lâu nay làm gì? 😊" }
+      ],
+      "options": [
+        { "ok": true, "en": "Believe it or not, I'm training to be a pilot! ✈️", "vi": "Tin được không, tớ đang học để làm phi công! ✈️", "toolkit": ["n1"] },
+        { "ok": false, "en": "None of your business.", "vi": "Không phải việc của cậu.", "why": "Rất bất lịch sự — bạn chỉ đang hỏi thăm." },
+        { "ok": false, "en": "I am fine, thank you. And you?", "vi": "Tôi khoẻ, cảm ơn. Còn bạn?", "why": "Câu kiểu sách giáo khoa — bạn hỏi bao lâu nay làm gì, nên kể một tin về mình." }
+      ],
+      "replyOk": [{ "en": "WHAT?! That's so cool! 😍", "vi": "HẢ?! Ngầu quá vậy! 😍" }],
+      "replyBad": [{ "en": "Oh... okay then 😶", "vi": "Ờ… vậy à 😶" }]
+    },
+    {
+      "id": "c4",
+      "friend": [
+        { "en": "My news: I got married last year 💍", "vi": "Tin của tớ: năm ngoái tớ cưới vợ rồi 💍" },
+        { "en": "And we have a baby girl now 👶", "vi": "Giờ tụi tớ có một bé gái rồi 👶" }
+      ],
+      "options": [
+        { "ok": true, "en": "Congratulations!! How's the family? 🥰", "vi": "Chúc mừng nha!! Gia đình cậu thế nào? 🥰", "toolkit": ["c4"] },
+        { "ok": false, "en": "You are too young to have a baby.", "vi": "Cậu còn trẻ quá mà có con.", "why": "Nhận xét chuyện riêng của người khác — kém tế nhị." },
+        { "ok": false, "en": "I've got a baby too.", "vi": "Tớ cũng có một em bé.", "why": "Không chúc mừng, lại kể chuyện của mình — mà cũng chẳng đúng sự thật trong câu chuyện!" }
+      ],
+      "replyOk": [{ "en": "Everyone's great, thanks! She just started walking 😊", "vi": "Cả nhà khoẻ lắm, cảm ơn cậu! Bé vừa mới biết đi 😊" }],
+      "replyBad": [{ "en": "Haha... thanks, I guess? 😅", "vi": "Haha… cảm ơn nhỉ? 😅" }]
+    },
+    {
+      "id": "c5",
+      "friend": [
+        { "en": "I really miss our old class 🥲", "vi": "Tớ nhớ lớp mình ghê 🥲" },
+        { "en": "We should all meet up sometime!", "vi": "Lúc nào cả hội phải gặp nhau mới được!" }
+      ],
+      "options": [
+        { "ok": true, "en": "Yes! We should catch up properly. Let's not leave it so long! ☕", "vi": "Đúng đó! Phải hẹn nói chuyện đàng hoàng. Đừng để lâu thế nữa! ☕", "toolkit": ["w1", "w2"] },
+        { "ok": false, "en": "Maybe. I am busy every day.", "vi": "Chắc vậy. Ngày nào tôi cũng bận.", "why": "Từ chối lạnh nhạt — bạn sẽ nghĩ cậu không muốn gặp." },
+        { "ok": false, "en": "I don't miss anyone from that class.", "vi": "Tớ chẳng nhớ ai trong lớp đó cả.", "why": "Phũ phàng — làm bạn cụt hứng ngay." }
+      ],
+      "replyOk": [{ "en": "Exactly! I'm free this weekend, but next week is crazy busy...", "vi": "Chuẩn! Cuối tuần này tớ rảnh, nhưng tuần sau thì bận tối mặt…" }],
+      "replyBad": [{ "en": "Oh... okay, maybe another time 😕", "vi": "Ồ… ừ, để dịp khác vậy 😕" }]
+    },
+    {
+      "id": "c6",
+      "friend": [
+        { "en": "So when are you free? 📅", "vi": "Thế khi nào cậu rảnh? 📅" }
+      ],
+      "options": [
+        { "ok": true, "en": "Let me check my schedule. We'll sort out a day! 😊", "vi": "Để tớ xem lịch đã. Mình hẹn ngày sau nhé! 😊", "toolkit": ["w5"] },
+        { "ok": false, "en": "I am free. I am free. I am free.", "vi": "Tôi rảnh. Tôi rảnh. Tôi rảnh.", "why": "Lặp lại máy móc, không hẹn được gì cụ thể." },
+        { "ok": false, "en": "Never. Forget it.", "vi": "Không bao giờ. Thôi bỏ đi.", "why": "Rất bất lịch sự — bạn vừa rủ gặp mặt mà." }
+      ],
+      "replyOk": [{ "en": "Deal! 🤝 So good to hear from you again!", "vi": "Chốt! 🤝 Vui quá được nói chuyện lại với cậu!" }],
+      "replyBad": [{ "en": "Hmm... okay, text me when you know 🙂", "vi": "Hừm… ừ, khi nào biết thì nhắn tớ nhé 🙂" }]
+    }
+  ],
+  "outro": [{ "en": "Talk soon! Bye bye 👋", "vi": "Nói chuyện sau nhé! Bái bai 👋" }]
+}

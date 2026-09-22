@@ -9,6 +9,9 @@ import { setBest } from '../lib/progress'
 import { fuzzyEqual } from '../lib/scoring'
 import { shuffle } from '../lib/shuffle'
 import { buzz } from '../lib/haptics'
+import { useReward } from '../motivation/useReward'
+import { RewardInline } from '../motivation/Reward'
+import type { RewardReport } from '../motivation/engine'
 
 export function GrammarPage() {
   const { id = '' } = useParams()
@@ -47,6 +50,8 @@ function Exercises({ g, bestKey, onClose }: { g: GrammarPoint; bestKey: string; 
   const [score, setScore] = useState(0)
   const [finished, setFinished] = useState(false)
   const [val, setVal] = useState('')
+  const give = useReward()
+  const [reward, setReward] = useState<RewardReport | null>(null)
   const e = g.exercises[i]
   const opts = useMemo(() => (e.type === 'choice' ? shuffle(e.options.map((o, k) => ({ o, k }))) : []), [e])
 
@@ -63,6 +68,7 @@ function Exercises({ g, bestKey, onClose }: { g: GrammarPoint; bestKey: string; 
     } else {
       setFinished(true)
       update((pp) => setBest(pp, bestKey, score))
+      setReward(give({ kind: 'grammar', id: bestKey, correct: score, total: g.exercises.length }))
     }
   }
 
@@ -71,9 +77,10 @@ function Exercises({ g, bestKey, onClose }: { g: GrammarPoint; bestKey: string; 
       <div className="card-2 center stack">
         <div style={{ fontSize: 36 }}>{score === g.exercises.length ? '🏆' : '👍'}</div>
         <strong>Đúng {score}/{g.exercises.length} câu</strong>
+        <RewardInline key={String(!!reward)} report={reward} />
         <div className="grid-2">
           <button className="btn btn-ghost" onClick={onClose}>Đóng</button>
-          <button className="btn btn-primary" onClick={() => { setI(0); setOk(null); setScore(0); setVal(''); setFinished(false) }}>↻ Làm lại</button>
+          <button className="btn btn-primary" onClick={() => { setI(0); setOk(null); setScore(0); setVal(''); setReward(null); setFinished(false) }}>↻ Làm lại</button>
         </div>
       </div>
     )

@@ -13,8 +13,8 @@ const TIME = { default: 15, scramble: 25, fill: 25 } as Record<string, number>
 
 export function Challenge({ lesson, items, pool, record, finish }: CustomGameProps) {
   const games = useMemo(
-    () => QUESTION_GAMES.filter((g) => MIX.includes(g.id) && !g.lockReason(pool.filter(g.eligible), 'all')),
-    [pool],
+    () => QUESTION_GAMES.filter((g) => MIX.includes(g.id) && !g.lockReason(pool.filter(g.eligible), 'all', lesson)),
+    [pool, lesson],
   )
   const makeQ = (): { item: Item; game: GameDef } => {
     const item = shuffle(items)[0]

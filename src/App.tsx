@@ -54,7 +54,8 @@ function AnimatedRoutes() {
   const [stage, setStage] = useState<'none' | 'out' | 'in'>('none')
 
   useEffect(() => {
-    if (location.key === shown.key) return
+    // so cả đường dẫn: khi tự gõ địa chỉ, mọi location đều có key 'default'
+    if (location.key === shown.key && location.pathname + location.search === shown.pathname + shown.search) return
     // Chỉ làm hiệu ứng giữa Trang chủ và bài học (cả 2 chiều); mọi chuyển trang khác đổi ngay
     const isHome = (p: string) => p === '/'
     const isLesson = (p: string) => p.startsWith('/lesson/')

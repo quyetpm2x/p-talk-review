@@ -4,6 +4,7 @@ import lesson from '../src/lessons/level2-01.json'
 import manifest from '../src/audio/manifest.json'
 import type { Lesson } from '../src/types'
 import { existsSync } from 'node:fs'
+import { collectStoryClips } from '../src/games/story/data'
 
 it('clipKey chuẩn hoá khoảng trắng và bỏ "..." ở cuối', () => {
   expect(clipKey('Believe it or not, ...', 'af_heart')).toBe('af_heart|Believe it or not')
@@ -24,7 +25,8 @@ it('collectClips gom đủ câu, dùng giọng riêng cho hội thoại', () => 
 })
 it('mọi câu của bài 1 đều đã có file âm thanh (chạy `npm run tts` nếu lỗi)', () => {
   const m = manifest as Record<string, string>
-  const missing = collectClips(lesson as Lesson).filter((c) => !m[clipKey(c.text, c.voice)])
+  const all = [...collectClips(lesson as Lesson), ...collectStoryClips((lesson as Lesson).id)]
+  const missing = all.filter((c) => !m[clipKey(c.text, c.voice)])
   expect(missing.map((c) => c.text)).toEqual([])
   for (const f of Object.values(m)) expect(existsSync(`public/audio/${f}`)).toBe(true)
 })

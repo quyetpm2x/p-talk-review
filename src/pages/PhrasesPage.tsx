@@ -77,7 +77,7 @@ export function PhrasesPage() {
           <div className="game-grid">
             {GAMES.filter((g) => g.tier === t.id).map((g) => {
               const n = GAMES.indexOf(g) + 1
-              const lock = g.lockReason(all.filter(g.eligible), set)
+              const lock = g.lockReason(all.filter(g.eligible), set, lesson)
               const best = p.bestScores[`${lesson.id}:${g.id}`]
               return (
                 <Link key={g.id} to={`/lesson/${lesson.id}/phrases/${g.id}${set !== 'all' ? `?set=${set}` : ''}`}

@@ -13,6 +13,7 @@ import { join, resolve } from 'node:path'
 import { tmpdir } from 'node:os'
 import { KokoroTTS } from 'kokoro-js'
 import { clipKey, collectClips, ttsInput, type Clip } from '../../src/lib/audioKey'
+import { collectStoryClips } from '../../src/games/story/data'
 import type { Lesson } from '../../src/types'
 
 const ROOT = resolve(import.meta.dirname, '../..')
@@ -28,7 +29,10 @@ const lessons: Lesson[] = readdirSync(LESSONS)
   .map((f) => JSON.parse(readFileSync(join(LESSONS, f), 'utf8')))
 
 const clips = new Map<string, Clip>()
-for (const l of lessons) for (const c of collectClips(l)) clips.set(clipKey(c.text, c.voice), c)
+for (const l of lessons) {
+  // câu trong bài học + câu thoại của Phim tương tác / Nhắn tin (nếu bài có kịch bản)
+  for (const c of [...collectClips(l), ...collectStoryClips(l.id)]) clips.set(clipKey(c.text, c.voice), c)
+}
 
 mkdirSync(OUT, { recursive: true })
 const manifest: Record<string, string> = {}

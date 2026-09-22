@@ -2,29 +2,44 @@ import { useState } from 'react'
 import type { Item } from '../lib/picker'
 import { SpeakButton } from './SpeakButton'
 import { Icon } from './Icon'
+import type { RewardReport } from '../motivation/engine'
+import { MascotSay, moodFor, type Mood } from '../motivation/Mascot'
+import { BadgeModal, RewardPanel, useCelebrate } from '../motivation/Reward'
 
 type Answer = { item: Item; correct: boolean }
+
+/** Câu linh vật nói theo trạng thái. */
+const SAY: Record<Mood, string> = {
+  dance: 'Xuất sắc — đúng tất cả! Cú nhảy múa luôn nè! 🎉',
+  cheer: 'Làm tốt lắm! Cú tự hào về bạn!',
+  idle: 'Khá rồi! Ôn thêm chút nữa là nhớ chắc nhé!',
+  think: 'Hmm… vài cụm còn khó. Mình ôn lại câu sai nhé?',
+  sad: 'Đừng nản! Cú cùng bạn ôn lại nào — cố lên! 💪',
+}
 
 const fmtTime = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}p ${s % 60}s` : `${s}s`)
 
 /** Trang thống kê sau khi làm xong một lượt. */
-export function ResultScreen({ score, best, total, correct, wrong, answers, seconds, onRetry, onReviewWrong, onExit, unit = 'điểm' }: {
+export function ResultScreen({ score, best, total, correct, wrong, answers, seconds, onRetry, onReviewWrong, onExit, unit = 'điểm', reward }: {
   score: number; best?: number; total?: number; correct?: number; wrong: Item[]
   answers?: Answer[]; seconds?: number
   onRetry: () => void; onReviewWrong?: () => void; onExit: () => void; unit?: string
+  /** Phần thưởng của lượt này (XP, nhiệm vụ, huy hiệu) */
+  reward?: RewardReport | null
 }) {
   const isBest = best !== undefined && score >= best && score > 0
   const ratio = total ? (correct ?? 0) / total : 0
   const pct = Math.round(ratio * 100)
-  const emoji = !total ? '🏁' : ratio === 1 ? '🏆' : ratio >= 0.7 ? '🎉' : ratio >= 0.4 ? '💪' : '📖'
-  const msg = !total ? 'Hoàn thành!' : ratio === 1 ? 'Xuất sắc — đúng tất cả!' : ratio >= 0.7 ? 'Làm tốt lắm!' : ratio >= 0.4 ? 'Khá rồi, ôn thêm chút nữa nhé!' : 'Cần ôn lại — cố lên!'
+  const mood = moodFor(total ? ratio : undefined)
+  const msg = !total ? 'Hoàn thành rồi! Giỏi quá!' : SAY[mood]
   const rows: Answer[] = answers ?? wrong.map((item) => ({ item, correct: false }))
+  const [badgeOpen, setBadgeOpen] = useState(true)
+  useCelebrate(reward, isBest)
 
   return (
     <div className="stack" style={{ gap: 14 }}>
       <div className="result-hero">
-        <div style={{ fontSize: 48, lineHeight: 1 }}>{emoji}</div>
-        <div style={{ fontWeight: 800, fontSize: 18 }}>{msg}</div>
+        <MascotSay mood={mood} size={92} dark>{msg}</MascotSay>
         {total !== undefined && (
           <div className="ring" style={{ ['--pct' as string]: `${pct}` }} role="img" aria-label={`Chính xác ${pct}%`}>
             <div>
@@ -35,6 +50,9 @@ export function ResultScreen({ score, best, total, correct, wrong, answers, seco
         )}
         {isBest ? <span className="tag accent">⭐ Kỷ lục mới!</span> : best !== undefined && best > 0 && <span className="small" style={{ opacity: 0.75 }}>Kỷ lục: {best}</span>}
       </div>
+
+      {reward && <RewardPanel report={reward} />}
+      {reward && badgeOpen && reward.badges.length > 0 && <BadgeModal ids={reward.badges} onClose={() => setBadgeOpen(false)} />}
 
       <div className="stat-grid">
         <div className="stat"><div className="stat-v">{score}</div><div className="stat-k">{unit}</div></div>

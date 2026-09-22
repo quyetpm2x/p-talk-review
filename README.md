@@ -2,8 +2,11 @@
 
 Web app (PWA) để học sinh PTALK English ôn lại bài sau mỗi buổi học giao tiếp. Thiết kế cho điện thoại trước, không cần đăng nhập, và tiến độ được lưu ngay trên máy của học sinh.
 
-- **Kho cụm từ:** 18 trò chia thành 5 nhóm, có lịch ôn lặp lại ngắt quãng theo kiểu Leitner:
+- **Kho cụm từ:** 26 trò chia thành 8 nhóm, có lịch ôn lặp lại ngắt quãng theo kiểu Leitner:
   - **🎮 Giải trí** (game hành động): Bắn bóng bay, Mưa cụm từ, Chém cụm từ, Đua xe.
+  - **🎬 Nhập vai:** Phim tương tác (chọn câu hợp tình huống, 4 cái kết), Nhắn tin kiểu Zalo (giới hạn thời gian, trả lời bằng chữ hoặc giọng nói).
+  - **🧠 Trí nhớ & đố vui:** Lật thẻ tìm cặp, Wordle cụm từ, Bingo trên lớp (chế độ chiếu màn hình lớn), Vòng quay may mắn.
+  - **🎤 Nghe & nói:** Karaoke nhại giọng (chữ sáng theo giọng đọc), Đánh boss bằng giọng nói.
   - **Nhớ / Hiểu / Dùng / Tổng hợp:** 14 trò luyện tập (thẻ lật, trắc nghiệm, nối cặp, nghe, nói…).
 - **Role-play:** hội thoại mẫu có 3 chế độ (Nghe / Điền cụm / Đóng vai bằng giọng nói) và thẻ nhiệm vụ có ghi âm.
 - **Ngữ pháp:** giải thích ngắn kèm bài tập.
@@ -35,6 +38,16 @@ Mẹo nhập dữ liệu:
 ## Đưa lên Vercel
 
 Tạo project mới trên Vercel và trỏ tới repo này. Vercel tự nhận ra đây là dự án Vite, lệnh build là `npm run build`, thư mục xuất là `dist`. Web dùng HashRouter nên không cần cấu hình chuyển hướng.
+
+## Lớp động lực
+
+- **XP và cấp độ:** 10 XP mỗi câu đúng (tối đa 20 câu một lượt) + 20 XP hoàn thành + 30 XP nếu đúng 100%. Mỗi lượt tối đa 250 XP; quá 1500 XP trong ngày thì chỉ nhận 20%. Mỗi nhiệm vụ hằng ngày hoàn thành được thêm 50 XP.
+- **13 huy hiệu, 3 nhiệm vụ mỗi ngày** (đổi theo ngày), **linh vật cú PTALK** phản ứng theo kết quả, **bản đồ hành trình** trên Trang chủ.
+- Code nằm trong `src/motivation/`, dữ liệu lưu cùng tiến độ (`ptalk:v1:progress`, tương thích với dữ liệu cũ).
+
+## Kịch bản Nhập vai
+
+Phim tương tác và Nhắn tin dùng kịch bản riêng cho từng bài: `src/lessons/stories/<id>.json` và `src/lessons/chats/<id>.json` (kiểu dữ liệu và hàm kiểm tra trong `src/games/story/data.ts`). Bài chưa có kịch bản thì 2 trò này tự khoá. Sau khi thêm kịch bản, chạy `npm run tts` để tạo giọng cho các câu thoại mới.
 
 ## Game hành động (🎮 Giải trí)
 

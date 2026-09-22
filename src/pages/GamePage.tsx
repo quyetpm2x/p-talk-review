@@ -9,6 +9,8 @@ import { useProgress } from '../lib/ProgressContext'
 import { recordAnswer, setBest } from '../lib/progress'
 import { TopBar } from '../components/TopBar'
 import { ResultScreen } from '../components/ResultScreen'
+import { useReward } from '../motivation/useReward'
+import type { RewardReport } from '../motivation/engine'
 
 export function GamePage() {
   const { id = '', game = '' } = useParams()
@@ -21,6 +23,8 @@ export function GamePage() {
   const [run, setRun] = useState(0)
   const [result, setResult] = useState<(FinishResult & { prevBest: number }) | null>(null)
   const [fixed, setFixed] = useState<Item[] | undefined>()
+  const [reward, setReward] = useState<RewardReport | null>(null)
+  const giveReward = useReward()
 
   // Lên đầu trang khi mở trang thống kê hoặc bắt đầu lượt mới
   useEffect(() => { window.scrollTo(0, 0) }, [result, run])
@@ -37,18 +41,21 @@ export function GamePage() {
   if (!lesson || !def) return <><TopBar back="/" title="Không tìm thấy trò chơi" /><main className="page" /></>
 
   const bestKey = `${lesson.id}:${def.id}`
-  const lock = def.lockReason(items, set)
+  const lock = def.lockReason(items, set, lesson)
   const record = (itemId: string, correct: boolean) => update((pp) => recordAnswer(pp, lesson.id, itemId, correct, Date.now()))
   const finish = (raw: FinishResult) => {
     // Thẻ lật không tính điểm: dùng số cụm đã nhớ làm điểm
     const r = def.autoNext ? { ...raw, score: raw.correct } : raw
     const prevBest = p.bestScores[bestKey] ?? 0
     if (!fixed) update((pp) => setBest(pp, bestKey, r.score))
+    // Cộng XP / nhiệm vụ / huy hiệu — finish là sự kiện, chỉ chạy một lần mỗi lượt
+    setReward(giveReward({ kind: 'game', id: def.id, tier: def.tier, correct: r.correct, total: r.total, lessonId: lesson.id }))
     setResult({ ...r, prevBest })
   }
   const restart = (f?: Item[]) => {
     setFixed(f)
     setResult(null)
+    setReward(null)
     setRun((x) => x + 1)
   }
   const setName = set === 'all' ? 'Tất cả' : set === 'extra' ? 'Cụm gợi ý thêm' : lesson.groups.find((g) => g.id === set)?.vi
@@ -76,6 +83,7 @@ export function GamePage() {
             onReviewWrong={def.Question ? () => restart(result.wrong) : undefined}
             onExit={() => nav(back)}
             unit={def.autoNext ? `/ ${result.total} cụm đã nhớ` : 'điểm'}
+            reward={reward}
           />
         ) : def.Custom ? (
           <def.Custom key={run} lesson={lesson} items={items} pool={pool} record={record} finish={finish} />

@@ -12,6 +12,9 @@ import { buzz } from '../lib/haptics'
 import { useProgress } from '../lib/ProgressContext'
 import { setBest } from '../lib/progress'
 import { MODES } from './RoleplayPage'
+import { useReward } from '../motivation/useReward'
+import { RewardInline } from '../motivation/Reward'
+import type { RewardReport } from '../motivation/engine'
 
 export function DialoguePage() {
   const { id = '', idx = '0', mode = 'listen' } = useParams()
@@ -130,9 +133,14 @@ function FillMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
   const done = cur === blanks.length
   const score = filled.filter((b) => !missed.has(b)).length * 10
   const prevBest = useRef(p.bestScores[bestKey] ?? 0)
+  const give = useReward()
+  const [reward, setReward] = useState<RewardReport | null>(null)
 
   useEffect(() => {
-    if (done && blanks.length) update((pp) => setBest(pp, bestKey, score))
+    if (done && blanks.length) {
+      update((pp) => setBest(pp, bestKey, score))
+      setReward(give({ kind: 'dialogue', id: bestKey, correct: score / 10, total: blanks.length }))
+    }
   }, [done]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -159,6 +167,7 @@ function FillMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
     setFilled([])
     setUsed([])
     setMissed(new Set())
+    setReward(null)
     prevBest.current = Math.max(prevBest.current, score)
   }
 
@@ -186,6 +195,7 @@ function FillMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
           <div style={{ fontSize: 40 }}>{score === blanks.length * 10 ? '🏆' : '🎉'}</div>
           <strong>{score} / {blanks.length * 10} điểm</strong>
           {score > prevBest.current && <span className="tag accent" style={{ alignSelf: 'center' }}>⭐ Kỷ lục mới!</span>}
+          <RewardInline key={String(!!reward)} report={reward} />
           <button className="btn btn-primary btn-block" onClick={reset}>↻ Làm lại</button>
         </div>
       ) : (
@@ -229,8 +239,12 @@ function ActMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
     }
   }, [role, step, run]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const give = useReward()
+  const [reward, setReward] = useState<RewardReport | null>(null)
   useEffect(() => {
-    if (done) update((pp) => setBest(pp, bestKey, pct))
+    if (!done) return
+    update((pp) => setBest(pp, bestKey, pct))
+    setReward(give({ kind: 'dialogue', id: bestKey, correct: passed, total: mine.length }))
   }, [done]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!role)
@@ -249,7 +263,7 @@ function ActMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
       </div>
     )
 
-  const restart = () => { stopSpeaking(); setStep(0); setResults({}); setReveal(false); setRun((x) => x + 1) }
+  const restart = () => { stopSpeaking(); setStep(0); setResults({}); setReveal(false); setReward(null); setRun((x) => x + 1) }
 
   return (
     <>
@@ -290,6 +304,7 @@ function ActMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
         <div className="card center stack">
           <div style={{ fontSize: 40 }}>{pct === 100 ? '🏆' : pct >= 60 ? '🎉' : '💪'}</div>
           <strong>Đạt {passed}/{mine.length} câu ({pct}%)</strong>
+          <RewardInline key={String(!!reward)} report={reward} />
           <div className="grid-2">
             <button className="btn btn-ghost" onClick={() => { setRole(role === 'A' ? 'B' : 'A'); restart() }}>Đổi sang vai {role === 'A' ? 'B' : 'A'}</button>
             <button className="btn btn-primary" onClick={restart}>↻ Làm lại</button>

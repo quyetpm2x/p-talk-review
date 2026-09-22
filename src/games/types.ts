@@ -43,7 +43,7 @@ export type GameDef = {
   desc: string
   eligible: (i: Item) => boolean
   /** Trả về lý do khoá nếu bộ cụm không đủ dữ liệu, null nếu chơi được */
-  lockReason: (items: Item[], set: string) => string | null
+  lockReason: (items: Item[], set: string, lesson: Lesson) => string | null
   /** Tự chuyển câu ngay sau khi trả lời (thẻ lật) */
   autoNext?: boolean
   perRound?: number

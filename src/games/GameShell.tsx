@@ -4,6 +4,7 @@ import { pickItems, type Item } from '../lib/picker'
 import { useProgress } from '../lib/ProgressContext'
 import { ProgressBar } from '../components/ProgressBar'
 import { AutoNext, AUTO_DELAY } from '../components/AutoNext'
+import { sfx } from '../lib/sfx'
 
 /** Khung chung cho trò dạng từng câu: chọn 10 cụm, đếm điểm, tự chuyển câu. */
 export function GameShell({ def, lesson, items, pool, record, finish, fixed }: CustomGameProps & { def: GameDef; fixed?: Item[] }) {
@@ -45,6 +46,7 @@ export function GameShell({ def, lesson, items, pool, record, finish, fixed }: C
       <Q key={i} item={item} pool={pool} lesson={lesson} onAnswer={(r) => {
         if (last !== null) return
         record(item.id, r.correct)
+        if (!def.autoNext) sfx(r.correct ? 'ok' : 'bad') // thẻ lật không phát âm đúng/sai
         answers.current = [...answers.current, { item, correct: r.correct }]
         scoreRef.current += r.points
         setScore(scoreRef.current)

@@ -89,7 +89,7 @@ export async function speak(text: string, opts: SpeakOpts = {}): Promise<void> {
   return speakSynth(t, opts)
 }
 
-function speakSynth(text: string, opts: SpeakOpts): Promise<void> {
+function speakSynth(text: string, opts: SpeakOpts, onBoundary?: (charIndex: number) => void): Promise<void> {
   return new Promise((resolve) => {
     if (!hasSynth()) return resolve()
     synth!.cancel()
@@ -106,6 +106,7 @@ function speakSynth(text: string, opts: SpeakOpts): Promise<void> {
     const finish = () => { if (!done) { done = true; resolve() } }
     u.onend = finish
     u.onerror = finish
+    if (onBoundary) u.onboundary = (e) => onBoundary(e.charIndex)
     // Phòng khi trình duyệt không bắn onend
     setTimeout(finish, 1500 + text.length * 120 * (opts.slow ? 1.5 : 1))
     synth!.speak(u)
@@ -116,4 +117,60 @@ export const stopSpeaking = () => {
   synth?.cancel()
   player?.pause()
   endCurrent?.()
+}
+
+/**
+ * Tiến độ khi đọc:
+ * - kind 'time': tỉ lệ thời gian đã phát (0–1) của file âm thanh, hoặc ước lượng khi dùng giọng trình duyệt;
+ * - kind 'char': vị trí ký tự của từ đang đọc (sự kiện boundary của giọng trình duyệt), tính trên `text` đã chuẩn hoá.
+ */
+export type SpeechProgress =
+  | { kind: 'time'; fraction: number; estimated?: boolean }
+  | { kind: 'char'; charIndex: number; text: string }
+
+/**
+ * Giống speak() nhưng báo tiến độ để tô chữ theo giọng đọc (karaoke).
+ * Dùng chung thẻ audio với speak(), nên stopSpeaking() cũng dừng được.
+ */
+export async function speakWithProgress(
+  text: string, opts: SpeakOpts = {}, onProgress: (p: SpeechProgress) => void,
+): Promise<void> {
+  const t = spokenText(text)
+  if (!t) return
+  synth?.cancel()
+  const url = hasAudio ? clipUrl(t, opts.kokoro) : undefined
+  if (url) {
+    const playing = playClip(url, opts.slow) // đã gán src cho player ngay khi gọi
+    const a = player!
+    let raf = 0
+    const tick = () => {
+      if (a.duration > 0 && Number.isFinite(a.duration)) onProgress({ kind: 'time', fraction: Math.min(1, a.currentTime / a.duration) })
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    const ok = await playing
+    cancelAnimationFrame(raf)
+    if (ok) {
+      if (a.ended) onProgress({ kind: 'time', fraction: 1 })
+      return
+    }
+  }
+  player?.pause()
+  // Giọng trình duyệt: ước lượng theo thời gian cho tới khi có sự kiện boundary
+  const rate = opts.slow ? 0.7 : 0.95
+  const estMs = (400 + t.length * 62) / rate
+  const start = performance.now()
+  let gotBoundary = false
+  let raf = 0
+  const tick = () => {
+    if (!gotBoundary) onProgress({ kind: 'time', fraction: Math.min(0.98, (performance.now() - start) / estMs), estimated: true })
+    raf = requestAnimationFrame(tick)
+  }
+  if (hasSynth()) raf = requestAnimationFrame(tick)
+  await speakSynth(t, opts, (charIndex) => {
+    gotBoundary = true
+    onProgress({ kind: 'char', charIndex, text: t })
+  })
+  cancelAnimationFrame(raf)
+  onProgress({ kind: 'time', fraction: 1 })
 }
