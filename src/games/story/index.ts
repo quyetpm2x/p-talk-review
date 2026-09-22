@@ -6,8 +6,8 @@ import { chatLockReason, storyLockReason } from './data'
 /** Phần B: Phim tương tác, Nhắn tin Zalo */
 export const STORY_GAMES: GameDef[] = [
   {
-    id: 'story', name: 'Phim tương tác', icon: '🎬', tier: 'story',
-    desc: 'Tình cờ gặp lại bạn cũ ở quán cà phê — chọn câu đáp khéo để mở cái kết đẹp nhất',
+    id: 'story', name: 'Tương tác', icon: '🎬', tier: 'story',
+    desc: 'Mở phim: tình cờ gặp lại bạn cũ ở quán cà phê, trên phố hay ở tiệc cưới — chọn câu đáp khéo để mở cái kết đẹp nhất',
     eligible: () => true,
     lockReason: (_items, _set, lesson) => storyLockReason(lesson),
     Custom: Story,
