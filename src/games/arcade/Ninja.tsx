@@ -40,6 +40,8 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
   const flyers = useRef<Flyer[]>([])
   const [, setTick] = useState(0)
   const resolved = useRef(false)
+  // Trừ mạng theo câu hỏi: mỗi đợt mất tối đa 1 mạng và chỉ ghi 1 kết quả vào lịch ôn
+  const roundHurt = useRef(false)
   const trail = useRef<(Pt & { t: number })[]>([])
   const drawing = useRef(false)
   // mỗi nhát vuốt chỉ tính thẻ đầu tiên lưỡi kiếm chạm vào
@@ -76,6 +78,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
       }
     })
     resolved.current = false
+    roundHurt.current = false
     setReveal(null)
   }, [round, target]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -97,7 +100,9 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         const t = flyers.current.find((f) => f.kind === 'target')
         if (t && t.state === 'fly' && t.vy > 0 && t.y > H + t.h && !resolved.current) {
           resolved.current = true
-          apiRef.current.miss({ item: t.item, label: '💨 Lọt mất!', x: t.x, y: H - 60 })
+          const first = !roundHurt.current
+          roundHurt.current = true
+          apiRef.current.miss({ item: first ? t.item : undefined, loseLife: first, label: '💨 Lọt mất!', x: t.x, y: H - 60 })
           setReveal(t.text)
           setTimeout(() => nextRef.current(), 1100)
         }
@@ -137,7 +142,8 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         sfx('slice')
         if (!resolved.current) {
           resolved.current = true
-          api.hit({ item: target, points: 15, x: f.x, y: f.y })
+          // đã sai trong đợt này thì vẫn cho chém để nhớ câu, nhưng không cộng điểm
+          if (!roundHurt.current) api.hit({ item: target, points: 15, x: f.x, y: f.y })
           speak(target.en)
           setTimeout(() => nextRef.current(), 900)
         }
@@ -145,7 +151,12 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         const bomb = f.kind === 'bomb'
         f.state = bomb ? 'boom' : 'cut'
         if (!bomb) sfx('slice')
-        api.miss({ item: target, label: bomb ? '💣 Sai ngữ pháp!' : 'Nhầm câu!', x: f.x, y: f.y, sound: bomb ? 'boom' : 'bad' })
+        const first = !roundHurt.current
+        roundHurt.current = true
+        api.miss({
+          item: first ? target : undefined, loseLife: first,
+          label: bomb ? '💣 Sai ngữ pháp!' : 'Nhầm câu!', x: f.x, y: f.y, sound: bomb ? 'boom' : 'bad',
+        })
         setReveal(target.en)
       }
       return
