@@ -78,7 +78,7 @@ function ListenMode({ d }: { d: Dialogue }) {
     setPlaying(true)
     for (let i = start; i < d.lines.length && !stopRef.current; i++) {
       setActive(i)
-      await speak(d.lines[i].text, { voice: d.lines[i].speaker })
+      await speak(d.lines[i].text, { voice: d.lines[i].speaker, kokoro: d.voices?.[d.lines[i].speaker] })
       await new Promise((r) => setTimeout(r, 250))
     }
     setPlaying(false)
@@ -100,7 +100,7 @@ function ListenMode({ d }: { d: Dialogue }) {
       <div className="muted small center">Chạm vào một câu để nghe riêng câu đó · <b style={{ background: 'var(--accent-soft)' }}>tô vàng</b> = cụm toolkit</div>
       <div className="chat">
         {d.lines.map((ln, i) => (
-          <button key={i} onClick={() => { stop(); setActive(i); speak(ln.text, { voice: ln.speaker }).then(() => setActive(null)) }}
+          <button key={i} onClick={() => { stop(); setActive(i); speak(ln.text, { voice: ln.speaker, kokoro: d.voices?.[ln.speaker] }).then(() => setActive(null)) }}
             style={{ all: 'unset', cursor: 'pointer' }} aria-label={`Nghe câu ${i + 1}`}>
             <Bubble speaker={ln.speaker} active={active === i}><Highlight text={ln.text} toolkit={ln.toolkit} /></Bubble>
           </button>
@@ -146,7 +146,7 @@ function FillMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
       buzz(true)
       setUsed((u) => [...u, bi])
       setFilled((f) => [...f, cur])
-      speak(d.lines[blanks[cur].line].text, { voice: d.lines[blanks[cur].line].speaker })
+      speak(d.lines[blanks[cur].line].text, { voice: d.lines[blanks[cur].line].speaker, kokoro: d.voices?.[d.lines[blanks[cur].line].speaker] })
     } else {
       buzz(false)
       setMissed((m) => new Set(m).add(cur))
@@ -224,7 +224,7 @@ function ActMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
     endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
     if (ln.speaker !== role) {
       let alive = true
-      speak(ln.text, { voice: ln.speaker }).then(() => alive && setTimeout(() => alive && setStep((s) => s + 1), 300))
+      speak(ln.text, { voice: ln.speaker, kokoro: d.voices?.[ln.speaker] }).then(() => alive && setTimeout(() => alive && setStep((s) => s + 1), 300))
       return () => { alive = false }
     }
   }, [role, step, run]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -275,7 +275,7 @@ function ActMode({ d, bestKey }: { d: Dialogue; bestKey: string }) {
           <div className="row">
             <strong className="grow">Đến lượt bạn!</strong>
             <button className="btn btn-ghost btn-sm" onClick={() => setReveal((r) => !r)}>{reveal ? '🙈 Ẩn câu' : '👁 Xem câu'}</button>
-            <SpeakButton text={d.lines[step].text} voice={role} label="Nghe câu mẫu" />
+            <SpeakButton text={d.lines[step].text} voice={role} kokoro={d.voices?.[role]} label="Nghe câu mẫu" />
           </div>
           <SpeechCheck target={d.lines[step].text} onResult={(r) => {
             buzz(r.passed)

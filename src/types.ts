@@ -24,6 +24,8 @@ export type DialogueLine = { speaker: 'A' | 'B'; text: string; toolkit: string[]
 export type Dialogue = {
   title: string
   setting: string
+  /** Giọng Kokoro cho từng vai, ví dụ { "A": "am_michael", "B": "af_heart" } */
+  voices?: { A?: string; B?: string }
   lines: DialogueLine[]
   newWords: { en: string; meaning: string; vi: string }[]
 }

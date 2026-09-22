@@ -1,0 +1,13 @@
+{
+  "name": "ptalk-tts",
+  "private": true,
+  "type": "module",
+  "description": "Tạo sẵn file giọng đọc tiếng Anh cho các bài học bằng Kokoro (chạy trên máy, không đưa vào web)",
+  "scripts": {
+    "generate": "tsx generate.ts"
+  },
+  "dependencies": {
+    "kokoro-js": "^1.2.1",
+    "tsx": "^4.23.15"
+  }
+}

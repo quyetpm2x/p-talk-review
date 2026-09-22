@@ -20,7 +20,8 @@ npm run preview   # chạy thử bản build
 
 1. Chép `src/lessons/level2-01.json` thành file mới (ví dụ `level2-02.json`), rồi sửa nội dung theo giáo trình. Cấu trúc file được mô tả trong `src/types.ts`.
 2. Import file mới và thêm nó vào mảng `raw` trong `src/lessons/index.ts`.
-3. Chạy `npm test`. Test sẽ báo lỗi nếu file bài học thiếu trường hoặc sai cấu trúc.
+3. Tạo giọng đọc cho bài mới: `npm run tts` (xem mục **Giọng đọc Kokoro** bên dưới).
+4. Chạy `npm test`. Test sẽ báo lỗi nếu file bài học thiếu trường, sai cấu trúc, hoặc có câu chưa có file giọng đọc.
 
 Mẹo nhập dữ liệu:
 - `toolkit` của mỗi câu hội thoại phải là **một đoạn nằm y nguyên trong câu**. Đó là các cụm được gạch chân trong sách.
@@ -33,8 +34,24 @@ Mẹo nhập dữ liệu:
 
 Tạo project mới trên Vercel và trỏ tới repo này. Vercel tự nhận ra đây là dự án Vite, lệnh build là `npm run build`, thư mục xuất là `dist`. Web dùng HashRouter nên không cần cấu hình chuyển hướng.
 
+## Giọng đọc Kokoro
+
+Các câu tiếng Anh được đọc bằng file MP3 tạo sẵn bằng [Kokoro-82M](https://github.com/hexgrad/kokoro) (giấy phép Apache-2.0). File nằm trong `public/audio/`, danh mục trong `src/audio/manifest.json`.
+
+```bash
+cd tools/tts && npm install && cd ../..   # lần đầu (~400MB, chỉ dùng trên máy tính)
+npm run tts                               # tạo file cho câu mới, bỏ qua câu đã có
+```
+
+Cần cài `ffmpeg` (`brew install ffmpeg`).
+
+- Giọng mặc định là `af_heart`. Hội thoại có thể chọn giọng riêng cho từng vai bằng trường `voices`, ví dụ `"voices": { "A": "am_michael", "B": "af_heart" }`. Danh sách giọng và hạng chất lượng: [VOICES.md](https://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md).
+- Kokoro không hiểu dấu tiếng Việt, nên script tự bỏ dấu khi tạo giọng ("Tuấn" → "Tuan"). Từ cần đọc kiểu riêng thì thêm vào `LEXICON` trong `src/lib/audioKey.ts` (hiện có "PTALK" → "P-Talk").
+- Sửa nội dung câu thì chạy lại `npm run tts`: file mới được tạo, file cũ không dùng nữa bị xoá.
+- Câu nào chưa có file thì app tự đọc bằng giọng của trình duyệt.
+
 ## Lưu ý về giọng nói
 
-- Phần đọc cho nghe và nhận diện giọng nói dùng Web Speech API có sẵn trong trình duyệt. Chạy tốt nhất trên Chrome Android và Safari iOS.
+- Nhận diện giọng nói và giọng đọc dự phòng dùng Web Speech API có sẵn trong trình duyệt. Chạy tốt nhất trên Chrome Android và Safari iOS.
 - Nhận diện giọng nói cần mạng. Khi không hỗ trợ hoặc chưa được cấp quyền micro, web tự chuyển sang chế độ tự chấm.
 - Micro chỉ hoạt động khi web chạy qua HTTPS hoặc localhost.

@@ -33,6 +33,8 @@ export function validateLesson(x: unknown): string[] {
   })
   l.dialogues.forEach((d: any, i: number) => {
     if (!Array.isArray(d.lines) || !d.lines.length) errs.push(`dialogues[${i}]: không có câu`)
+    if (d.voices) for (const [k, v] of Object.entries(d.voices))
+      if ((k !== 'A' && k !== 'B') || !/^[ab][fm]_[a-z]+$/.test(String(v))) errs.push(`dialogues[${i}].voices: "${k}: ${v}" không hợp lệ`)
     d.lines?.forEach((ln: any, j: number) => {
       if (ln.speaker !== 'A' && ln.speaker !== 'B') errs.push(`dialogues[${i}].lines[${j}]: speaker phải là A/B`)
       for (const t of ln.toolkit ?? [])

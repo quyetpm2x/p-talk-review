@@ -1,8 +1,28 @@
-/** Đọc tiếng Anh bằng speechSynthesis của trình duyệt. */
+/**
+ * Đọc tiếng Anh: ưu tiên file MP3 tạo sẵn bằng Kokoro (src/audio/manifest.json),
+ * câu nào chưa có file thì dùng speechSynthesis của trình duyệt.
+ */
+import manifest from '../audio/manifest.json'
+import { clipKey, DEFAULT_VOICE, spokenText } from './audioKey'
 
 const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined
 
-export const hasTTS = () => !!synth && typeof SpeechSynthesisUtterance !== 'undefined'
+const hasSynth = () => !!synth && typeof SpeechSynthesisUtterance !== 'undefined'
+const clips = manifest as Record<string, string>
+const hasAudio = typeof Audio !== 'undefined'
+
+/** Có cách nào để đọc không (file âm thanh hoặc giọng trình duyệt). */
+export const hasTTS = () => (hasAudio && Object.keys(clips).length > 0) || hasSynth()
+
+/** File âm thanh cho câu: đúng giọng trước, không có thì lấy giọng mặc định. */
+export function clipUrl(text: string, kokoro?: string): string | undefined {
+  const f = (kokoro && clips[clipKey(text, kokoro)]) || clips[clipKey(text, DEFAULT_VOICE)]
+  return f ? `${import.meta.env.BASE_URL}audio/${f}` : undefined
+}
+
+// Dùng lại 1 thẻ audio để iOS giữ quyền phát sau lần chạm đầu tiên
+let player: HTMLAudioElement | undefined
+let endCurrent: (() => void) | undefined
 
 const PREFERRED = ['Samantha', 'Google US English', 'Microsoft Aria', 'Microsoft Jenny', 'Alex', 'Allison', 'Ava']
 
@@ -26,11 +46,52 @@ if (synth) {
   synth.addEventListener?.('voiceschanged', loadVoices)
 }
 
-export type SpeakOpts = { voice?: 'A' | 'B'; slow?: boolean }
+export type SpeakOpts = {
+  /** Vai trong hội thoại — dùng khi đọc bằng giọng trình duyệt */
+  voice?: 'A' | 'B'
+  /** Giọng Kokoro (vd. am_michael); mặc định af_heart */
+  kokoro?: string
+  slow?: boolean
+}
 
-export function speak(text: string, opts: SpeakOpts = {}): Promise<void> {
+function playClip(url: string, slow?: boolean): Promise<boolean> {
   return new Promise((resolve) => {
-    if (!hasTTS() || !text.trim()) return resolve()
+    player ??= new Audio()
+    const a = player
+    endCurrent?.()
+    let done = false
+    const finish = (ok: boolean) => {
+      if (done) return
+      done = true
+      a.onended = a.onerror = a.onpause = null
+      endCurrent = undefined
+      resolve(ok)
+    }
+    endCurrent = () => finish(true)
+    a.onended = () => finish(true)
+    a.onpause = () => finish(true)
+    a.onerror = () => finish(false)
+    a.src = url
+    a.playbackRate = slow ? 0.75 : 1
+    a.preservesPitch = true
+    a.play().catch(() => finish(false))
+  })
+}
+
+/** Đọc một câu; promise xong khi đọc xong. */
+export async function speak(text: string, opts: SpeakOpts = {}): Promise<void> {
+  const t = spokenText(text)
+  if (!t) return
+  synth?.cancel()
+  const url = hasAudio ? clipUrl(t, opts.kokoro) : undefined
+  if (url && (await playClip(url, opts.slow))) return
+  player?.pause()
+  return speakSynth(t, opts)
+}
+
+function speakSynth(text: string, opts: SpeakOpts): Promise<void> {
+  return new Promise((resolve) => {
+    if (!hasSynth()) return resolve()
     synth!.cancel()
     const u = new SpeechSynthesisUtterance(text)
     u.lang = 'en-US'
@@ -51,4 +112,8 @@ export function speak(text: string, opts: SpeakOpts = {}): Promise<void> {
   })
 }
 
-export const stopSpeaking = () => synth?.cancel()
+export const stopSpeaking = () => {
+  synth?.cancel()
+  player?.pause()
+  endCurrent?.()
+}
