@@ -38,9 +38,11 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
     return Array.from({ length: 30 }, (_, i) => base[i % base.length])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const [qi, setQi] = useState(0)
-  const [pos, setPos] = useState(0) // số câu đúng
+  const [pos, setPos] = useState(0) // số bước đã đi (đúng +1, sai khi đang quay ngược −1)
   const [elapsed, setElapsed] = useState(0)
-  const [car, setCar] = useState<'idle' | 'boost' | 'spin'>('idle')
+  const [car, setCar] = useState<'idle' | 'boost' | 'turn' | 'reverse'>('idle')
+  // Sai lần đầu: xe quay ngược. Đang quay ngược mà sai tiếp: lùi 1 bước. Đúng: quay đầu lên và tiến.
+  const [facingBack, setFacingBack] = useState(false)
   const [picked, setPicked] = useState<number | null>(null)
   const [locked, setLocked] = useState(false)
   const [finished, setFinished] = useState(false)
@@ -71,6 +73,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
     if (opts[i] === q) {
       sfx('boost')
       setCar('boost')
+      setFacingBack(false)
       api.hit({ item: q, points: 10, x, y: y - 30, silent: true })
       speak(q.en)
       const np = pos + 1
@@ -87,8 +90,17 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
       }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, 650)
     } else {
-      setCar('spin')
-      api.miss({ item: q, x, y: y - 30 })
+      if (facingBack && pos > 0) {
+        setCar('reverse')
+        setPos(pos - 1)
+        api.miss({ item: q, x, y: y - 30, label: '−1 ❤️  ↩ lùi 1 bước' })
+      } else {
+        // ở vạch xuất phát mà đã quay ngược thì không lùi được nữa
+        const label = facingBack ? '−1 ❤️' : '−1 ❤️  🔄 quay đầu'
+        setCar('turn')
+        setFacingBack(true)
+        api.miss({ item: q, x, y: y - 30, label })
+      }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, STUN_MS)
     }
   }
@@ -118,8 +130,10 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
           </div>
         </div>
         <div className="lane lane-me">
-          <div className={`car me ${car}`} style={{ bottom: `calc(${me * 100}% * 0.78 + 4%)` }} aria-label="Xe của bạn">
+          <div className={`car me ${car} ${facingBack ? 'back' : ''}`} style={{ bottom: `calc(${me * 100}% * 0.78 + 4%)` }}
+            aria-label={facingBack ? 'Xe của bạn (đang quay ngược)' : 'Xe của bạn'}>
             {car === 'boost' && <span className="nitro" aria-hidden>🔥</span>}
+            {car === 'reverse' && <span className="dust" aria-hidden>💨</span>}
             <span className="car-body">🏎️</span>
             <span className="car-tag">Bạn</span>
           </div>
