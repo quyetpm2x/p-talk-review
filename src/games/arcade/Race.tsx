@@ -88,8 +88,13 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
         const ms = Math.round(elapsed)
         // kỷ lục = thời gian về đích nhanh nhất (ghostMs chính là kỷ lục cũ khi đã có)
         if (!hasRecord || ms < ghostMs) update((pp) => ({ ...pp, bestScores: { ...pp.bestScores, [bestKey]: ms } }))
-        if (gSteps < TRACK) { celebrate(); sfx('win') } else sfx('lose')
-        setTimeout(() => api.end({ seconds: Math.round(ms / 1000) }), 1600)
+        const newRecord = hasRecord && ms < ghostMs
+        celebrate()
+        sfx('win')
+        setTimeout(() => api.end(
+          { seconds: Math.round(ms / 1000) },
+          { title: newRecord ? '🏆 Phá kỷ lục!' : '🏆 Bạn thắng xe ma!', sub: `Về đích sau ${(ms / 1000).toFixed(1)} giây`, ms: 1800 },
+        ), 700)
         return
       }
       setTimeout(() => { setCar('idle'); setPicked(null); setLocked(false); setQi((x) => x + 1) }, 650)
@@ -116,14 +121,19 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
   const ghost = gSteps / TRACK
   const ahead = pos >= gSteps
   let status = ahead ? 'Đang dẫn!' : 'Bị xe ma vượt!'
-  if (!finished && gSteps >= TRACK) status = '👻 Xe ma về đích!'
-  if (finished) {
-    const won = gSteps < TRACK
-    const newRecord = hasRecord && elapsed < ghostMs
-    if (!won) status = '🏁 Về đích'
-    else if (newRecord) status = '🏆 Phá kỷ lục!'
-    else status = '🏆 Thắng xe ma!'
-  }
+  if (finished) status = gSteps >= TRACK ? '👻 Xe ma thắng' : '🏆 Bạn thắng'
+
+  // Xe ma về đích trước: dừng đua, báo xe ma thắng rồi mở bảng kết quả
+  useEffect(() => {
+    if (finished || gSteps < TRACK) return
+    setFinished(true)
+    setLocked(true)
+    sfx('lose')
+    api.end(
+      { seconds: Math.round(elapsed / 1000) },
+      { title: '👻 Xe ma thắng!', sub: `Trò chơi kết thúc · bạn đi được ${pos}/${TRACK} bước`, ms: 2200 },
+    )
+  }, [gSteps, finished]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="race">
@@ -158,7 +168,7 @@ function Field({ api, lesson, items, pool }: CustomGameProps & { api: ArcadeApi 
           {opts.map((o, i) => {
             const cls = picked === null ? '' : o === q ? 'ok' : i === picked ? 'bad' : 'dim'
             return (
-              <button key={`${qi}-${i}`} className={`race-opt ${cls}`} lang="en" onPointerDown={(e) => answer(i, e)} disabled={locked}>
+              <button key={`${qi}-${i}`} className={`race-opt ${cls}`} lang="en" onPointerDown={(e) => answer(i, e)} disabled={locked || finished}>
                 {o.en}
               </button>
             )

@@ -16,8 +16,8 @@ export type ArcadeApi = {
   hit: (o: { item: Item; points: number; x?: number; y?: number; silent?: boolean }) => void
   /** Sai / để lọt: trừ mạng, lưu Leitner nếu có item */
   miss: (o: { item?: Item; x?: number; y?: number; label?: string; loseLife?: boolean; sound?: 'bad' | 'boom' }) => void
-  /** Kết thúc lượt (thắng, hết câu…) */
-  end: (o?: Partial<FinishResult>) => void
+  /** Kết thúc lượt (thắng, hết câu…): hiện thông báo rồi mở trang kết quả */
+  end: (o?: Partial<FinishResult>, notice?: { title?: string; sub?: string; ms?: number }) => void
 }
 
 type Popup = { id: number; x: number; y: number; text: string; bad?: boolean }
@@ -38,7 +38,8 @@ export function ArcadeShell({ record, finish, hint, children, lives: startLives 
   const nav = useNavigate()
   const [count, setCount] = useState(3)
   const [paused, setPaused] = useState(false)
-  const [over, setOver] = useState<null | 'lose' | 'done'>(null)
+  // thông báo kết thúc đang hiện (null = đang chơi)
+  const [over, setOver] = useState<null | { title: string; sub?: string }>(null)
   const [lives, setLives] = useState(startLives)
   const [score, setScore] = useState(0)
   const [combo, setCombo] = useState(0)
@@ -147,15 +148,15 @@ export function ArcadeShell({ record, finish, hint, children, lives: startLives 
       livesRef.current -= 1
       setLives(livesRef.current)
       if (livesRef.current <= 0) {
-        setOver('lose')
+        setOver({ title: '💥 Hết mạng!' })
         sfx('lose')
         setTimeout(() => doFinish(), 1400)
       }
     },
-    end: (o) => {
+    end: (o, notice) => {
       if (ended.current || over) return
-      setOver('done')
-      setTimeout(() => doFinish(o), 900)
+      setOver({ title: notice?.title ?? '🏁 Về đích!', sub: notice?.sub })
+      setTimeout(() => doFinish(o), notice?.ms ?? 900)
     },
   }
 
@@ -201,7 +202,10 @@ export function ArcadeShell({ record, finish, hint, children, lives: startLives 
         )}
         {over && (
           <div className="arcade-overlay">
-            <div className="game-over">{over === 'lose' ? '💥 Hết mạng!' : '🏁 Về đích!'}</div>
+            <div className="game-over">
+              {over.title}
+              {over.sub && <div className="game-over-sub">{over.sub}</div>}
+            </div>
           </div>
         )}
       </div>
