@@ -126,4 +126,14 @@
   .pricing .demo-link { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--gold-grad, linear-gradient(135deg, #f0d594, #c9a04e)); color: #13203f; font-weight: 800; font-size: 13px; text-decoration: none; white-space: nowrap; box-shadow: 0 4px 12px rgba(169, 125, 53, 0.3); vertical-align: 1px; }
   .pricing .demo-link:hover { filter: brightness(1.05); }
   .pricing .sum-col .demo-link, .tier .demo-link { margin-top: 4px; }
+  .pricing .path { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; position: relative; }
+  .pricing .path li { position: relative; display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 0 0 16px; }
+  .pricing .path li:last-child { padding-bottom: 0; }
+  /* đường đi: nét đứt vàng nối các mốc */
+  .pricing .path li::before { content: ""; position: absolute; left: 16px; top: 34px; bottom: -2px; border-left: 2px dashed rgba(201, 160, 78, 0.55); }
+  .pricing .path li:last-child::before { display: none; }
+  .pricing .path-no { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #13203f; background: linear-gradient(135deg, #f0d594, #c9a04e); box-shadow: 0 0 0 4px rgba(201, 160, 78, 0.18); position: relative; z-index: 1; }
+  .pricing .path li:last-child .path-no { background: #4cc47c; box-shadow: 0 0 0 4px rgba(76, 196, 124, 0.2); }
+  .pricing .path-txt { display: flex; flex-direction: column; gap: 2px; padding-top: 6px; font-size: 14px; color: #e9dcc0; }
+  .pricing .path-txt b { color: #fff; font-size: 14.5px; }
 .pricing { min-height: 100dvh; }
