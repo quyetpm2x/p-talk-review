@@ -1,0 +1,129 @@
+/* Trang bảng giá — chuyển nguyên từ artifact 'Bảng giá PTALK App'. Mọi luật scoped trong .pricing */
+
+  /* Layout: một cột báo giá, bảng so sánh gói là trung tâm; navy/vàng của PTALK, giấy kem */
+  .pricing {
+    --bg: #f6f1e6; --paper: #fffdf8; --fg: #13203f; --muted: #5d6478; --line: #e2d9c4;
+    --ink: #13203f; --ink-fg: #f3ebdd; --gold: #c9a04e; --gold-deep: #a97d35; --gold-soft: #f4e8c8;
+    --ok: #17803f; --ok-bg: #e2f3e8;
+    --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-brand: "Cinzel", Georgia, "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark) { .pricing {
+      --bg: #0e1526; --paper: #17203a; --fg: #eef0f5; --muted: #a9b0c4; --line: #2d3856;
+      --ink: #1c2c55; --ink-fg: #f3ebdd; --gold: #d4ad5e; --gold-deep: #c9a04e; --gold-soft: #3a3119;
+      --ok: #4cc47c; --ok-bg: #1e3a2a; color-scheme: dark;
+    }
+  }
+  .pricing * { box-sizing: border-box; }
+  .pricing { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+  .pricing .wrap { max-width: 960px; margin: 0 auto; padding-block: 28px 56px; padding-inline: 16px; display: flex; flex-direction: column; gap: 28px; }
+  .pricing h1, .pricing h2, .pricing h3 { margin: 0; text-wrap: balance; line-height: 1.2; }
+  .pricing h2 { font-size: 20px; font-weight: 800; }
+  .pricing p { margin: 0; }
+  .pricing .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); }
+
+  .pricing .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; padding-bottom: 18px; border-bottom: 3px solid var(--gold); }
+  .pricing .pg-brand { font-family: var(--font-brand); font-weight: 700; font-size: 34px; line-height: 1; color: var(--gold-deep); letter-spacing: 0.04em; }
+  .pricing .pg-brand small { display: block; font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.4em; color: var(--muted); margin-top: 4px; }
+  .pricing .head h1 { font-size: 26px; font-weight: 800; margin-top: 10px; }
+  .pricing .meta { display: grid; grid-template-columns: auto auto; gap: 2px 14px; font-size: 13px; color: var(--muted); }
+  .pricing .meta b { color: var(--fg); font-weight: 600; }
+
+  .pricing .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .pricing .tier { background: var(--paper); border: 1.5px solid var(--line); border-radius: 14px; padding: 18px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .pricing .tier.hi { border-color: var(--gold); box-shadow: 0 8px 24px rgba(169, 125, 53, 0.18); position: relative; }
+  .pricing .tier.hi::before { content: "Nên chọn"; position: absolute; top: -11px; right: 14px; padding: 2px 10px; border-radius: 999px; background: var(--gold); color: #13203f; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; }
+  .pricing .tier .no { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .pricing .tier h3 { font-size: 18px; font-weight: 800; min-height: 2.4em; display: flex; align-items: flex-end; }
+  .pricing .price { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; margin-top: 4px; }
+  .pricing .price small { font-size: 13px; font-weight: 600; color: var(--muted); margin-left: 4px; }
+  .pricing .tier p { font-size: 13px; color: var(--muted); }
+  .pricing .tier .fee { margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; }
+  .pricing .tier .fee b { font-variant-numeric: tabular-nums; }
+  .pricing .tier-gift { padding: 8px 10px; border-radius: 10px; background: linear-gradient(135deg, #f0d594, #c9a04e); color: #13203f; font-size: 13px; font-weight: 800; line-height: 1.35; }
+  .pricing .tier-gift b { text-decoration: underline; text-underline-offset: 3px; }
+
+  .pricing .tablewrap { overflow-x: auto; background: var(--paper); border: 1.5px solid var(--line); border-radius: 14px; }
+  .pricing table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 14px; }
+  .pricing th, .pricing td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+  .pricing th { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--gold-soft); }
+  .pricing th.c, .pricing td.c { text-align: center; width: 120px; }
+  .pricing tr.group td { background: var(--ink); color: var(--ink-fg); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 12px; }
+  .pricing tr:last-child td { border-bottom: 0; }
+  .pricing .yes { color: var(--ok); font-weight: 800; }
+  .pricing .no { color: var(--muted); }
+  .pricing td.c .yes::before { content: "✓"; }
+  .pricing td.c .no::before { content: "—"; }
+  .pricing tr.gift td { background: var(--gold-soft); }
+  .pricing tr.gift td:first-child { border-left: 4px solid var(--gold); }
+  .pricing tr.gift td b { color: var(--gold-deep); font-size: 15px; }
+  .pricing .pg-new { display: inline-block; padding: 1px 7px; border-radius: 999px; background: var(--gold-soft); color: var(--gold-deep); font-size: 11px; font-weight: 700; margin-left: 6px; vertical-align: 1px; white-space: nowrap; }
+  .pricing td .sub { display: block; font-size: 12px; color: var(--muted); }
+
+  .pricing .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .pricing .pg-card { background: var(--paper); border: 1.5px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .pricing .pg-card ul, .pricing .pg-card ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .pricing .pg-card li { font-size: 14px; }
+  .pricing .pg-card b.n { font-variant-numeric: tabular-nums; }
+
+  .pricing .fees { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-items: stretch; }
+  @media (max-width: 860px) { .pricing .fees { grid-template-columns: 1fr; } }
+  .pricing .fee-card { position: relative; border-radius: 16px; padding: 18px 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; color: #13203f; }
+  .pricing .fee-card.t1 { background: linear-gradient(160deg, #fffdf8 0%, #f1e9d6 100%); border: 1.5px solid #e2d9c4; }
+  .pricing .fee-card.t2 { background: linear-gradient(160deg, #fff9e9 0%, #f0dfb4 100%); border: 1.5px solid #d8bd7a; }
+  .pricing .fee-card.t3 { background: linear-gradient(160deg, #22345f 0%, #13203f 55%, #0b1530 100%); border: 1.5px solid #c9a04e; color: #f3ebdd; box-shadow: 0 12px 30px rgba(19, 32, 63, 0.28); }
+  .pricing .fee-no { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; background: #13203f; color: #f0d594; }
+  .pricing .fee-card.t3 .fee-no { background: linear-gradient(135deg, #f0d594, #c9a04e); color: #13203f; }
+  .pricing .fee-price { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; font-size: clamp(22px, 2.4vw, 28px); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+  .pricing .fee-price small { font-size: 13px; font-weight: 600; opacity: 0.7; }
+  .pricing .fee-card.t3 .fee-price { background: linear-gradient(100deg, #f0d594, #fff4d6 45%, #d4ad5e); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .pricing .fee-card.t3 .fee-price small { -webkit-text-fill-color: #c9b88f; }
+  .pricing .pg-card ul.fee-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .pricing .fee-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.4; padding: 0; }
+  .pricing .fee-list li i { flex: none; width: 18px; height: 18px; margin-top: 1px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 10px; font-weight: 800; background: #d8cfb8; color: #5d6478; }
+  .pricing .fee-card.t3 .fee-list li { color: #e9dcc0; }
+  .pricing .fee-card.t3 .fee-list li i { background: rgba(255, 255, 255, 0.16); color: #f3ebdd; }
+  /* Hạng mục thêm vào so với gói dưới: chữ đậm, dấu + vàng — không nền */
+  .pricing .fee-list li.add { font-weight: 800; color: #13203f; }
+  .pricing .fee-list li.add i { background: linear-gradient(135deg, #f0d594, #c9a04e); color: #13203f; }
+  .pricing .fee-card.t3 .fee-list li.add { color: #f0d594; }
+  .pricing .fee-gift { margin-top: auto; padding: 10px 12px; border-radius: 12px; background: linear-gradient(135deg, #f0d594, #c9a04e); color: #13203f; font-size: 13px; font-weight: 800; }
+  .pricing .fee-gift b { color: #13203f; text-decoration: underline; text-underline-offset: 3px; }
+  .pricing .pg-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+  @media (max-width: 860px) { .pricing .pg-notes { grid-template-columns: 1fr; } }
+  .pricing .note { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 12px; border-radius: 12px; background: var(--bg); border: 1.5px solid var(--line); }
+  .pricing .note-ic { width: 40px; height: 40px; border-radius: 10px; background: var(--ink); color: var(--gold); display: grid; place-items: center; font-size: 18px; font-weight: 800; }
+  .pricing .note b { display: block; font-size: 14.5px; line-height: 1.35; }
+  .pricing .note p { margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .pricing .levels { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+  .pricing .levels span { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+  .pricing .levels i { font-style: normal; font-family: var(--font-brand); font-size: 10px; letter-spacing: 0.12em; padding: 2px 7px; border-radius: 999px; background: var(--gold); color: #13203f; white-space: nowrap; }
+  .pricing .sum { background: var(--ink); color: var(--ink-fg); border-radius: 14px; padding: 18px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .pricing .sum table { min-width: 0; color: var(--ink-fg); }
+  .pricing .sum th { background: rgba(255,255,255,0.08); color: #e9dcc0; }
+  .pricing .sum th, .pricing .sum td { border-color: rgba(255,255,255,0.14); }
+  .pricing .sum td.c { font-variant-numeric: tabular-nums; }
+  .pricing .sum tr.total td { font-weight: 800; font-size: 16px; color: var(--gold); border-top: 2px solid var(--gold); }
+  .pricing .sum-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .pricing .sum-col { background: rgba(255,255,255,0.06); border: 1px solid rgba(201,160,78,0.35); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .pricing .sum-col > b { color: var(--gold); font-size: 14px; letter-spacing: 0.04em; }
+  .pricing .sum-col ul, .pricing .sum-col ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #e9dcc0; }
+  .pricing .sum-col li b { color: #fff; }
+  @media (max-width: 720px) { .pricing .sum-grid { grid-template-columns: 1fr; } }
+
+  .pricing .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .pricing .step { background: var(--paper); border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .pricing .step .when { font-size: 12px; font-weight: 700; color: var(--gold-deep); letter-spacing: 0.06em; text-transform: uppercase; }
+  .pricing .step b { font-size: 15px; }
+  .pricing .step p { font-size: 13px; color: var(--muted); }
+
+  .pricing .foot { font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  @media (max-width: 720px) { .pricing .tiers, .pricing .steps, .pricing .grid2 { grid-template-columns: 1fr; }
+     .pricing .head h1 { font-size: 22px; }
+     .pricing .price { font-size: 26px; }
+  }
+
+  .pricing .demo-link { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--gold-grad, linear-gradient(135deg, #f0d594, #c9a04e)); color: #13203f; font-weight: 800; font-size: 13px; text-decoration: none; white-space: nowrap; box-shadow: 0 4px 12px rgba(169, 125, 53, 0.3); vertical-align: 1px; }
+  .pricing .demo-link:hover { filter: brightness(1.05); }
+  .pricing .sum-col .demo-link, .tier .demo-link { margin-top: 4px; }
+.pricing { min-height: 100dvh; }

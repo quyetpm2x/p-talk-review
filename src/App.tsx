@@ -4,6 +4,8 @@ import { ProgressProvider, useProgress } from './lib/ProgressContext'
 import { getLesson } from './lessons'
 import { Home } from './pages/Home'
 import { Welcome } from './pages/Welcome'
+import { Landing } from './pages/Landing'
+import { Pricing } from './pages/Pricing'
 import { TopBar } from './components/TopBar'
 import { TabBar } from './components/TabBar'
 import { LessonGoals } from './components/LessonGoals'
@@ -112,9 +114,13 @@ export default function App() {
   return (
     <ProgressProvider>
       <HashRouter>
-        <div className="app">
-          <NameGate />
-        </div>
+        <Routes>
+          {/* Landing page giới thiệu trung tâm: full-width, không cần nhập tên */}
+          <Route path="/landing" element={<Landing />} />
+          {/* Bảng giá gửi trung tâm: full-width, không cần nhập tên */}
+          <Route path="/bang-gia" element={<Pricing />} />
+          <Route path="*" element={<div className="app"><NameGate /></div>} />
+        </Routes>
       </HashRouter>
     </ProgressProvider>
   )

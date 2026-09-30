@@ -9,6 +9,7 @@ export function hideSplashWhenReady() {
   const el = document.getElementById('splash')
   if (!el) return
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+    || /^#\/(landing|bang-gia)/.test(location.hash) // trang giới thiệu / bảng giá: vào thẳng, không chờ splash
   let done = false
   const hide = () => {
     if (done) return
