@@ -303,3 +303,89 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .col-x .v-price b{--s1:#8a6526;--s2:#c9a04e;--s3:#ffe9a8;--sg:rgba(169,125,53,.32)}
 @keyframes priceShine{0%{background-position:100% 0}100%{background-position:-120% 0}}
 @media (prefers-reduced-motion: reduce){.pricing .v-price b{animation:none}}
+.pricing .trow.sum .tlabel{padding-top:10px;padding-bottom:10px}
+.pricing .trow.sum .fname{font-size:14.5px}
+
+/* Hàng tiêu đề mục: nền navy, tách khỏi hàng trên */
+.pricing .trow.sect .tlabel{margin-top:14px;background:var(--ink);border-radius:12px;padding:12px 16px;border-bottom:0}
+.pricing .trow.sect .gpill{color:#f6d690;letter-spacing:.12em}
+.pricing .trow.sect .tcell{background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 14px,color-mix(in srgb,var(--ink) 14%,var(--card)) 14px)}
+.pricing .pmob .trow.sect .tlabel{margin-top:12px;padding:10px 12px}
+.pricing .pmob .trow.sect .tcell{background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 12px,color-mix(in srgb,var(--ink) 14%,var(--card)) 12px)}
+.pricing .root.theme-dark .trow.sect .tlabel{background:#26407c}
+@media (prefers-color-scheme: dark){.pricing .root.theme-auto .trow.sect .tlabel{background:#26407c}}
+/* Bảng nhóm: số tính năng được hưởng / tổng, kèm thanh tỷ lệ */
+.pricing .v-cnt{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:118px;padding:8px 12px 9px;border-radius:12px;background:color-mix(in srgb,var(--c) 9%,var(--card));border:1px solid color-mix(in srgb,var(--c) 25%,transparent);color:var(--c)}
+.pricing .v-cnt b{font-size:16px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.pricing .v-cnt small{font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.pricing .v-cnt i{display:block;width:100%;height:5px;border-radius:999px;background:color-mix(in srgb,var(--c) 18%,transparent);overflow:hidden}
+.pricing .v-cnt i::before{content:'';display:block;height:100%;width:var(--p);border-radius:999px;background:linear-gradient(90deg,color-mix(in srgb,var(--c) 70%,#fff),var(--c))}
+.pricing .v-cnt.full{background:var(--c);border-color:var(--c);color:#fff}
+.pricing .v-cnt.full small{color:rgba(255,255,255,.85)}
+.pricing .v-cnt.full i{background:rgba(255,255,255,.28)}
+.pricing .v-cnt.full i::before{background:#fff}
+.pricing .col-x .v-cnt.full{color:#241804}
+.pricing .col-x .v-cnt.full small{color:rgba(36,24,4,.75)}
+.pricing .col-x .v-cnt.full i::before{background:#241804}
+/* Ô đếm tính năng: nền gradient sáng theo màu gói */
+.pricing .v-cnt{border:0;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 28%,transparent)}
+.pricing .col-b .v-cnt{background:linear-gradient(160deg,#eef5ff,#dbe9ff)}
+.pricing .col-p .v-cnt{background:linear-gradient(160deg,#fff0f3,#ffe0e7)}
+.pricing .col-x .v-cnt{background:linear-gradient(160deg,#fff8e6,#f8ecc9)}
+.pricing .v-cnt.full{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 20px -10px var(--c)}
+.pricing .col-b .v-cnt.full{background:linear-gradient(160deg,#7cb8ff 0%,#4a95f5 45%,#2a7be6 100%)}
+.pricing .col-p .v-cnt.full{background:linear-gradient(160deg,#ff8fa8 0%,#f5577a 45%,#e0355a 100%)}
+.pricing .col-x .v-cnt.full{background:linear-gradient(135deg,#d9b35a 0%,#fff3c4 28%,#e6c36a 52%,#c9a04e 76%,#f7dd92 100%);box-shadow:inset 0 1px 0 rgba(255,250,225,.9),inset 0 -1px 0 rgba(110,78,20,.4),0 10px 20px -10px rgba(169,125,53,.7)}
+.pricing .col-x .v-cnt.full i{background:rgba(36,24,4,.18)}
+.pricing .col-x .v-cnt.full i::before{background:linear-gradient(90deg,#6e4c12,#241804)}
+/* Cột nhãn kéo sát cột BASIC (bỏ khoảng hở bên phải) */
+.pricing .pdesk .tlabel{margin-right:-18px;padding-right:18px}
+.pricing .pmob .tlabel{margin-right:-10px;padding-right:10px;box-shadow:14px 0 14px -6px rgba(19,32,63,.18)}
+
+/* ===== Section "Phù hợp với" ===== */
+.pricing .fitsec{display:flex}
+.pricing .fitband{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));column-gap:18px;align-items:stretch;width:100%;padding:20px 22px;border-radius:20px;background:var(--card);box-shadow:var(--shadow)}
+.pricing .fitlabel{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:800;letter-spacing:.08em;color:var(--ink)}
+.pricing .fiticon{font-size:26px}
+.pricing .fitcard{--c:var(--blue);display:flex;flex-direction:column;gap:14px;padding:18px 16px;border-radius:16px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 10%,var(--card)),color-mix(in srgb,var(--c) 22%,var(--card)));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 28%,transparent)}
+.pricing .fitcard.p{--c:var(--pink)}
+.pricing .fitcard.x{--c:var(--gold-ink)}
+.pricing .fithead{display:flex;gap:12px;align-items:flex-start}
+.pricing .fitavatar{flex:none;width:52px;height:52px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 70%,#fff),var(--c));box-shadow:0 10px 18px -10px var(--c)}
+.pricing .fitavatar svg{width:28px;height:28px}
+.pricing .fitname{font-size:19px;font-weight:800;letter-spacing:.06em;color:var(--c);line-height:1.1}
+.pricing .fitdesc{margin:5px 0 0;font-size:13px;line-height:1.5;color:var(--muted)}
+.pricing .fitpill{margin-top:auto;padding:10px 12px;border-radius:12px;text-align:center;font-size:13px;font-weight:700;line-height:1.4;color:#fff;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 80%,#fff),var(--c))}
+.pricing .fitcard.x .fitpill{color:#241804;background:linear-gradient(135deg,#d9b35a 0%,#fff3c4 30%,#e6c36a 55%,#c9a04e 80%,#f7dd92 100%)}
+.pricing .pmob .fitband{grid-template-columns:1fr;row-gap:12px;padding:16px}
+.pricing .pmob .fitlabel{font-size:18px;justify-content:center;padding-bottom:4px}
+.pricing .root.theme-dark .fitcard,.pricing .root.theme-dark .fitband{box-shadow:none}
+/* Hàng tiêu đề mục: một dải navy liền trọn hàng, không viền cột */
+.pricing .trow.sect{margin-top:14px;border-radius:12px;background:var(--ink);position:relative;z-index:1}
+.pricing .trow.sect .tlabel,.pricing .trow.sect .tcell{margin-top:0;background:transparent;border:0;border-radius:0;box-shadow:none}
+.pricing .trow.sect .tcell::after{display:none}
+.pricing .pmob .trow.sect{margin-top:12px}
+.pricing .pmob .trow.sect .tlabel{background:var(--ink)}
+.pricing .root.theme-dark .trow.sect{background:#26407c}
+@media (prefers-color-scheme: dark){.pricing .root.theme-auto .trow.sect{background:#26407c}.pricing .pmob .root.theme-auto .trow.sect .tlabel{background:#26407c}}
+
+/* Section "Phù hợp với": khung ngoài + panel nhãn navy */
+.pricing .fitband{position:relative;padding:14px;border-radius:22px;background:var(--card);box-shadow:var(--shadow);column-gap:14px}
+.pricing .fitband::before{content:'';position:absolute;inset:8px;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);border-radius:16px;pointer-events:none}
+.pricing .fitcard{position:relative;z-index:1;margin:8px 0}
+.pricing .fitlabel{position:relative;z-index:1;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;margin:8px 0 8px 8px;padding:26px 28px;border-radius:16px;color:#f4efe3;background:radial-gradient(120% 140% at 0% 0%,#26407c 0%,#13203f 55%,#0b1430 100%);box-shadow:inset 0 0 0 1px rgba(201,160,78,.35),0 20px 40px -24px rgba(19,32,63,.6)}
+.pricing .fitlabel .fitwm{position:absolute;right:-18px;bottom:-26px;font-size:150px;line-height:1;opacity:.08;filter:grayscale(1);pointer-events:none}
+.pricing .fiteyebrow{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#e3c47e}
+.pricing .fiteyebrow i{width:28px;height:2px;background:#c9a04e}
+.pricing .fitlabel b{font-size:30px;font-weight:800;letter-spacing:.06em;line-height:1.05;color:#fff}
+.pricing .fitlabel p{margin:0;font-size:13.5px;line-height:1.55;color:rgba(244,239,227,.78);max-width:34ch}
+.pricing .fitbars{display:flex;gap:6px;margin-top:4px}
+.pricing .fitbars i{width:44px;height:4px;border-radius:2px}
+.pricing .fitbars .b{background:#1e6fd9}.pricing .fitbars .p{background:#e0355a}.pricing .fitbars .x{background:#c9a04e}
+.pricing .pmob .fitband{padding:12px;row-gap:0}
+.pricing .pmob .fitlabel{margin:6px 6px 10px;padding:22px 20px;align-items:center;text-align:center;font-size:inherit;justify-content:center}
+.pricing .pmob .fitlabel b{font-size:26px}
+.pricing .pmob .fitlabel p{max-width:none}
+.pricing .pmob .fitcard{margin:6px}
+.pricing .fitlabel p{font-weight:500;letter-spacing:0}
+.pricing .pmob .fiteyebrow{letter-spacing:.14em;font-size:11px}
