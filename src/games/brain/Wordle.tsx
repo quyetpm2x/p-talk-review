@@ -10,6 +10,7 @@ import { SpeakButton } from '../../components/SpeakButton'
 import { ProgressBar } from '../../components/ProgressBar'
 import { mergeKeys, scoreGuess, splitAtKey, wordleKey, wordlePoints, wordleRound, type Mark } from './logic'
 import './brain.css'
+import * as storage from '../../lib/storage'
 
 const ROUNDS = 5
 const TRIES = 6
@@ -26,7 +27,7 @@ export const wordleEligible = (i: Item) => {
 const RECENT_KEY = 'ptalk:v1:wordle-recent'
 function loadRecent(lessonId: string): string[] {
   try {
-    const v = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '{}')?.[lessonId]
+    const v = JSON.parse(storage.getItem(RECENT_KEY) ?? '{}')?.[lessonId]
     return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []
   } catch {
     return []
@@ -34,8 +35,8 @@ function loadRecent(lessonId: string): string[] {
 }
 function saveRecent(lessonId: string, ids: string[]) {
   try {
-    const all = JSON.parse(localStorage.getItem(RECENT_KEY) ?? '{}')
-    localStorage.setItem(RECENT_KEY, JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: ids }))
+    const all = JSON.parse(storage.getItem(RECENT_KEY) ?? '{}')
+    storage.setItem(RECENT_KEY, JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: ids }))
   } catch {
     /* bỏ qua */
   }

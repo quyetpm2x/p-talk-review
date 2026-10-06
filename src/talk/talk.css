@@ -1,0 +1,107 @@
+/* ───── Luyện nói với Cú ───── */
+.talk { min-height: 100dvh; display: flex; flex-direction: column; background: var(--bg);
+  padding: calc(8px + env(safe-area-inset-top)) 14px calc(10px + env(safe-area-inset-bottom)); }
+.talk-top { display: flex; align-items: center; gap: 10px; }
+.talk-x { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); font-size: 18px; cursor: pointer; }
+.talk-title { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.talk-title b { font-size: 15px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.talk-modes { display: flex; gap: 4px; padding: 3px; border-radius: 12px; background: var(--card-2); border: 1px solid var(--line); }
+.talk-modes button { min-height: 32px; padding: 0 14px; border: 0; border-radius: 9px; background: none; font: inherit; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; }
+.talk-modes button.on { background: var(--accent-grad); color: var(--accent-fg); }
+.talk-speed { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin: 10px 0 0; }
+.talk-speed button { min-height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--card); font: inherit; font-size: 13px; cursor: pointer; }
+.talk-speed button.on { border-color: var(--accent); background: var(--accent-soft); }
+.talk-owl { display: grid; place-items: center; margin: 6px 0 2px; transition: transform .2s; }
+.talk-owl.speaking .owl { animation: owlTalk .38s ease-in-out infinite alternate; }
+.talk-owl.listening .owl { filter: drop-shadow(0 0 14px rgba(201,160,78,.7)); }
+@keyframes owlTalk { from { transform: translateY(0) scale(1); } to { transform: translateY(-3px) scale(1.03); } }
+
+.talk-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 8px 2px 12px; }
+.bub { max-width: 86%; padding: 12px 14px; border-radius: 18px; font-size: 16px; line-height: 1.45; }
+.bub p { margin: 0; }
+.bub.tutor { align-self: flex-start; background: var(--card); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
+.bub.student { align-self: flex-end; background: #dbe8ff; color: #13203f; border-bottom-right-radius: 6px; }
+.bub.student.live { opacity: .7; }
+.bub .vi { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); font-size: 14px; color: var(--muted); }
+.bub-tools { display: flex; gap: 6px; margin-top: 8px; }
+.bub-tools button, .fix button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--card-2); cursor: pointer; }
+.fix { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; margin-top: 10px; padding: 8px 10px; border-radius: 12px; background: var(--ok-bg); }
+.fix small { grid-column: 1 / -1; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ok); }
+.fix s { grid-column: 1; color: var(--bad); font-size: 14px; }
+.fix b { grid-column: 1; color: var(--ok); }
+.fix button { grid-row: 2 / 4; grid-column: 2; }
+.words { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.word { min-height: 34px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--accent); background: var(--accent-soft); font: inherit; font-size: 13px; color: var(--fg); cursor: pointer; }
+.dots { display: inline-flex; gap: 4px; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: dot 1s infinite; }
+.dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes dot { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+.talk-error { align-self: center; padding: 8px 12px; border-radius: 12px; background: var(--bad-bg); color: var(--bad); font-size: 14px; font-weight: 600; }
+
+.talk-hints { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; }
+.talk-hints small { color: var(--muted); font-weight: 700; }
+.talk-hints button { text-align: left; min-height: 40px; padding: 6px 12px; border-radius: 12px; border: 1px dashed var(--accent); background: var(--card); font: inherit; font-size: 14px; cursor: pointer; }
+
+.talk-bar { display: flex; align-items: center; justify-content: center; gap: 22px; padding-top: 6px; }
+.talk-bar.typing { gap: 8px; } .talk-bar.typing .tb-side { width: 48px; height: 48px; font-size: 18px; }
+.talk-bar.typing input { flex: 1; min-width: 0; min-height: 48px; padding: 0 14px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--card); color: var(--fg); font: inherit; font-size: 16px; }
+.tb-side { flex: none; width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); font-size: 22px; cursor: pointer; }
+.tb-side.on { border-color: var(--accent); background: var(--accent-soft); }
+.tb-mic { width: 84px; height: 84px; border-radius: 50%; border: 0; font-size: 32px; color: #13203f; cursor: pointer;
+  background: var(--accent-grad); box-shadow: 0 10px 24px -8px rgba(169,125,53,.7); transition: transform .15s; }
+.tb-mic.listening { background: linear-gradient(135deg, #3fd07a, #17803f); color: #fff; animation: micPulse 1.2s ease-in-out infinite; }
+.tb-mic:active { transform: scale(.96); }
+@keyframes micPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(23,128,63,.45); } 50% { box-shadow: 0 0 0 14px rgba(23,128,63,0); } }
+.tb-send { min-height: 48px; padding: 0 18px; border-radius: 14px; border: 0; background: var(--accent-grad); color: var(--accent-fg); font: inherit; font-weight: 800; cursor: pointer; }
+.tb-send:disabled { opacity: .5; }
+.talk-status { margin: 8px 0 0; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); text-align: center; }
+.talk-end { min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font: inherit; font-size: 13px; font-weight: 700; color: var(--fg); cursor: pointer; }
+
+/* chọn chủ đề */
+.talk-pick { align-items: center; gap: 12px; }
+.talk-pick .talk-top { align-self: stretch; }
+.talk-h1 { margin: 0; font-size: 22px; text-align: center; }
+.topic-grid { width: 100%; max-width: 460px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.topic { min-height: 56px; display: flex; align-items: center; gap: 10px; padding: 0 14px; border-radius: 16px; border: 1.5px solid var(--line); background: var(--card); font: inherit; font-weight: 700; color: var(--fg); cursor: pointer; }
+.topic span { font-size: 22px; }
+.topic.fav { border-color: var(--accent); }
+
+/* tổng kết */
+.talk-sum .sum-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.sum-stats div { display: flex; flex-direction: column; align-items: center; padding: 10px; border-radius: 14px; background: var(--card-2); }
+.sum-stats b { font-size: 24px; } .sum-stats small { color: var(--muted); }
+.sum-used, .sum-tip, .sum-note { margin: 0; font-size: 14px; line-height: 1.5; }
+.sum-fixes { display: flex; flex-direction: column; gap: 6px; } .sum-fixes > small { font-weight: 800; color: var(--muted); }
+.sum-fixes .fix { margin: 0; grid-template-columns: 1fr; }
+
+/* Sổ từ */
+.words-page .w-item { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+.w-item b { display: block; } .w-item small { color: var(--muted); }
+.w-box { flex: none; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); }
+.w-card { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px; border-radius: 22px;
+  background: var(--card); border: 1px solid var(--line); text-align: center; cursor: pointer; }
+.w-card .en { font-size: 26px; font-weight: 800; } .w-card .vi { font-size: 17px; color: var(--muted); }
+
+/* ───── Chấm phát âm ───── */
+.pron-chip { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; align-self: flex-end; min-height: 30px; padding: 2px 12px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--card); font: inherit; font-size: 13px; color: var(--fg); cursor: pointer; }
+.pron-chip.ok b { color: var(--ok); } .pron-chip.mid b { color: #a8540c; } .pron-chip.bad b { color: var(--bad); }
+.pron-chip.pending, .pron-chip.err { color: var(--muted); cursor: default; }
+.bub.student { display: flex; flex-direction: column; }
+.pron-words { display: flex; flex-wrap: wrap; gap: 6px; font-size: 22px; font-weight: 800; margin: 4px 0; }
+.pw.ok { color: var(--ok); } .pw.mid { color: #a8540c; } .pw.bad { color: var(--bad); text-decoration: underline wavy; } .pw.unknown { color: var(--muted); }
+.pron-errs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pron-errs li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--bad-bg); color: var(--bad); }
+.pron-errs li b { flex: 1; }
+.pron-errs button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); cursor: pointer; }
+.pron-good { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--ok-bg); color: var(--ok); font-weight: 700; }
+.pron-note { margin: 0; font-size: 12px; color: var(--muted); }
+.pron-setting { display: flex; flex-direction: column; gap: 8px; grid-column: 1 / -1; margin-top: 4px; padding: 12px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+.pron-setting small { display: block; color: var(--muted); }
+.switch { flex: none; width: 52px; height: 30px; border-radius: 999px; border: 0; background: var(--line); position: relative; cursor: pointer; }
+.switch i { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: left .2s; }
+.switch.on { background: var(--ok); } .switch.on i { left: 25px; }
+.pron-prog { position: relative; height: 26px; border-radius: 8px; background: var(--card-2); overflow: hidden; }
+.pron-prog i { position: absolute; inset: 0 auto 0 0; background: var(--accent-grad); }
+.pron-prog small { position: relative; display: block; text-align: center; line-height: 26px; font-weight: 700; }
+.pron-err { color: var(--bad); }

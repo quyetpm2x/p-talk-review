@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { HashRouter, Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
-import { ProgressProvider, useProgress } from './lib/ProgressContext'
+import { ProgressProvider } from './lib/ProgressContext'
+import { useSession } from './lib/auth'
 import { getLesson } from './lessons'
 import { Home } from './pages/Home'
 import { Welcome } from './pages/Welcome'
-import { Landing } from './pages/Landing'
-import { Pricing } from './pages/Pricing'
+
+/** Bản app iOS/Android (vite --mode native) không chứa trang bán hàng: landing và bảng giá chỉ có trên web. */
+const IS_NATIVE_BUILD = import.meta.env.MODE === 'native'
+const Landing = IS_NATIVE_BUILD ? null : lazy(() => import('./pages/Landing').then((m) => ({ default: m.Landing })))
+const Pricing = IS_NATIVE_BUILD ? null : lazy(() => import('./pages/Pricing').then((m) => ({ default: m.Pricing })))
 import { TopBar } from './components/TopBar'
 import { TabBar } from './components/TabBar'
 import { LessonGoals } from './components/LessonGoals'
@@ -15,6 +19,8 @@ import { RoleplayPage } from './pages/RoleplayPage'
 import { DialoguePage } from './pages/DialoguePage'
 import { MissionPage } from './pages/MissionPage'
 import { GrammarPage } from './pages/GrammarPage'
+import { TalkPage } from './talk/TalkPage'
+import { WordsPage } from './talk/WordsPage'
 import './styles/tokens.css'
 import './styles/base.css'
 
@@ -98,16 +104,18 @@ function AnimatedRoutes() {
         <Route path="/lesson/:id/phrases/:game" element={<GamePage />} />
         <Route path="/lesson/:id/roleplay/dialogue/:idx/:mode" element={<DialoguePage />} />
         <Route path="/lesson/:id/roleplay/mission/:idx" element={<MissionPage />} />
+        <Route path="/talk/:lessonId" element={<TalkPage />} />
+        <Route path="/words" element={<WordsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   )
 }
 
-/** Lần đầu mở app (chưa có tên): hiện màn chào mừng nhập tên, xong mới vào các trang. */
+/** Chưa đăng nhập: hiện màn Đăng nhập / Tạo tài khoản, xong mới vào các trang. */
 function NameGate() {
-  const [p] = useProgress()
-  return p.name ? <AnimatedRoutes /> : <Welcome />
+  const session = useSession()
+  return session ? <AnimatedRoutes /> : <Welcome />
 }
 
 export default function App() {
@@ -115,10 +123,10 @@ export default function App() {
     <ProgressProvider>
       <HashRouter>
         <Routes>
-          {/* Landing page giới thiệu trung tâm: full-width, không cần nhập tên */}
-          <Route path="/landing" element={<Landing />} />
-          {/* Bảng giá gửi trung tâm: full-width, không cần nhập tên */}
-          <Route path="/bang-gia" element={<Pricing />} />
+          {/* Landing page giới thiệu trung tâm: full-width, không cần nhập tên (chỉ bản web) */}
+          {Landing && <Route path="/landing" element={<Suspense fallback={null}><Landing /></Suspense>} />}
+          {/* Bảng giá gửi trung tâm: full-width, không cần nhập tên (chỉ bản web) */}
+          {Pricing && <Route path="/bang-gia" element={<Suspense fallback={null}><Pricing /></Suspense>} />}
           <Route path="*" element={<div className="app"><NameGate /></div>} />
         </Routes>
       </HashRouter>

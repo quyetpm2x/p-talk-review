@@ -1,6 +1,7 @@
 import { cleanName } from './name'
 import type { Lesson } from '../types'
 import { applyAnswer, type PhraseStat } from './leitner'
+import * as storage from './storage'
 
 /** Bộ đếm trong một ngày — dùng cho nhiệm vụ hằng ngày (reset khi sang ngày mới). */
 export type DailyState = {
@@ -19,6 +20,9 @@ export type DailyState = {
   /** Các nhiệm vụ đã hoàn thành trong ngày */
   done: string[]
 }
+
+/** Một mục trong Sổ từ của tôi (từ mới gia sư AI dạy / câu được sửa). */
+export type VocabWord = { en: string; vi: string; added: number }
 
 /** Thống kê tích luỹ toàn thời gian. */
 export type Stats = {
@@ -45,6 +49,8 @@ export type Progress = {
   badges: Record<string, number>
   daily: DailyState
   stats: Stats
+  /** Sổ từ của tôi: khoá = từ/cụm tiếng Anh đã chuẩn hoá. Tiến độ ôn nằm trong `phrases` với khoá `vocab:<khoá>`. */
+  words: Record<string, VocabWord>
 }
 
 export const KEY = 'ptalk:v1:progress'
@@ -65,6 +71,7 @@ export const emptyProgress = (): Progress => ({
   badges: {},
   daily: emptyDaily(),
   stats: emptyStats(),
+  words: {},
 })
 
 const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x)
@@ -82,6 +89,7 @@ export function normalizeProgress(raw: unknown): Progress {
     badges: isObj(p.badges) ? (p.badges as Progress['badges']) : {},
     daily: isObj(p.daily) ? { ...e.daily, ...(p.daily as Partial<DailyState>) } : e.daily,
     stats: isObj(p.stats) ? { ...e.stats, ...(p.stats as Partial<Stats>) } : e.stats,
+    words: isObj(p.words) ? (p.words as Progress['words']) : {},
   }
 }
 
@@ -89,7 +97,7 @@ export const setName = (p: Progress, name: string): Progress => ({ ...p, name: c
 
 export function loadProgress(): Progress {
   try {
-    const raw = localStorage.getItem(KEY)
+    const raw = storage.getItem(KEY)
     if (!raw) return emptyProgress()
     return normalizeProgress(JSON.parse(raw))
   } catch {
@@ -99,7 +107,7 @@ export function loadProgress(): Progress {
 
 export function saveProgress(p: Progress) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(p))
+    storage.setItem(KEY, JSON.stringify(p))
   } catch {
     /* trình duyệt chặn lưu trữ: chạy tiếp, không lưu */
   }

@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { lessons } from '../lessons'
 import { useProgress } from '../lib/ProgressContext'
 import { currentStreak } from '../lib/progress'
@@ -9,7 +10,7 @@ import { BadgesSheet } from '../motivation/BadgesSheet'
 import { SoundToggle } from '../motivation/SoundToggle'
 import { BADGES } from '../motivation/badges'
 import { levelInfo, levelTitle } from '../motivation/xp'
-import { NameSheet } from './Welcome'
+import { AccountSheet } from './Welcome'
 import { UserName } from '../components/UserName'
 import { greeting } from '../lib/name'
 import '../styles/motivation.css'
@@ -66,12 +67,24 @@ export function Home() {
         <div className="card greet-card">
           <MascotSay mood={left ? 'idle' : 'cheer'} size={76}>
             <b>{greeting(new Date(now).getHours())},{' '}
-              <button className="name-edit" onClick={() => setNameSheet(true)} aria-label={`Tên: ${p.name}. Chạm để đổi tên`}><UserName /></button>!</b>
-            <button className="name-pen" onClick={() => setNameSheet(true)} aria-label="Đổi tên">✏️</button>{' '}
+              <button className="name-edit" onClick={() => setNameSheet(true)} aria-label={`Tài khoản của ${p.name}`}><UserName /></button>!</b>
+            <button className="name-pen" onClick={() => setNameSheet(true)} aria-label="Tài khoản">👤</button>{' '}
             {left
               ? <>Hôm nay còn <b>{left} nhiệm vụ</b> — làm xong nhận thêm XP nhé!</>
               : <><UserName /> đã xong hết nhiệm vụ hôm nay. Tuyệt vời! 🎉</>}
           </MascotSay>
+        </div>
+
+        {/* Luyện nói với Cú (AI) + Sổ từ */}
+        <div className="talk-entry">
+          <Link to="/talk/free" className="talk-entry-main">
+            <span aria-hidden>🦉</span>
+            <div className="grow"><b>Trò chuyện với Cú</b><small>Luyện nói tiếng Anh tự do theo chủ đề</small></div>
+            <span aria-hidden>→</span>
+          </Link>
+          <Link to="/words" className="talk-entry-words">
+            <span aria-hidden>📒</span><b>Sổ từ</b><small>{Object.keys(p.words).length} từ</small>
+          </Link>
         </div>
 
         <DailyQuests p={p} now={now} />
@@ -99,7 +112,7 @@ export function Home() {
         </section>
       </main>
       {sheet && <BadgesSheet p={p} onClose={closeSheet} />}
-      {nameSheet && <NameSheet onClose={closeName} />}
+      {nameSheet && <AccountSheet onClose={closeName} />}
     </>
   )
 }

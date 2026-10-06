@@ -1,13 +1,22 @@
 /**
  * Đọc tiếng Anh: ưu tiên file MP3 tạo sẵn bằng Kokoro (src/audio/manifest.json),
- * câu nào chưa có file thì dùng speechSynthesis của trình duyệt.
+ * câu nào chưa có file thì dùng speechSynthesis của trình duyệt
+ * (app iOS/Android: giọng đọc native qua plugin — Android WebView không có speechSynthesis).
  */
+import { TextToSpeech } from '@capacitor-community/text-to-speech'
 import manifest from '../audio/manifest.json'
 import { clipKey, DEFAULT_VOICE, spokenText } from './audioKey'
+import { isNative } from './platform'
 
 const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined
 
-const hasSynth = () => !!synth && typeof SpeechSynthesisUtterance !== 'undefined'
+const hasWebSynth = () => !!synth && typeof SpeechSynthesisUtterance !== 'undefined'
+const hasSynth = () => isNative() || hasWebSynth()
+/** Dừng giọng đọc máy (web hoặc native). */
+const cancelSynth = () => {
+  if (isNative()) TextToSpeech.stop().catch(() => {})
+  else synth?.cancel()
+}
 const clips = manifest as Record<string, string>
 const hasAudio = typeof Audio !== 'undefined'
 
@@ -52,6 +61,8 @@ export type SpeakOpts = {
   /** Giọng Kokoro (vd. am_michael); mặc định af_heart */
   kokoro?: string
   slow?: boolean
+  /** Tốc độ tuỳ chỉnh (1 = bình thường), ưu tiên hơn `slow` — dùng cho gia sư luyện nói */
+  rate?: number
 }
 
 function playClip(url: string, slow?: boolean): Promise<boolean> {
@@ -82,20 +93,37 @@ function playClip(url: string, slow?: boolean): Promise<boolean> {
 export async function speak(text: string, opts: SpeakOpts = {}): Promise<void> {
   const t = spokenText(text)
   if (!t) return
-  synth?.cancel()
+  cancelSynth()
   const url = hasAudio ? clipUrl(t, opts.kokoro) : undefined
   if (url && (await playClip(url, opts.slow))) return
   player?.pause()
   return speakSynth(t, opts)
 }
 
+/** Giọng đọc native (app). Tốc độ quy đổi tương đương giọng web; vai B đọc cao giọng hơn. */
+async function speakNative(text: string, opts: SpeakOpts, onBoundary?: (charIndex: number) => void): Promise<void> {
+  const handle = onBoundary
+    ? await TextToSpeech.addListener('onRangeStart', (e) => onBoundary(e.start)).catch(() => undefined)
+    : undefined
+  try {
+    await TextToSpeech.speak({
+      text, lang: 'en-US', rate: opts.rate ?? (opts.slow ? 0.75 : 1), pitch: opts.voice === 'B' ? 1.2 : 1, volume: 1, category: 'playback',
+    })
+  } catch {
+    /* bị dừng giữa chừng hoặc máy không có giọng tiếng Anh */
+  } finally {
+    handle?.remove().catch(() => {})
+  }
+}
+
 function speakSynth(text: string, opts: SpeakOpts, onBoundary?: (charIndex: number) => void): Promise<void> {
+  if (isNative()) return speakNative(text, opts, onBoundary)
   return new Promise((resolve) => {
-    if (!hasSynth()) return resolve()
+    if (!hasWebSynth()) return resolve()
     synth!.cancel()
     const u = new SpeechSynthesisUtterance(text)
     u.lang = 'en-US'
-    u.rate = opts.slow ? 0.7 : 0.95
+    u.rate = opts.rate !== undefined ? opts.rate * 0.95 : opts.slow ? 0.7 : 0.95
     if (!voices.length) loadVoices()
     const a = voices[0]
     const b = voices.find((v) => v !== a && v.lang === a?.lang) ?? a
@@ -114,7 +142,7 @@ function speakSynth(text: string, opts: SpeakOpts, onBoundary?: (charIndex: numb
 }
 
 export const stopSpeaking = () => {
-  synth?.cancel()
+  cancelSynth()
   player?.pause()
   endCurrent?.()
 }
@@ -137,7 +165,7 @@ export async function speakWithProgress(
 ): Promise<void> {
   const t = spokenText(text)
   if (!t) return
-  synth?.cancel()
+  cancelSynth()
   const url = hasAudio ? clipUrl(t, opts.kokoro) : undefined
   if (url) {
     const playing = playClip(url, opts.slow) // đã gán src cho player ngay khi gọi
@@ -157,7 +185,7 @@ export async function speakWithProgress(
   }
   player?.pause()
   // Giọng trình duyệt: ước lượng theo thời gian cho tới khi có sự kiện boundary
-  const rate = opts.slow ? 0.7 : 0.95
+  const rate = opts.rate !== undefined ? opts.rate * 0.95 : opts.slow ? 0.7 : 0.95
   const estMs = (400 + t.length * 62) / rate
   const start = performance.now()
   let gotBoundary = false

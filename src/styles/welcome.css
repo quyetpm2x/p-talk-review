@@ -45,3 +45,25 @@
 @media (prefers-reduced-motion: reduce) {
   .welcome-card, .welcome-hi, .welcome.leaving .welcome-card { animation: none !important; }
 }
+
+/* ───── Đăng nhập / Tạo tài khoản ───── */
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 100%; padding: 4px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); }
+.auth-tabs button { min-height: 44px; border: 0; border-radius: 10px; background: transparent; color: #d9ccb0; font: inherit; font-weight: 700; cursor: pointer; }
+.auth-tabs button.on { background: linear-gradient(135deg, #f0d594, #c9a04e); color: #13203f; }
+.auth-form { gap: 12px; }
+.auth-field { display: flex; flex-direction: column; gap: 6px; }
+.auth-form .name-input { min-height: 50px; font-size: 17px; }
+.auth-error { min-height: 20px; font-size: 14px; font-weight: 600; color: #ff9b8f; }
+.auth-error:empty { min-height: 0; }
+.auth-note { margin: 0; font-size: 13px; text-align: center; color: #c9b88f; }
+.name-go:disabled { opacity: 0.7; cursor: wait; }
+
+/* ───── Sheet tài khoản ───── */
+.acct { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; margin: 4px 0; font-size: 15px; }
+.acct dt { color: var(--muted); }
+.acct dd { margin: 0; font-weight: 700; word-break: break-word; }
+.acct-sync { padding: 10px 12px; border-radius: 12px; font-size: 14px; font-weight: 600; background: var(--card-2, var(--card)); border: 1px solid var(--line); }
+.acct-sync.synced { color: var(--ok, #2f7d4f); }
+.acct-sync.offline, .acct-sync.pending { color: var(--accent-ink, #8a6526); }
+.acct-warn { margin: 0; font-size: 14px; line-height: 1.5; color: var(--bad); }
+.btn-danger { background: var(--bad); border-color: var(--bad); color: #fff; }

@@ -3,10 +3,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-export default defineConfig({
+// `vite build --mode native`: bản đóng gói Capacitor (iOS/Android) — không cần service worker PWA,
+// mọi file đã nằm sẵn trong app.
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
-    VitePWA({
+    mode !== 'native' && VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       manifest: {
@@ -28,4 +30,4 @@ export default defineConfig({
     }),
   ],
   test: { environment: 'jsdom', include: ['tests/**/*.test.ts?(x)'] },
-})
+}))

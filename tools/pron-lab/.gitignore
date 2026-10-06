@@ -1,0 +1,5 @@
+.venv/
+model/*.onnx
+audio/
+report.html
+__pycache__/

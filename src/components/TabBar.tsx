@@ -5,11 +5,12 @@ export function TabBar({ lessonId }: { lessonId: string }) {
     { to: 'phrases', icon: '📚', label: 'Cụm từ' },
     { to: 'roleplay', icon: '🎭', label: 'Role-play' },
     { to: 'grammar', icon: '📝', label: 'Ngữ pháp' },
+    { to: `/talk/${lessonId}`, icon: '🦉', label: 'Luyện nói' },
   ]
   return (
     <nav className="tabbar" aria-label="Các phần của bài">
       {tabs.map((t) => (
-        <NavLink key={t.to} to={`/lesson/${lessonId}/${t.to}`} className={({ isActive }) => (isActive ? 'active' : '')}>
+        <NavLink key={t.to} to={t.to.startsWith('/') ? t.to : `/lesson/${lessonId}/${t.to}`} className={({ isActive }) => (isActive ? 'active' : '')}>
           <span aria-hidden>{t.icon}</span>
           <span>{t.label}</span>
         </NavLink>

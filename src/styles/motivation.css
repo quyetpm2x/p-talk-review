@@ -286,3 +286,12 @@ a.jm-node:active .jm-disc { transform: translateY(4px); box-shadow: 0 2px 0 #7a5
   .owl *, .jm *, .xp-card *, .badge-modal, .badge-modal *, .sheet, .sheet-backdrop { animation: none !important; transition: none !important; }
   .xp-float { display: none; }
 }
+
+/* ───── Lối vào Luyện nói với Cú + Sổ từ (Trang chủ) ───── */
+.talk-entry { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.talk-entry a { display: flex; align-items: center; gap: 10px; padding: 14px; border-radius: 18px; text-decoration: none; color: inherit; }
+.talk-entry-main { background: linear-gradient(135deg, #1c2c55, #13203f); color: #f3ebdd !important; box-shadow: 0 10px 22px -12px rgba(19,32,63,.7); }
+.talk-entry-main > span:first-child { font-size: 30px; }
+.talk-entry-main b { display: block; color: #fff; } .talk-entry-main small { color: #d9ccb0; }
+.talk-entry-words { flex-direction: column; justify-content: center; gap: 2px !important; min-width: 88px; background: var(--card); border: 1px solid var(--line); }
+.talk-entry-words span { font-size: 22px; } .talk-entry-words small { color: var(--muted); }

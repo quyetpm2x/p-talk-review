@@ -10,6 +10,7 @@ import stories_l2_02 from '../../lessons/stories/level2-02.json'
 import chats_l2_01 from '../../lessons/chats/level2-01.json'
 import chats_l2_02 from '../../lessons/chats/level2-02.json'
 import { shuffle, type Rnd } from '../../lib/shuffle'
+import * as storage from '../../lib/storage'
 
 // ================= Kiểu dữ liệu =================
 
@@ -122,7 +123,7 @@ export const pickChat = (lessonId: string, lastId?: string | null, rnd: Rnd = Ma
 const lastKey = (kind: 'chat' | 'story') => `ptalk:v1:${kind}-last`
 export function lastPlayed(kind: 'chat' | 'story', lessonId: string): string | null {
   try {
-    const v = JSON.parse(localStorage.getItem(lastKey(kind)) ?? '{}')?.[lessonId]
+    const v = JSON.parse(storage.getItem(lastKey(kind)) ?? '{}')?.[lessonId]
     return typeof v === 'string' ? v : null
   } catch {
     return null
@@ -130,8 +131,8 @@ export function lastPlayed(kind: 'chat' | 'story', lessonId: string): string | n
 }
 export function savePlayed(kind: 'chat' | 'story', lessonId: string, id: string) {
   try {
-    const all = JSON.parse(localStorage.getItem(lastKey(kind)) ?? '{}')
-    localStorage.setItem(lastKey(kind), JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: id }))
+    const all = JSON.parse(storage.getItem(lastKey(kind)) ?? '{}')
+    storage.setItem(lastKey(kind), JSON.stringify({ ...(all && typeof all === 'object' ? all : {}), [lessonId]: id }))
   } catch {
     /* bỏ qua */
   }
@@ -359,7 +360,7 @@ const ENDINGS_KEY = 'ptalk:v1:story-endings'
 
 function readEndings(): Record<string, string[]> {
   try {
-    const v = JSON.parse(localStorage.getItem(ENDINGS_KEY) ?? '{}')
+    const v = JSON.parse(storage.getItem(ENDINGS_KEY) ?? '{}')
     return v && typeof v === 'object' && !Array.isArray(v) ? v : {}
   } catch {
     return {}
@@ -381,7 +382,7 @@ export function unlockEnding(lessonId: string, storyId: string, endingId: string
   const all = readEndings()
   const list = [...new Set([...unlockedEndings(lessonId, storyId), endingId])]
   try {
-    localStorage.setItem(ENDINGS_KEY, JSON.stringify({ ...all, [endingsKey(lessonId, storyId)]: list }))
+    storage.setItem(ENDINGS_KEY, JSON.stringify({ ...all, [endingsKey(lessonId, storyId)]: list }))
   } catch { /* không lưu được (chế độ riêng tư…) */ }
   return list
 }

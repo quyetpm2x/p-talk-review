@@ -1,15 +1,16 @@
+import * as storage from './storage'
 /** Âm thanh hiệu ứng tạo bằng Web Audio (không cần file). */
 
 const KEY = 'ptalk:sfx-muted'
 let muted = (() => {
-  try { return localStorage.getItem(KEY) === '1' } catch { return false }
+  try { return storage.getItem(KEY) === '1' } catch { return false }
 })()
 let ctx: AudioContext | undefined
 
 export const isMuted = () => muted
 export function setMuted(m: boolean) {
   muted = m
-  try { localStorage.setItem(KEY, m ? '1' : '0') } catch { /* không lưu được */ }
+  try { storage.setItem(KEY, m ? '1' : '0') } catch { /* không lưu được */ }
 }
 
 function ac(): AudioContext | undefined {

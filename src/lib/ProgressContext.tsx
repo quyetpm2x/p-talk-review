@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { loadProgress, saveProgress, type Progress } from './progress'
+import { noteLocalChange, onProgressReplaced } from './sync'
 
 type Ctx = [Progress, (fn: (p: Progress) => Progress) => void]
 const ProgressCtx = createContext<Ctx | null>(null)
@@ -16,7 +17,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     ref.current = next
     saveProgress(next)
     setP(next)
+    noteLocalChange() // đồng bộ lên máy chủ sau vài giây
   }, [])
+  // Đồng bộ (đăng nhập, máy khác, đăng xuất) thay tiến độ trên máy → cập nhật màn hình
+  useEffect(() => onProgressReplaced((next) => { ref.current = next; setP(next) }), [])
   return <ProgressCtx.Provider value={[p, update]}>{children}</ProgressCtx.Provider>
 }
 

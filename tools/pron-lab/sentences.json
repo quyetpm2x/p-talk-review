@@ -1,0 +1,22 @@
+[
+  {"text": "These things happen.", "bad": "Dese tings happen.", "errors": [["These","ð","d"],["things","θ","t"]]},
+  {"text": "That sounds really hard.", "bad": "Dat sound really har.", "errors": [["That","ð","d"],["sounds","z",""],["hard","d",""]]},
+  {"text": "I'm so sorry to hear that.", "bad": "I'm so sorry to hear dat.", "errors": [["that","ð","d"]]},
+  {"text": "It's not your fault.", "bad": "It's not your faw.", "errors": [["fault","t",""]]},
+  {"text": "You did everything you could.", "bad": "You did everyting you could.", "errors": [["everything","θ","t"]]},
+  {"text": "What a small world!", "bad": "What a small worl!", "errors": [["world","d",""]]},
+  {"text": "How's the family?", "bad": "How's de family?", "errors": [["the","ð","d"]]},
+  {"text": "That must be so stressful.", "bad": "Dat must be so stressful.", "errors": [["That","ð","d"]]},
+  {"text": "Is something on your mind?", "bad": "Is someting on your mine?", "errors": [["something","θ","t"],["mind","d",""]]},
+  {"text": "I can imagine how hard this must be for you.", "bad": "I can imagine how hard dis must be for you.", "errors": [["this","ð","d"]]},
+  {"text": "You haven't changed a bit!", "bad": "You haven't change a bit!", "errors": [["changed","d",""]]},
+  {"text": "What have you been up to?", "bad": "What hab you been up to?", "errors": [["have","v","b"]]},
+  {"text": "Long time no see!", "bad": "Lon time no see!", "errors": [["Long","ŋ","n"]]},
+  {"text": "She shares her feelings.", "bad": "See sares her feelings.", "errors": [["She","ʃ","s"],["shares","ʃ","s"]]},
+  {"text": "I think so.", "bad": "I sink so.", "errors": [["think","θ","s"]]},
+  {"text": "Very nice to meet you.", "bad": "Bery nice to meet you.", "errors": [["Very","v","b"]]},
+  {"text": "It's so good to see you again!", "bad": "It's so goo to see you again!", "errors": [["good","d",""]]},
+  {"text": "I like it.", "bad": "I lie it.", "errors": [["like","k",""]]},
+  {"text": "Thank you so much.", "bad": "Tank you so much.", "errors": [["Thank","θ","t"]]},
+  {"text": "Don't be too hard on yourself.", "bad": "Don't be too har on yourself.", "errors": [["hard","d",""]]}
+]
