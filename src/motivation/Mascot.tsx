@@ -42,9 +42,9 @@ function Eyes({ mood }: { mood: Mood }) {
 }
 
 /** Linh vật PTALK: chú cú mặc vest vàng (SVG inline, animation bằng CSS). */
-export function Mascot({ mood = 'idle', size = 96, label }: { mood?: Mood; size?: number; label?: string }) {
+export function Mascot({ mood = 'idle', size = 96, label, talking = false }: { mood?: Mood; size?: number; label?: string; talking?: boolean }) {
   return (
-    <svg className={`owl owl--${mood}`} width={size} height={size * (130 / 120)} viewBox="0 0 120 130"
+    <svg className={`owl owl--${mood} ${talking ? 'owl--talking' : ''}`} width={size} height={size * (130 / 120)} viewBox="0 0 120 130"
       role="img" aria-label={label ?? 'Cú PTALK'}>
       <g className="owl-all">
         {/* chân */}
@@ -74,7 +74,16 @@ export function Mascot({ mood = 'idle', size = 96, label }: { mood?: Mood; size?
         <circle cx={34} cy={62} r={4} fill="#f2a7a0" opacity={0.45} />
         <circle cx={86} cy={62} r={4} fill="#f2a7a0" opacity={0.45} />
         {/* mỏ */}
-        <path d={mood === 'sad' ? 'M55 60 L65 60 L60 69 Z' : 'M54 58 L66 58 L60 68 Z'} fill={GOLD} stroke="#a97d35" strokeWidth={1} strokeLinejoin="round" />
+        {talking ? (
+          <g className="owl-beak">
+            {/* miệng mở (lòng mỏ) + nửa mỏ dưới đóng/mở theo nhịp nói */}
+            <ellipse className="owl-mouth" cx={60} cy={64} rx={5} ry={3.6} fill="#5a2a1a" />
+            <path className="owl-jaw" d="M55.5 62 L64.5 62 L60 69 Z" fill={GOLD} stroke="#a97d35" strokeWidth={1} strokeLinejoin="round" />
+            <path d="M53 57 L67 57 L60 63.5 Z" fill={GOLD} stroke="#a97d35" strokeWidth={1} strokeLinejoin="round" />
+          </g>
+        ) : (
+          <path d={mood === 'sad' ? 'M55 60 L65 60 L60 69 Z' : 'M54 58 L66 58 L60 68 Z'} fill={GOLD} stroke="#a97d35" strokeWidth={1} strokeLinejoin="round" />
+        )}
         {mood === 'sad' && <path className="owl-tear" d="M36 64 Q33 70 36 72 Q39 70 36 64 Z" fill="#7cc4f0" />}
       </g>
       {mood === 'think' && (

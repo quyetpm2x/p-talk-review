@@ -21,6 +21,8 @@ import { MissionPage } from './pages/MissionPage'
 import { GrammarPage } from './pages/GrammarPage'
 import { TalkPage } from './talk/TalkPage'
 import { WordsPage } from './talk/WordsPage'
+import { FEATURES } from './lib/features'
+import { PronDownloadBadge } from './pron/PronPanel'
 import './styles/tokens.css'
 import './styles/base.css'
 
@@ -99,7 +101,7 @@ function AnimatedRoutes() {
           <Route index element={<Navigate to="phrases" replace />} />
           <Route path="phrases" element={<PhrasesPage />} />
           <Route path="roleplay" element={<RoleplayPage />} />
-          <Route path="grammar" element={<GrammarPage />} />
+          <Route path="grammar" element={FEATURES.grammar ? <GrammarPage /> : <Navigate to="../phrases" replace />} />
         </Route>
         <Route path="/lesson/:id/phrases/:game" element={<GamePage />} />
         <Route path="/lesson/:id/roleplay/dialogue/:idx/:mode" element={<DialoguePage />} />
@@ -127,7 +129,7 @@ export default function App() {
           {Landing && <Route path="/landing" element={<Suspense fallback={null}><Landing /></Suspense>} />}
           {/* Bảng giá gửi trung tâm: full-width, không cần nhập tên (chỉ bản web) */}
           {Pricing && <Route path="/bang-gia" element={<Suspense fallback={null}><Pricing /></Suspense>} />}
-          <Route path="*" element={<div className="app"><NameGate /></div>} />
+          <Route path="*" element={<div className="app"><NameGate /><PronDownloadBadge /></div>} />
         </Routes>
       </HashRouter>
     </ProgressProvider>

@@ -678,7 +678,7 @@ a { color: inherit; text-decoration: none; }
 .lesson-goals { display: flex; flex-direction: column; gap: 10px; padding: 12px; }
 .lesson-goals.all-done { border-color: var(--accent); background: var(--accent-soft); }
 .lg-head b { font-size: 15px; }
-.lg-parts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.lg-parts { display: grid; grid-template-columns: repeat(var(--lg-cols, 3), minmax(0, 1fr)); gap: 6px; }
 .lg-part {
   display: flex; flex-direction: column; gap: 5px; min-width: 0; padding: 8px; border-radius: 12px;
   background: var(--bg); border: 1.5px solid var(--line); color: inherit; text-decoration: none;
@@ -698,3 +698,25 @@ a { color: inherit; text-decoration: none; }
   .lg-part { padding: 7px 6px; }
   .lg-top { font-size: 12px; gap: 3px; }
 }
+
+/* ───── Cảm giác nhấn: thu nhỏ nhẹ khi chạm (dùng thuộc tính `scale` riêng → không đụng `transform` sẵn có) ───── */
+:where(button, a[href], label:has(> input), input[type='checkbox'], input[type='radio'], [role='button'], [role='tab'], [role='radio'], [role='switch'], .btn, .tabbar a, .card-link, .lg-part, .choice, .topic, .word):not(:disabled) {
+  transition: scale 0.12s cubic-bezier(0.3, 0.7, 0.4, 1.4), filter 0.12s, background-color 0.15s;
+  -webkit-user-select: none; user-select: none;
+}
+:where(button, a[href], label:has(> input), input[type='checkbox'], input[type='radio'], [role='button'], [role='tab'], [role='radio'], [role='switch'], .btn, .tabbar a, .card-link, .lg-part, .choice, .topic, .word):not(:disabled):active {
+  scale: 0.95; filter: brightness(0.96); transition-duration: 0.06s;
+}
+:where(.card-link, .lg-part, .jm-node, .talk-entry a):not(:disabled):active { scale: 0.97; }
+/* link chữ trong đoạn văn: không co (phần tử inline), chỉ mờ nhẹ */
+:where(p a[href], li a[href]):active { filter: none; opacity: 0.6; }
+@media (prefers-reduced-motion: reduce) { :where(button, .btn, .tabbar a, .card-link):active { scale: 1; } }
+
+/* ───── Tab Luyện nói nổi ở giữa ───── */
+.tabbar a.tab-main { position: relative; color: var(--fg); }
+.tabbar a.tab-main span:first-child {
+  display: grid; place-items: center; width: 54px; height: 54px; margin-top: -24px; border-radius: 50%; font-size: 28px;
+  background: var(--accent-grad); box-shadow: 0 8px 18px -8px rgba(169,125,53,.8), 0 0 0 4px var(--card);
+}
+.tabbar a.tab-main span:last-child { font-weight: 800; }
+.tabbar a.tab-main.active::after { display: none; }

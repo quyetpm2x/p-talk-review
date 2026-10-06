@@ -1,5 +1,6 @@
 /** Nhiệm vụ hằng ngày — toàn hàm thuần. */
 import { emptyDaily, type DailyState } from '../lib/progress'
+import { FEATURES } from '../lib/features'
 
 export type QuestMetric = 'plays' | 'correct' | 'arcade' | 'dialogue' | 'grammar' | 'perfect' | 'xp' | 'games'
 export type Quest = { id: string; icon: string; title: string; metric: QuestMetric; target: number }
@@ -38,7 +39,7 @@ function rng(seed: number) {
 /** 3 nhiệm vụ của một ngày — cùng ngày luôn ra cùng kết quả, không trùng chỉ số đo. */
 export function questsFor(day: string): Quest[] {
   const r = rng(hash(day))
-  const pool = QUESTS.slice()
+  const pool = QUESTS.filter((q) => FEATURES.grammar || q.metric !== 'grammar') // Ngữ pháp đang ẩn → không giao nhiệm vụ ngữ pháp
   const out: Quest[] = []
   while (out.length < QUESTS_PER_DAY && pool.length) {
     const q = pool.splice(Math.floor(r() * pool.length), 1)[0]

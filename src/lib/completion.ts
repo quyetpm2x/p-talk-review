@@ -4,6 +4,7 @@
  */
 import type { Lesson } from '../types'
 import { statKey, type Progress } from './progress'
+import { FEATURES } from './features'
 
 export const GOALS = { phrases: 0.6, rememberBox: 2, act: 60, grammar: 0.7 } as const
 
@@ -24,7 +25,8 @@ export type LessonStatus = { parts: Part[]; done: boolean; started: boolean; pro
 
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x))
 
-export function lessonStatus(p: Progress, lesson: Lesson): LessonStatus {
+/** `opts.grammar`: tính phần Ngữ pháp vào mục tiêu (mặc định theo FEATURES.grammar). */
+export function lessonStatus(p: Progress, lesson: Lesson, opts: { grammar?: boolean } = {}): LessonStatus {
   const id = lesson.id
   const best = (k: string) => p.bestScores[`${id}:${k}`] ?? 0
 
@@ -61,7 +63,7 @@ export function lessonStatus(p: Progress, lesson: Lesson): LessonStatus {
     detail: `Đúng ${Math.min(right, needG)}/${needG} câu`,
   }
 
-  const parts = [phrases, roleplay, grammar]
+  const parts = (opts.grammar ?? FEATURES.grammar) ? [phrases, roleplay, grammar] : [phrases, roleplay]
   const prefix = `${id}:`
   const started =
     Object.keys(p.phrases).some((k) => k.startsWith(prefix)) ||

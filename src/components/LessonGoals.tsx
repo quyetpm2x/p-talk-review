@@ -4,7 +4,7 @@ import { lessons } from '../lessons'
 import { useProgress } from '../lib/ProgressContext'
 import { lessonStatus } from '../lib/completion'
 
-/** Dải “Mục tiêu hoàn thành bài” ở đầu mỗi bài: 3 ô (Cụm từ · Nhập vai · Ngữ pháp), chạm để tới phần đó. */
+/** Dải “Mục tiêu hoàn thành bài” ở đầu mỗi bài: các ô Cụm từ · Nhập vai (· Ngữ pháp khi bật), chạm để tới phần đó. */
 export function LessonGoals({ lesson }: { lesson: Lesson }) {
   const [p] = useProgress()
   const s = lessonStatus(p, lesson)
@@ -13,10 +13,10 @@ export function LessonGoals({ lesson }: { lesson: Lesson }) {
   const prev = lessons.filter((l) => l.level === lesson.level && l.number < lesson.number).sort((a, b) => b.number - a.number)[0]
   const prevOpen = prev && !lessonStatus(p, prev).done
   return (
-    <section className={`card lesson-goals ${s.done ? 'all-done' : ''}`} aria-label="Mục tiêu hoàn thành bài">
+    <section className={`card lesson-goals ${s.done ? 'all-done' : ''}`} style={{ ['--lg-cols' as string]: s.parts.length }} aria-label="Mục tiêu hoàn thành bài">
       <div className="row lg-head">
         <b className="grow">{s.done ? '👑 Đã hoàn thành bài này!' : '🎯 Mục tiêu hoàn thành bài'}</b>
-        <span className={`tag ${s.done ? 'accent' : ''}`}>{met}/3</span>
+        <span className={`tag ${s.done ? 'accent' : ''}`}>{met}/{s.parts.length}</span>
       </div>
       <div className="lg-parts">
         {s.parts.map((x) => (

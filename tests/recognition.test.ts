@@ -97,3 +97,27 @@ describe('web', () => {
     expect(SR.start).not.toHaveBeenCalled()
   })
 })
+
+describe('giữ để nói (hold)', () => {
+  beforeEach(() => { native = true })
+  it('không tự dừng khi im lặng; thả nút (stop) thì trả câu đã nghe; báo âm lượng', async () => {
+    const levels: number[] = []
+    const { promise, stop } = listen({ hold: true, onLevel: (v) => levels.push(v) })
+    await flush()
+    emit('partialResults', { matches: ['I like'] })
+    emit('audioLevel', { level: 0.6 })
+    await vi.advanceTimersByTimeAsync(NATIVE_NO_SPEECH_MS + NATIVE_SILENCE_MS + 1000) // im lặng lâu vẫn không dừng
+    expect(SR.stop).not.toHaveBeenCalled()
+    emit('partialResults', { matches: ['I like football'] })
+    stop()
+    await vi.advanceTimersByTimeAsync(500)
+    await expect(promise).resolves.toEqual(['I like football'])
+    expect(levels).toEqual([0.6])
+  })
+})
+
+import { levelFromRms } from '../src/lib/micLevel'
+it('levelFromRms: im lặng ≈ 0, nói to ≈ 1', () => {
+  expect(levelFromRms(0.0005)).toBe(0)
+  expect(levelFromRms(0.3)).toBeGreaterThan(0.8)
+})

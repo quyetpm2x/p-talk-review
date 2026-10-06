@@ -10,12 +10,15 @@ import { StatusBar, Style } from '@capacitor/status-bar'
 import { SpeechRecognition } from '@capgo/capacitor-speech-recognition'
 import { isNative, platform } from './platform'
 import { stopSpeaking } from './speech'
+import { refreshDownload } from '../pron/model'
+import { initTapHaptics } from './haptics'
 
 /** Trang chủ của app (HashRouter): '#/' hoặc rỗng. */
 export const isHomeHash = (hash: string) => hash === '' || hash === '#' || hash === '#/'
 
 export function initNative() {
   if (!isNative()) return
+  initTapHaptics()
   StatusBar.setStyle({ style: Style.Dark }).catch(() => {})
   if (platform() === 'android') StatusBar.setOverlaysWebView({ overlay: true }).catch(() => {})
 
@@ -25,7 +28,7 @@ export function initNative() {
   })
 
   App.addListener('appStateChange', ({ isActive }) => {
-    if (isActive) return
+    if (isActive) { void refreshDownload(); return } // quay lại app: cập nhật / nối lại tải bộ chấm
     stopSpeaking()
     SpeechRecognition.stop().catch(() => {})
   })

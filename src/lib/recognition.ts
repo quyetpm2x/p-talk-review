@@ -7,6 +7,7 @@
 import { SpeechRecognition as NativeSR } from '@capgo/capacitor-speech-recognition'
 import type { PluginListenerHandle } from '@capacitor/core'
 import { isNative } from './platform'
+import { startMeter } from './micLevel'
 
 type Ctor = new () => any
 const getCtor = (): Ctor | undefined =>
@@ -21,6 +22,10 @@ export type ListenOpts = {
   silenceMs?: number
   /** Nhận chữ tạm trong lúc đang nói (hiện cho người học thấy) */
   onPartial?: (text: string) => void
+  /** Giữ để nói: nghe liên tục, KHÔNG tự dừng khi im lặng — chỉ dừng khi gọi stop() (thả nút). */
+  hold?: boolean
+  /** Âm lượng micro 0–1 (~15 lần/giây) để vẽ sóng âm */
+  onLevel?: (level: number) => void
 }
 
 /** Nghe một câu; promise trả về các phương án transcript (tốt nhất trước). */
@@ -33,12 +38,20 @@ function listenWeb(opts: ListenOpts = {}): { promise: Promise<string[]>; stop: (
   if (!C) return { promise: Promise.reject<string[]>('unsupported'), stop: () => {} }
   const rec = new C()
   rec.lang = 'en-US'
-  rec.interimResults = !!opts.onPartial
+  rec.interimResults = !!opts.onPartial || !!opts.hold
   rec.maxAlternatives = 3
-  rec.continuous = false
+  rec.continuous = !!opts.hold // giữ để nói: nghe tới khi thả nút
   const promise = new Promise<string[]>((resolve, reject) => {
     let got: string[] | null = null
     rec.onresult = (e: any) => {
+      if (opts.hold) {
+        // nghe liên tục: ghép mọi đoạn (đã chốt + đang nói) thành một câu
+        let all = ''
+        for (let i = 0; i < e.results.length; i++) all += (all ? ' ' : '') + String(e.results[i][0].transcript).trim()
+        opts.onPartial?.(all)
+        if (all.trim()) got = [all.trim()]
+        return
+      }
       const r = e.results[0]
       if (!r.isFinal) { opts.onPartial?.(r[0].transcript as string); return }
       got = Array.from({ length: r.length }, (_, i) => r[i].transcript as string)
@@ -50,12 +63,14 @@ function listenWeb(opts: ListenOpts = {}): { promise: Promise<string[]>; stop: (
       }
       reject(map[e.error] ?? 'network')
     }
-    rec.onend = () => (got ? resolve(got) : reject('no-speech'))
+    rec.onend = () => { stopMeter(); got ? resolve(got) : reject('no-speech') }
   })
+  const stopMeter = opts.onLevel ? startMeter(opts.onLevel) : () => {}
   promise.catch(() => {})
   try {
     rec.start()
   } catch {
+    stopMeter()
     return { promise: Promise.reject<string[]>('aborted'), stop: () => {} }
   }
   return { promise, stop: () => rec.stop() }
@@ -134,9 +149,10 @@ function listenNative(opts: ListenOpts = {}): { promise: Promise<string[]>; stop
           latest = m
           opts.onPartial?.(m[0])
           clearTimeout(silence)
-          silence = window.setTimeout(stopNow, opts.silenceMs ?? NATIVE_SILENCE_MS)
+          if (!opts.hold) silence = window.setTimeout(stopNow, opts.silenceMs ?? NATIVE_SILENCE_MS)
         }),
         NativeSR.addListener('error', (e) => { errorCode = e.code || e.message }),
+        ...(opts.onLevel ? [NativeSR.addListener('audioLevel', (e) => opts.onLevel!(Math.max(0, Math.min(1, e.level ?? 0))))] : []),
         NativeSR.addListener('listeningState', (e) => {
           if (e.state === 'stopped' || e.status === 'stopped') {
             if (e.errorCode) errorCode = e.errorCode
@@ -148,7 +164,7 @@ function listenNative(opts: ListenOpts = {}): { promise: Promise<string[]>; stop
       if (settled) return
       started = true
       // iOS không tự dừng khi không ai nói → tự dừng sau NATIVE_NO_SPEECH_MS
-      silence = window.setTimeout(stopNow, NATIVE_NO_SPEECH_MS)
+      if (!opts.hold) silence = window.setTimeout(stopNow, NATIVE_NO_SPEECH_MS)
       await NativeSR.start({ language: 'en-US', maxResults: 3, partialResults: true, popup: false })
       if (stopRequested) NativeSR.stop().catch(() => {})
     } catch (e: any) {

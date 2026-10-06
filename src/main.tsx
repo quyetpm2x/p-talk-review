@@ -16,6 +16,7 @@ import { hydrateStorage } from './lib/storage'
 import { hideNativeSplash, initNative } from './lib/native'
 import { reloadSession } from './lib/auth'
 import { initSync, reloadSyncState } from './lib/sync'
+import { refreshDownload } from './pron/model'
 
 // App iOS/Android: khôi phục tiến độ từ bộ lưu native trước khi render (web: xong ngay)
 initNative()
@@ -24,6 +25,7 @@ hydrateStorage().finally(() => {
   reloadSession()
   reloadSyncState()
   initSync()
+  void refreshDownload() // nối lại lượt tải bộ chấm phát âm còn dở (nếu có)
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <App />

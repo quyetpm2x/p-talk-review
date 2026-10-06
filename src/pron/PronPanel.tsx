@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { speak } from '../lib/speech'
 import { errorText, sentenceLevel, type WordResult } from './core'
-import { deleteModel, downloadModel, isModelReady, MODEL_BYTES } from './model'
+import '../talk/talk.css'
+import { deleteModel, MODEL_BYTES, refreshDownload, startDownload, usePronDownload } from './model'
 import { loadEngine, unloadEngine } from './engine'
 
 const LEVEL_CLASS = { 'Tốt': 'ok', 'Khá': 'mid', 'Cần luyện': 'bad' } as const
@@ -42,34 +43,46 @@ export function PronSheet({ text, words, wavUrl, rate, onClose }: { text: string
   )
 }
 
-/** Mục bật/tắt + tải mô hình chấm phát âm (trong ⚙️ của phòng nói chuyện). */
+/** Mục bật/tắt + tải mô hình chấm phát âm (trong ⚙️ của phòng nói chuyện). Tiến độ lấy từ kho dùng chung → tải tiếp dù rời màn hình. */
 export function PronSetting({ enabled, onChange }: { enabled: boolean; onChange: (v: boolean) => void }) {
-  const [ready, setReady] = useState<boolean | null>(null)
-  const [prog, setProg] = useState<number | null>(null)
-  const [err, setErr] = useState('')
-  useEffect(() => { void isModelReady().then(setReady) }, [])
-  const download = async () => {
-    setErr(''); setProg(0)
-    try {
-      await downloadModel(setProg)
-      setReady(true); onChange(true)
-      void loadEngine().catch(() => {})
-    } catch (e) {
-      setErr((e as Error).message || 'Không tải được, thử lại nhé')
-    } finally { setProg(null) }
-  }
+  const dl = usePronDownload()
+  useEffect(() => { if (dl.status === 'unknown') void refreshDownload() }, [dl.status])
+  // tải xong (kể cả khi đang ở màn khác) → tự bật chấm phát âm và nạp sẵn mô hình
+  const was = useRef(dl.status)
+  useEffect(() => {
+    if (was.current === 'downloading' && dl.status === 'ready') { onChange(true); void loadEngine().catch(() => {}) }
+    was.current = dl.status
+  }, [dl.status, onChange])
+  const ready = dl.status === 'ready'
   return (
     <div className="pron-setting">
       <div className="row">
         <div className="grow"><b>🎯 Chấm phát âm</b><small>Chạy ngay trên máy, giọng nói không gửi đi đâu</small></div>
         {ready && <button role="switch" aria-checked={enabled} className={`switch ${enabled ? 'on' : ''}`} onClick={() => onChange(!enabled)}><i /></button>}
       </div>
-      {ready === false && prog === null && (
-        <button className="btn btn-primary btn-block" onClick={download}>Tải bộ chấm ({Math.round(MODEL_BYTES / 1e6)}MB · nên dùng Wi-Fi)</button>
+      {dl.status === 'missing' && (
+        <button className="btn btn-primary btn-block" onClick={() => void startDownload()}>Tải bộ chấm ({Math.round(MODEL_BYTES / 1e6)}MB · nên dùng Wi-Fi)</button>
       )}
-      {prog !== null && <div className="pron-prog"><i style={{ width: `${Math.round(prog * 100)}%` }} /><small>Đang tải {Math.round(prog * 100)}%…</small></div>}
-      {ready && <button className="btn btn-ghost btn-sm" onClick={async () => { unloadEngine(); await deleteModel(); setReady(false); onChange(false) }}>Xoá bộ chấm khỏi máy</button>}
-      {err && <small className="pron-err">{err}</small>}
+      {dl.status === 'downloading' && (
+        <>
+          <div className="pron-prog"><i style={{ width: `${Math.round(dl.progress * 100)}%` }} /><small>Đang tải {Math.round(dl.progress * 100)}%…</small></div>
+          <small className="pron-hint">Bạn có thể tắt màn hình hoặc dùng app khác — bộ chấm vẫn tiếp tục tải.</small>
+        </>
+      )}
+      {dl.status === 'error' && (
+        <>
+          <small className="pron-err">{dl.error}</small>
+          <button className="btn btn-primary btn-block" onClick={() => void startDownload()}>Tải tiếp</button>
+        </>
+      )}
+      {ready && <button className="btn btn-ghost btn-sm" onClick={async () => { unloadEngine(); await deleteModel(); onChange(false) }}>Xoá bộ chấm khỏi máy</button>}
     </div>
   )
+}
+
+/** Thanh nhỏ báo đang tải bộ chấm — hiện ở mọi màn hình trong lúc tải. */
+export function PronDownloadBadge() {
+  const dl = usePronDownload()
+  if (dl.status !== 'downloading') return null
+  return <div className="pron-badge" role="status">🎯 Đang tải bộ chấm phát âm {Math.round(dl.progress * 100)}%</div>
 }

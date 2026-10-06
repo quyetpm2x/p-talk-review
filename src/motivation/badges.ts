@@ -1,6 +1,6 @@
 /** Huy hiệu — điều kiện là hàm thuần trên Progress (đã cập nhật) + hoạt động vừa xong. */
 import type { Lesson } from '../types'
-import { currentStreak, statKey, type Progress } from '../lib/progress'
+import { currentStreak, currentTalkStreak, statKey, type Progress } from '../lib/progress'
 import { lessonStatus } from '../lib/completion'
 import type { Activity } from './types'
 
@@ -43,6 +43,10 @@ export const BADGES: Badge[] = [
     test: ({ p }) => p.stats.questDays >= 1 },
   { id: 'graduate', icon: '🎓', name: 'Tốt nghiệp', desc: 'Hoàn thành một bài học (đủ 3 mục tiêu: cụm từ, nhập vai, ngữ pháp)',
     test: ({ p, lessons }) => lessons.some((l) => lessonStatus(p, l).done) },
+  { id: 'talk3', icon: '🗣️', name: 'Nói 3 ngày liền', desc: 'Luyện nói với Cú 3 ngày liên tiếp',
+    test: ({ p, now }) => currentTalkStreak(p, now) >= 3 },
+  { id: 'talk7', icon: '🎙️', name: 'Nói 7 ngày liền', desc: 'Luyện nói với Cú 7 ngày liên tiếp',
+    test: ({ p, now }) => currentTalkStreak(p, now) >= 7 },
   { id: 'plays50', icon: '🏅', name: 'Bền bỉ', desc: 'Hoàn thành 50 lượt chơi',
     test: ({ p }) => p.stats.plays >= 50 },
 ]

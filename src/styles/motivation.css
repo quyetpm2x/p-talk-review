@@ -295,3 +295,16 @@ a.jm-node:active .jm-disc { transform: translateY(4px); box-shadow: 0 2px 0 #7a5
 .talk-entry-main b { display: block; color: #fff; } .talk-entry-main small { color: #d9ccb0; }
 .talk-entry-words { flex-direction: column; justify-content: center; gap: 2px !important; min-width: 88px; background: var(--card); border: 1px solid var(--line); }
 .talk-entry-words span { font-size: 22px; } .talk-entry-words small { color: var(--muted); }
+
+/* ───── Cú đang nói: mỏ đóng/mở, đầu gật nhẹ, cánh khua theo nhịp ───── */
+.owl--talking .owl-jaw { transform-box: fill-box; transform-origin: 50% 0%; animation: owlJaw 0.22s ease-in-out infinite alternate; }
+.owl--talking .owl-mouth { transform-box: fill-box; transform-origin: 50% 0%; animation: owlMouth 0.22s ease-in-out infinite alternate; }
+.owl--talking .owl-all { animation: owlNod 0.9s ease-in-out infinite; }
+.owl--talking .owl-wing-l { animation: owlGestureL 1.8s ease-in-out infinite; }
+.owl--talking .owl-wing-r { animation: owlGestureR 2.2s ease-in-out infinite; }
+@keyframes owlJaw { from { transform: translateY(-3px) scaleY(0.5); } to { transform: translateY(3.5px) scaleY(1.15); } }
+@keyframes owlMouth { from { transform: scaleY(0.15); } to { transform: scaleY(1.6); } }
+@keyframes owlNod { 0%, 100% { transform: rotate(0) translateY(0); } 30% { transform: rotate(-2deg) translateY(-1.5px); } 65% { transform: rotate(1.5deg) translateY(0.5px); } }
+@keyframes owlGestureL { 0%, 70%, 100% { transform: rotate(0); } 80% { transform: rotate(-14deg); } 90% { transform: rotate(-4deg); } }
+@keyframes owlGestureR { 0%, 55%, 100% { transform: rotate(0); } 68% { transform: rotate(12deg); } 80% { transform: rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { .owl--talking .owl-jaw, .owl--talking .owl-mouth, .owl--talking .owl-all, .owl--talking .owl-wing-l, .owl--talking .owl-wing-r { animation: none; } }

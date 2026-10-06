@@ -51,6 +51,8 @@ export type Progress = {
   stats: Stats
   /** Sổ từ của tôi: khoá = từ/cụm tiếng Anh đã chuẩn hoá. Tiến độ ôn nằm trong `phrases` với khoá `vocab:<khoá>`. */
   words: Record<string, VocabWord>
+  /** Luyện nói với Cú: chuỗi ngày liên tiếp + các ngày đã luyện (YYYY-MM-DD, tối đa 60 ngày gần nhất) */
+  talk: { streak: { count: number; lastDay: string }; days: string[] }
 }
 
 export const KEY = 'ptalk:v1:progress'
@@ -72,6 +74,7 @@ export const emptyProgress = (): Progress => ({
   daily: emptyDaily(),
   stats: emptyStats(),
   words: {},
+  talk: { streak: { count: 0, lastDay: '' }, days: [] },
 })
 
 const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x)
@@ -90,6 +93,7 @@ export function normalizeProgress(raw: unknown): Progress {
     daily: isObj(p.daily) ? { ...e.daily, ...(p.daily as Partial<DailyState>) } : e.daily,
     stats: isObj(p.stats) ? { ...e.stats, ...(p.stats as Partial<Stats>) } : e.stats,
     words: isObj(p.words) ? (p.words as Progress['words']) : {},
+    talk: isObj(p.talk) && isObj((p.talk as any).streak) && Array.isArray((p.talk as any).days) ? (p.talk as Progress['talk']) : e.talk,
   }
 }
 
@@ -125,6 +129,21 @@ export function bumpStreak(p: Progress, now: number): Progress {
   const yesterday = dayKey(new Date(now).setDate(new Date(now).getDate() - 1))
   const count = p.streak.lastDay === yesterday ? p.streak.count + 1 : 1
   return { ...p, streak: { count, lastDay: today } }
+}
+
+/** Ghi nhận hôm nay có luyện nói đạt yêu cầu → cập nhật chuỗi ngày luyện nói. */
+export function recordTalkDay(p: Progress, now: number): Progress {
+  const today = dayKey(now)
+  if (p.talk.streak.lastDay === today) return p
+  const yesterday = dayKey(new Date(now).setDate(new Date(now).getDate() - 1))
+  const count = p.talk.streak.lastDay === yesterday ? p.talk.streak.count + 1 : 1
+  return { ...p, talk: { streak: { count, lastDay: today }, days: [...p.talk.days.filter((d) => d !== today), today].sort().slice(-60) } }
+}
+
+/** Chuỗi ngày luyện nói hiển thị: về 0 nếu đã bỏ lỡ quá 1 ngày. */
+export function currentTalkStreak(p: Progress, now: number): number {
+  const yesterday = dayKey(new Date(now).setDate(new Date(now).getDate() - 1))
+  return p.talk.streak.lastDay === dayKey(now) || p.talk.streak.lastDay === yesterday ? p.talk.streak.count : 0
 }
 
 /** Streak hiển thị: về 0 nếu đã bỏ lỡ quá 1 ngày. */

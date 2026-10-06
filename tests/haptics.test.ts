@@ -23,3 +23,12 @@ it('web: dùng navigator.vibrate, không gọi plugin', () => {
   expect(vib).toHaveBeenCalledWith([30, 40, 30])
   expect(H.impact).not.toHaveBeenCalled()
 })
+
+it('rung theo sự kiện (web): nghe 1 nhịp, gửi 2 nhịp, vui nhiều nhịp', async () => {
+  native = false
+  const vib = vi.fn()
+  Object.defineProperty(navigator, 'vibrate', { value: vib, configurable: true })
+  const h = await import('../src/lib/haptics')
+  h.hapticListen(); h.hapticSend(); h.hapticWin()
+  expect(vib.mock.calls.map((c) => c[0])).toEqual([[20], [12, 90, 12], [15, 50, 15, 50, 40]])
+})

@@ -104,6 +104,7 @@ export function mergeProgress(rawA: unknown, rawB: unknown, name?: string): Prog
     daily: mergeDaily(a.daily, b.daily),
     stats: mergeStats(a.stats, b.stats),
     words: mergeWords(a.words, b.words),
+    talk: { streak: mergeStreak(a.talk.streak, b.talk.streak), days: [...new Set([...a.talk.days, ...b.talk.days])].sort().slice(-60) },
   }
 }
 

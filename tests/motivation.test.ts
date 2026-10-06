@@ -169,3 +169,8 @@ describe('applyActivity', () => {
     expect(r.progress.badges.actor).toBe(t0)
   })
 })
+
+import { questsFor as qf } from '../src/motivation/quests'
+it('Ngữ pháp đang ẩn: không bao giờ giao nhiệm vụ ngữ pháp', () => {
+  for (let d = 1; d <= 60; d++) expect(qf(`2026-10-${String(d).padStart(2, '0')}`).some((q) => q.metric === 'grammar')).toBe(false)
+})

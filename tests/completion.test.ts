@@ -11,11 +11,11 @@ const remember = (p: Progress, n: number, box = 2): Progress => {
   lesson.phrases.slice(0, n).forEach((ph) => { phrases[`${lesson.id}:${ph.id}`] = { box, wrong: 0, seen: 1, last: 0 } })
   return { ...p, phrases }
 }
-const part = (p: Progress, id: string) => lessonStatus(p, lesson).parts.find((x) => x.id === id)!
+const part = (p: Progress, id: string) => lessonStatus(p, lesson, { grammar: true }).parts.find((x) => x.id === id)!
 
 describe('Điều kiện hoàn thành bài', () => {
   it('chưa làm gì: chưa bắt đầu, chưa hoàn thành, tiến độ 0', () => {
-    const s = lessonStatus(emptyProgress(), lesson)
+    const s = lessonStatus(emptyProgress(), lesson, { grammar: true })
     expect(s.started).toBe(false)
     expect(s.done).toBe(false)
     expect(s.progress).toBe(0)
@@ -54,12 +54,12 @@ describe('Điều kiện hoàn thành bài', () => {
 
   it('đủ cả 3 điều kiện mới là hoàn thành; tiến độ tăng dần', () => {
     let p = remember(emptyProgress(), lesson.phrases.length)
-    const a = lessonStatus(p, lesson)
+    const a = lessonStatus(p, lesson, { grammar: true })
     expect(a.done).toBe(false)
     expect(a.parts.filter((x) => x.done)).toHaveLength(1)
     p = setBest(p, `${lesson.id}:dlg0:act`, 80)
     lesson.grammar.forEach((g, i) => { p = setBest(p, `${lesson.id}:gram${i}`, g.exercises.length) })
-    const b = lessonStatus(p, lesson)
+    const b = lessonStatus(p, lesson, { grammar: true })
     expect(b.done).toBe(true)
     expect(b.progress).toBe(1)
     expect(b.progress).toBeGreaterThan(a.progress)
@@ -67,6 +67,10 @@ describe('Điều kiện hoàn thành bài', () => {
 
   it('không tính tiến độ của bài khác', () => {
     const p = setBest(emptyProgress(), 'level2-02:dlg0:act', 100)
-    expect(lessonStatus(p, lesson).started).toBe(false)
+    expect(lessonStatus(p, lesson, { grammar: true }).started).toBe(false)
   })
+})
+
+it('Ngữ pháp đang ẩn (FEATURES.grammar = false): mục tiêu bài chỉ còn Cụm từ + Nhập vai', () => {
+  expect(lessonStatus(emptyProgress(), lesson).parts.map((x) => x.id)).toEqual(['phrases', 'roleplay'])
 })

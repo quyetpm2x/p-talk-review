@@ -5,7 +5,7 @@ export type TurnBody = {
   mode: 'lesson' | 'free'
   lesson: { title: string; titleVi: string; phrases: string[] }
   topic?: string
-  history: { role: 'tutor' | 'student'; text: string }[]
+  history: { role: 'tutor' | 'student'; text: string; vi?: string }[]
   text: string
 }
 
