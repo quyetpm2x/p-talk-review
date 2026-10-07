@@ -301,6 +301,7 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .col-b .v-price b{--s1:#1457b8;--s2:#1e6fd9;--s3:#8cc2ff;--sg:rgba(30,111,217,.28)}
 .pricing .col-p .v-price b{--s1:#a81f3d;--s2:#e0355a;--s3:#ffa3b8;--sg:rgba(224,53,90,.28)}
 .pricing .col-x .v-price b{--s1:#8a6526;--s2:#c9a04e;--s3:#ffe9a8;--sg:rgba(169,125,53,.32)}
+.pricing .v-price.v-free b{--s1:#0b6fb8;--s2:#1ea0e6;--s3:#a8e1ff;--sg:rgba(30,160,230,.28)}
 @keyframes priceShine{0%{background-position:100% 0}100%{background-position:-120% 0}}
 @media (prefers-reduced-motion: reduce){.pricing .v-price b{animation:none}}
 .pricing .trow.sum .tlabel{padding-top:10px;padding-bottom:10px}
