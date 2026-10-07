@@ -10,7 +10,7 @@ import { Mascot, type Mood } from '../motivation/Mascot'
 import { useReward } from '../motivation/useReward'
 import { RewardInline } from '../motivation/Reward'
 import type { RewardReport } from '../motivation/engine'
-import { talkSummary, talkTurn, type TalkSummary, type TurnBody } from './api'
+import { isQuotaError, talkSummary, talkTurn, type TalkQuota, type TalkSummary, type TurnBody } from './api'
 import { compareSaid, hints, historyFor, markPhrases, phrasesUsed, SentenceChunker, splitWords, wordProgress, type Turn } from './core'
 import type { WordResult } from '../pron/core'
 import { hapticListen, hapticSend, hapticWin } from '../lib/haptics'
@@ -42,6 +42,11 @@ export function TalkPage() {
   const [typing, setTyping] = useState(!hasRecognition())
   const [draft, setDraft] = useState('')
   const [error, setError] = useState('')
+  /** Lượt đã dùng / hạn mức hôm nay; hết lượt → hiện thẻ "Cú hẹn bạn vào ngày mai" thay cho thanh micro */
+  const [quota, setQuota] = useState<TalkQuota | null>(null)
+  const [outOfTurns, setOutOfTurns] = useState(false)
+  /** Mã buổi nói: máy chủ giữ cùng một nhà cung cấp AI cho cả buổi (Cú không đổi giọng giữa chừng) */
+  const sessionId = useRef('')
   const [showVi, setShowVi] = useState<Set<number>>(new Set())
   const [replaying, setReplaying] = useState(false)
   /** Karaoke: Cú đang đọc tới đâu trong bong bóng `turn` (done = số từ đã đọc, now = từ đang đọc). */
@@ -134,13 +139,13 @@ export function TalkPage() {
     let wordsQueued = 0
     const chunker = new SentenceChunker((sentence) => { const base = wordsQueued; wordsQueued += splitWords(sentence).length; say(sentence, tutorIdx, base) })
     const daily = topic === 'daily'
-    const body: TurnBody = { mode, lesson: daily ? { ...ctx, phrases: [] } : ctx, topic: topicEn, history: historyFor(before), text }
+    const body: TurnBody = { mode, lesson: daily ? { ...ctx, phrases: [] } : ctx, topic: topicEn, history: historyFor(before), text, session: sessionId.current }
     try {
       const meta = await talkTurn(session.token, body, (t) => {
         setPhase('speaking')
         chunker.push(t)
         setTurns((ts) => ts.map((x, i) => (i === tutorIdx ? { ...x, text: x.text + t } : x)))
-      }, ac.signal)
+      }, ac.signal, (q) => { setQuota(q); if (q.used >= q.limit) setOutOfTurns(true) })
       chunker.end()
       setTurns((ts) => ts.map((x, i) => (i === tutorIdx ? { ...x, text: meta.reply || x.text, meta } : x)))
       // Từ mới + câu sửa tự vào Sổ từ ngay (không đợi kết thúc buổi)
@@ -150,7 +155,8 @@ export function TalkPage() {
     } catch (e) {
       if (ac.signal.aborted) return
       setTurns((ts) => ts.filter((_, i) => i !== tutorIdx))
-      setError(e instanceof ApiError ? e.message : 'Cú chưa nghe rõ, thử lại nhé')
+      if (isQuotaError(e)) setOutOfTurns(true)
+      else setError(e instanceof ApiError ? e.message : 'Cú chưa nghe rõ, thử lại nhé')
       setPhase('idle')
     }
   }, [ctx, hush, mode, say, topic, topicEn])
@@ -159,6 +165,7 @@ export function TalkPage() {
   const [sessionKey, setSessionKey] = useState(0)
   const restart = () => { abortRef.current?.abort(); hush(); turnsRef.current = []; setTurns([]); setSessionKey((k) => k + 1) }
   useEffect(() => {
+    sessionId.current = Math.random().toString(36).slice(2, 12) + Date.now().toString(36)
     if (topic) void send('')
   }, [topic, sessionKey]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => { abortRef.current?.abort(); stopListen.current?.(); stopSpeaking() }, [])
@@ -302,7 +309,7 @@ export function TalkPage() {
       setReward(give({ kind: 'dialogue', id: `talk:${lessonId}`, correct: Math.min(studentTexts.length, 10), total: Math.max(studentTexts.length, 1), lessonId: lesson?.id }))
     }
     if (session && studentTexts.length >= 2) {
-      const s = await talkSummary(session.token, { lesson: ctx, transcript: turns.slice(-60).map((t) => ({ role: t.role, text: t.text.slice(0, 400) })) })
+      const s = await talkSummary(session.token, { lesson: ctx, transcript: turns.slice(-60).map((t) => ({ role: t.role, text: t.text.slice(0, 400) })), session: sessionId.current })
       setSummary((cur) => cur && { ...cur, tip_vi: s.tip_vi, fixes: s.fixes.length ? s.fixes : cur.fixes, used: [...new Set([...cur.used, ...s.phrases_used.filter((p) => ctx.phrases.includes(p))])] })
     }
   }
@@ -502,7 +509,9 @@ export function TalkPage() {
         )}
       </div>
 
-      {showSettings && (
+      {/* Luôn render để chạy hiệu ứng rèm kéo xuống / kéo lên; khi đóng thì inert để không focus/đọc được */}
+      <div className={`talk-drawer ${showSettings ? 'open' : ''}`} aria-hidden={!showSettings} {...(showSettings ? {} : { inert: '' })}>
+        <div className="talk-drawer-in">
         <div className="talk-speed" role="radiogroup" aria-label="Tốc độ gia sư">
           {SPEEDS.map((s) => (
             <button key={s.v} role="radio" aria-checked={settings.speed === s.v} className={settings.speed === s.v ? 'on' : ''}
@@ -519,7 +528,8 @@ export function TalkPage() {
           </div>
           <PronSetting enabled={settings.pron} onChange={setPron} />
         </div>
-      )}
+        </div>
+      </div>
       {fly && (
         <div ref={flyEl} className="owl-fly" aria-hidden style={{ left: fly.from.left, top: fly.from.top, width: fly.from.width, height: fly.from.height }}>
           <Mascot mood={mood} size={fly.from.width} talking={talking} />
@@ -625,6 +635,16 @@ export function TalkPage() {
           </div>
         )}
         {error && <div className="talk-error" role="alert">{error}</div>}
+        {outOfTurns && (
+          <div className="talk-quota" role="alert">
+            <Mascot mood="idle" size={64} />
+            <b>Bạn đã hết lượt luyện nói hôm nay</b>
+            <span>Cú hẹn bạn vào ngày mai nhé! 🦉</span>
+            {studentTexts.length && !summary
+              ? <button className="btn btn-primary" onClick={() => void finish()}>Xem tổng kết</button>
+              : <button className="btn btn-ghost" onClick={() => navigate(-1)}>Về trang chủ</button>}
+          </div>
+        )}
       </div>
 
       {showHints && (
@@ -639,7 +659,10 @@ export function TalkPage() {
         </div>
       )}
 
-      {typing ? (
+      {!outOfTurns && quota && quota.limit - quota.used <= 3 && (
+        <p className="talk-left" role="status">Hôm nay còn <b>{quota.limit - quota.used}</b> lượt nói với Cú</p>
+      )}
+      {outOfTurns ? null : typing ? (
         <form className="talk-bar typing" onSubmit={submitTyped}>
           {hasRecognition() && <button type="button" className="tb-side" onClick={() => setTyping(false)} aria-label="Nói bằng micro">🎤</button>}
           <input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Gõ câu trả lời tiếng Anh…" autoCapitalize="sentences" maxLength={300} />
@@ -657,7 +680,7 @@ export function TalkPage() {
           <button className={`tb-side ${showHints ? 'on' : ''}`} onClick={() => setShowHints((v) => !v)} aria-label="Gợi ý câu trả lời">✨</button>
         </div>
       )}
-      {!settings.onboarded && phase === 'idle' && !typing && <p className="mic-tip">Giữ 🎤 để nói · thả tay để gửi</p>}
+      {!settings.onboarded && !outOfTurns && phase === 'idle' && !typing && <p className="mic-tip">Giữ 🎤 để nói · thả tay để gửi</p>}
 
       {summary && (
         <div className="sheet-backdrop" onClick={() => navigate(-1)}>

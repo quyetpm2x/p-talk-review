@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { speak } from '../lib/speech'
 import { errorText, sentenceLevel, type WordResult } from './core'
 import '../talk/talk.css'
-import { deleteModel, MODEL_BYTES, refreshDownload, startDownload, usePronDownload } from './model'
+import { deleteModel, refreshDownload, startDownload, usePronDownload } from './model'
 import { loadEngine, unloadEngine } from './engine'
 
 const LEVEL_CLASS = { 'Tốt': 'ok', 'Khá': 'mid', 'Cần luyện': 'bad' } as const
@@ -57,11 +57,11 @@ export function PronSetting({ enabled, onChange }: { enabled: boolean; onChange:
   return (
     <div className="pron-setting">
       <div className="row">
-        <div className="grow"><b>🎯 Chấm phát âm</b><small>Chạy ngay trên máy, giọng nói không gửi đi đâu</small></div>
+        <div className="grow"><b>🎯 Chấm phát âm</b></div>
         {ready && <button role="switch" aria-checked={enabled} className={`switch ${enabled ? 'on' : ''}`} onClick={() => onChange(!enabled)}><i /></button>}
       </div>
       {dl.status === 'missing' && (
-        <button className="btn btn-primary btn-block" onClick={() => void startDownload()}>Tải bộ chấm ({Math.round(MODEL_BYTES / 1e6)}MB · nên dùng Wi-Fi)</button>
+        <button className="btn btn-primary btn-block" onClick={() => void startDownload()}>Tải bộ chấm</button>
       )}
       {dl.status === 'downloading' && (
         <>

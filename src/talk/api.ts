@@ -7,10 +7,17 @@ export type TurnBody = {
   topic?: string
   history: { role: 'tutor' | 'student'; text: string; vi?: string }[]
   text: string
+  /** Mã buổi nói — máy chủ giữ một nhà cung cấp AI cho cả buổi */
+  session?: string
 }
 
+/** Số lượt đã dùng / hạn mức trong ngày (máy chủ báo cuối mỗi lượt). */
+export type TalkQuota = { used: number; limit: number }
+/** Lỗi hết lượt trong ngày (429 code 'quota'). */
+export const isQuotaError = (e: unknown) => e instanceof ApiError && e.status === 429 && e.body?.code === 'quota'
+
 /** Một lượt nói: gọi onDelta với từng đoạn lời gia sư (đọc ngay), trả về dữ liệu phụ khi xong. */
-export async function talkTurn(token: string, body: TurnBody, onDelta: (t: string) => void, signal?: AbortSignal): Promise<TalkMeta> {
+export async function talkTurn(token: string, body: TurnBody, onDelta: (t: string) => void, signal?: AbortSignal, onQuota?: (q: TalkQuota) => void): Promise<TalkMeta> {
   if (!API_URL) throw new ApiError(0, 'Ứng dụng chưa được cấu hình máy chủ')
   let res: Response
   try {
@@ -26,7 +33,7 @@ export async function talkTurn(token: string, body: TurnBody, onDelta: (t: strin
   }
   if (!res.ok || !res.body) {
     const j = await res.json().catch(() => ({}))
-    throw new ApiError(res.status, j?.error ?? 'Cú chưa nghe rõ, thử lại nhé')
+    throw new ApiError(res.status, j?.error ?? 'Cú chưa nghe rõ, thử lại nhé', j)
   }
   const reader = res.body.getReader()
   const dec = new TextDecoder()
@@ -40,6 +47,7 @@ export async function talkTurn(token: string, body: TurnBody, onDelta: (t: strin
     for (const e of parsed.events) {
       if (e.event === 'delta' && e.data?.t) onDelta(e.data.t)
       else if (e.event === 'meta') meta = e.data
+      else if (e.event === 'done' && typeof e.data?.used === 'number' && typeof e.data?.limit === 'number') onQuota?.({ used: e.data.used, limit: e.data.limit })
       else if (e.event === 'error') throw new ApiError(502, e.data?.error ?? 'Cú chưa nghe rõ, thử lại nhé')
     }
   }
@@ -48,7 +56,7 @@ export async function talkTurn(token: string, body: TurnBody, onDelta: (t: strin
 
 export type TalkSummary = { phrases_used: string[]; fixes: { said: string; better: string }[]; tip_vi: string }
 
-export async function talkSummary(token: string, body: { lesson: TurnBody['lesson']; transcript: { role: string; text: string }[] }): Promise<TalkSummary> {
+export async function talkSummary(token: string, body: { lesson: TurnBody['lesson']; transcript: { role: string; text: string }[]; session?: string }): Promise<TalkSummary> {
   const res = await fetch(`${API_URL}/talk/summary`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify(body),
   }).catch(() => null)

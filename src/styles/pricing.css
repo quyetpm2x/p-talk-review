@@ -47,7 +47,7 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .pdesk .btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--paper);font-weight:700;font-size:14px;text-decoration:none;box-sizing:border-box}
 .pricing .pdesk .btn:hover{color:var(--paper);opacity:.9}
 .pricing .pdesk .pg-card{background:var(--card);border-radius:16px;box-shadow:var(--shadow)}
-.pricing .pdesk .trow{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));column-gap:18px}
+.pricing .pdesk .trow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);column-gap:18px}
 .pricing .pdesk .tlabel{padding:14px 18px 14px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;justify-content:center}
 .pricing .pdesk .tcell{background:var(--card);border-left:1px solid var(--cb);border-right:1px solid var(--cb);display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 14px;position:relative}
 .pricing .pdesk .tcell::after{content:'';position:absolute;left:16px;right:16px;bottom:0;border-bottom:1px solid var(--rule)}
@@ -74,7 +74,7 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .pdesk .tfoot .tcell{border-bottom:1px solid var(--cb);border-radius:0 0 18px 18px;height:22px;padding:0}
 .pricing .pdesk .col-b{--cb:color-mix(in srgb,var(--blue) 30%,transparent);--c:var(--blue)}
 .pricing .pdesk .col-p{--cb:var(--pink);--c:var(--pink);border-left-width:2px;border-right-width:2px;z-index:1}
-.pricing .pdesk .pglow{position:absolute;z-index:0;pointer-events:none;top:16px;bottom:0;left:calc((100% - 54px) * 2.6 / 4.6 + 36px);width:calc((100% - 54px) / 4.6);border-radius:18px;box-shadow:0 24px 48px -16px rgba(224,53,90,.45),0 0 32px -6px rgba(224,53,90,.35)}
+.pricing .pdesk .pglow{position:absolute;z-index:0;pointer-events:none;top:16px;bottom:0;left:calc((100% - 18px) * 1.6 / 2.6 + 18px);width:calc((100% - 18px) / 2.6);border-radius:18px;box-shadow:0 24px 48px -16px rgba(224,53,90,.45),0 0 32px -6px rgba(224,53,90,.35)}
 .pricing .pdesk .col-x{--cb:color-mix(in srgb,var(--gold) 50%,transparent);--c:var(--gold-ink)}
 .pricing .pdesk .thead .col-p{border-top-width:2px}
 .pricing .pdesk .tfoot .col-p{border-bottom-width:2px}
@@ -190,8 +190,8 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .pmob .btn:hover{color:var(--paper);opacity:.9}
 .pricing .pmob .pg-card{background:var(--card);border-radius:16px;box-shadow:var(--shadow)}
 .pricing .pmob .scroller{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-.pricing .pmob .tbl{width:740px;padding-top:18px;padding-bottom:28px;display:flex;flex-direction:column}
-.pricing .pmob .trow{display:grid;grid-template-columns:196px repeat(3,minmax(0,1fr));column-gap:10px}
+.pricing .pmob .tbl{width:100%;padding-top:18px;padding-bottom:28px;display:flex;flex-direction:column}
+.pricing .pmob .trow{display:grid;grid-template-columns:minmax(0,1fr) 164px;column-gap:10px}
 .pricing .pmob .tlabel{position:sticky;left:0;z-index:3;background:var(--paper);box-shadow:10px 0 0 var(--paper),14px 0 14px -6px rgba(19,32,63,.18);padding:12px 12px 12px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;justify-content:center}
 .pricing .pmob .tcell{background:var(--card);border-left:1px solid var(--cb);border-right:1px solid var(--cb);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 10px;position:relative}
 .pricing .pmob .tcell::after{content:'';position:absolute;left:12px;right:12px;bottom:0;border-bottom:1px solid var(--rule)}
@@ -218,7 +218,7 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .pmob .tfoot .tcell{border-bottom:1px solid var(--cb);border-radius:0 0 16px 16px;height:18px;padding:0}
 .pricing .pmob .col-b{--cb:color-mix(in srgb,var(--blue) 30%,transparent);--c:var(--blue)}
 .pricing .pmob .col-p{--cb:var(--pink);--c:var(--pink);border-left-width:2px;border-right-width:2px;z-index:1}
-.pricing .pmob .pglow{position:absolute;z-index:0;pointer-events:none;top:18px;bottom:28px;left:calc(216px + (100% - 226px) / 3);width:calc((100% - 226px) / 3);border-radius:16px;box-shadow:0 16px 32px -12px rgba(224,53,90,.45),0 0 24px -6px rgba(224,53,90,.35)}
+.pricing .pmob .pglow{position:absolute;z-index:0;pointer-events:none;top:18px;bottom:28px;right:0;width:164px;border-radius:16px;box-shadow:0 16px 32px -12px rgba(224,53,90,.45),0 0 24px -6px rgba(224,53,90,.35)}
 .pricing .pmob .col-x{--cb:color-mix(in srgb,var(--gold) 50%,transparent);--c:var(--gold-ink)}
 .pricing .pmob .thead .col-p{border-top-width:2px}
 .pricing .pmob .tfoot .col-p{border-bottom-width:2px}
@@ -260,7 +260,7 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .pmob .tone-gold{--tone:var(--t-gold)}
 .pricing .pmob .tone-teal{--tone:var(--t-teal)}
 .pricing .pmob .v{font-variant-numeric:tabular-nums}
-.pricing .pmob .v-price{font-size:17px;font-weight:800;color:var(--c)}
+.pricing .pmob .v-price{font-size:15px;font-weight:800;color:var(--c)}
 .pricing .pmob .v-mono{font-size:13px;font-weight:600}
 .pricing .pmob .v-total{font-size:18px;font-weight:800;color:var(--c)}
 .pricing .pmob .v-sub{font-size:12.5px;color:var(--muted);font-weight:500}
@@ -389,3 +389,7 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .pmob .fitcard{margin:6px}
 .pricing .fitlabel p{font-weight:500;letter-spacing:0}
 .pricing .pmob .fiteyebrow{letter-spacing:.14em;font-size:11px}
+
+/* Chỉ còn 1 gói (PRO, tông hồng): các nhãn vốn cứng màu vàng chuyển sang hồng */
+.pricing .col-p .v-goldpill{background:var(--pink);color:#fff}
+.pricing .col-p .v-promo{background:var(--pink);color:#fff;border-color:#fff;box-shadow:0 0 0 1.5px var(--pink)}
