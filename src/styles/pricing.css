@@ -1,6 +1,6 @@
 /* Trang bảng giá /#/bang-gia — port 1:1 từ canvas Design "Bảng giá PTALK English"
    (artboard Desktop·1280 = .pdesk, Mobile·390 = .pmob). Sinh bởi scratchpad/port.mjs, sửa tay được. */
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
 .pricing { margin: 0; min-height: 100vh; background: #f6f1e6; }
 @media (prefers-color-scheme: dark) { .pricing { background: #0f1320; } }
 @media (max-width: 860px) { .pricing .pdesk { display: none; } }
@@ -396,3 +396,273 @@ font-family:'Be Vietnam Pro','Plus Jakarta Sans',system-ui,sans-serif;color:var(
 .pricing .col-p .v-promo{background:var(--pink);color:#fff;border-color:#fff;box-shadow:0 0 0 1.5px var(--pink)}
 /* Ghi chú nổi bật dưới tên tính năng (cùng cỡ chữ với mô tả) */
 .pricing .fdesc.fhl{font-weight:700;background-image:linear-gradient(90deg,#e0355a 0%,#f2685a 50%,#f59a3c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;width:fit-content}
+
+/* ===== Khối Chi phí: bảng 4 cột Hạng mục / Đơn giá / Chi phí năm đầu / Ghi chú + thanh tổng ===== */
+.pricing .costbox{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:var(--card);box-shadow:var(--shadow);border:1px solid var(--rule)}
+.pricing .costbox .cb-title{padding:14px 24px;background:linear-gradient(90deg,#0f1a36,#1d2f5c);}
+.pricing .costbox .cb-title .gpill{color:#f6d690;letter-spacing:.12em}
+.pricing .costbox .cb-row{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);align-items:stretch;border-top:1px solid var(--rule)}
+.pricing .costbox .cb-row>div{padding:20px 22px;display:flex;flex-direction:column;justify-content:center}
+.pricing .costbox .cb-c{align-items:center;text-align:center}
+.pricing .costbox .cb-head{border-top:0;background:linear-gradient(90deg,#13203f,#26407c);color:#fff;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.pricing .costbox .cb-head>div{padding:16px 22px}
+.pricing .costbox .cb-head>div:not(:first-child){align-items:center;text-align:center}
+.pricing .costbox .cb-head .cb-hl{background:linear-gradient(135deg,#f6dfa6,#e3c47e);color:#241804}
+.pricing .costbox .cb-row:not(.cb-head) .cb-hl{background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.pricing .costbox .cb-name b{font-size:16.5px;font-weight:800;line-height:1.35}
+.pricing .costbox .cb-name small{margin-top:4px;font-size:13px;line-height:1.5;color:var(--muted)}
+.pricing .costbox .cb-name .fdesc{margin-top:4px}
+.pricing .costbox .cb-amt{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pricing .costbox .cb-unit{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.pricing .costbox .cb-old{font-size:16px;font-weight:600;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--pink);text-decoration-thickness:1.5px}
+.pricing .costbox .cb-dash{color:var(--dash);font-weight:700}
+.pricing .costbox .cb-gift{display:inline-block;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;line-height:1.35;color:var(--t-pink);background:color-mix(in srgb,var(--pink) 12%,transparent)}
+.pricing .costbox .cb-feat{background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.pricing .costbox .v-price.v-free b{font-size:22px}
+.pricing .pdesk .costbox{margin-bottom:8px}
+
+/* Mobile: mỗi hạng mục thành một thẻ, 3 ô Đơn giá / Năm đầu / Ghi chú có nhãn nhỏ */
+.pricing .pmob .costbox{border-radius:16px}
+.pricing .pmob .costbox .cb-title{padding:12px 16px}
+.pricing .pmob .costbox .cb-head{display:none}
+.pricing .pmob .costbox .cb-row{grid-template-columns:repeat(3,minmax(0,1fr));padding:14px 14px 12px;gap:8px 6px}
+.pricing .pmob .costbox .cb-row>div{padding:0}
+.pricing .pmob .costbox .cb-name{grid-column:1/-1;margin-bottom:4px}
+.pricing .pmob .costbox .cb-name b{font-size:15px}
+.pricing .pmob .costbox .cb-name small{font-size:12px}
+.pricing .pmob .costbox .cb-c{justify-content:flex-start;gap:4px;padding:8px 4px;border-radius:10px}
+.pricing .pmob .costbox .cb-c::before{content:attr(data-l);font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pricing .pmob .costbox .cb-row:not(.cb-head) .cb-hl{background:color-mix(in srgb,var(--gold) 14%,transparent)}
+.pricing .pmob .costbox .cb-amt{font-size:15px}
+.pricing .pmob .costbox .cb-unit,.pricing .pmob .costbox .cb-old{font-size:12.5px}
+.pricing .pmob .costbox .v-price.v-free b{font-size:16px}
+.pricing .pmob .costbox .cb-gift{padding:4px 8px;font-size:11px}
+.pricing .pmob .costbox .cb-row{gap:8px 4px;padding:14px 10px 12px}
+.pricing .pmob .costbox .cb-c{padding:8px 2px;min-width:0}
+.pricing .pmob .costbox .cb-amt{font-size:14px}
+.pricing .pmob .costbox .cb-unit{font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.pricing .pmob .costbox .cb-gift{font-size:10.5px;padding:4px 6px}
+/* 0đ của AI sửa lỗi phát âm: số to, chữ chuyển màu hồng → cam */
+.pricing .costbox .cb-zero{font-size:40px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;background-image:linear-gradient(90deg,#e0355a,#f2685a 50%,#f59a3c);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.pricing .pmob .costbox .cb-zero{font-size:24px}
+.pricing .costbox .cb-note .v-price.v-free b{font-size:20px}
+.pricing .pmob .costbox .cb-note .v-price.v-free b{font-size:14px}
+/* Cỡ chữ lớn hơn cho khối Chi phí (nhất là tiêu đề) */
+.pricing .pdesk .costbox .cb-title{padding:18px 28px}
+.pricing .pdesk .costbox .cb-title .gpill{font-size:20px}
+.pricing .pdesk .costbox .cb-head{font-size:16px}
+.pricing .pdesk .costbox .cb-head>div{padding:20px 24px}
+.pricing .pdesk .costbox .cb-row>div{padding:24px}
+.pricing .pdesk .costbox .cb-name b{font-size:20px}
+.pricing .pdesk .costbox .cb-name small{font-size:15px}
+.pricing .pdesk .costbox .cb-name .fdesc{font-size:15px}
+.pricing .pdesk .costbox .cb-amt{font-size:26px}
+.pricing .pdesk .costbox .cb-unit{font-size:18px}
+.pricing .pdesk .costbox .cb-old{font-size:19px}
+.pricing .pdesk .costbox .cb-dash{font-size:18px}
+.pricing .pdesk .costbox .cb-gift{font-size:15px;padding:8px 14px}
+.pricing .pdesk .costbox .cb-zero{font-size:50px}
+.pricing .pdesk .costbox .cb-note .v-price.v-free b{font-size:24px}
+.pricing .pmob .costbox .cb-title .gpill{font-size:15px}
+.pricing .pmob .costbox .cb-name b{font-size:17px}
+.pricing .pmob .costbox .cb-name small,.pricing .pmob .costbox .cb-name .fdesc{font-size:13px}
+.pricing .pmob .costbox .cb-c::before{font-size:11px}
+.pricing .pmob .costbox .cb-amt{font-size:15.5px}
+.pricing .pmob .costbox .cb-unit,.pricing .pmob .costbox .cb-old{font-size:13px}
+.pricing .pmob .costbox .cb-zero{font-size:28px}
+.pricing .pmob .costbox .cb-note .v-price.v-free b{font-size:15px}
+.pricing .pdesk .costbox .cb-row{grid-template-columns:minmax(0,2.3fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr)}
+.pricing .pdesk .costbox .cb-row{grid-template-columns:minmax(0,1.85fr) minmax(0,1.05fr) minmax(0,1.1fr) minmax(0,1.1fr)}
+.pricing .pdesk .costbox .cb-head{letter-spacing:.06em}
+.pricing .pdesk .costbox .cb-head>div,.pricing .pdesk .costbox .cb-unit{white-space:nowrap}
+/* Tiêu đề trong khối Chi phí: to + đậm hơn (Be Vietnam Pro 900) */
+.pricing .pdesk .costbox .cb-title .gpill{font-size:24px;font-weight:900}
+.pricing .pdesk .costbox .cb-head{font-size:18px;font-weight:900}
+.pricing .pdesk .costbox .cb-name b{font-size:23px;font-weight:900;letter-spacing:-.005em}
+.pricing .pmob .costbox .cb-title .gpill{font-size:17px;font-weight:900}
+.pricing .pmob .costbox .cb-name b{font-size:18.5px;font-weight:900}
+.pricing .pmob .costbox .cb-c::before{font-weight:800}
+.pricing .pdesk .costbox .cb-row{grid-template-columns:minmax(0,2.15fr) minmax(0,1fr) minmax(0,1.05fr) minmax(0,1fr)}
+/* Ghi chú Qwen trong cột Ghi chú: chữ chuyển màu hồng → cam */
+.pricing .costbox .cb-qwen{font-size:14px;font-weight:700;line-height:1.45;background-image:linear-gradient(90deg,#e0355a,#f2685a 50%,#f59a3c);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.pricing .pmob .costbox .cb-qwen{font-size:11px;line-height:1.35}
+.pricing .pmob .costbox .cb-note:has(.cb-qwen){grid-column:1/-1}
+.pricing .pmob .costbox .cb-qwen{font-size:12.5px}
+/* Ghi chú bảo trì: 2 dòng — "Tặng 2 tháng đầu" to + nổi bật, "Tính phí 10 tháng" nhỏ bên dưới */
+.pricing .costbox .cb-gift{display:inline-flex;flex-direction:column;align-items:center;gap:2px;padding:10px 16px;border-radius:14px}
+.pricing .costbox .cb-gift b{font-size:19px;font-weight:900;line-height:1.25;white-space:nowrap;color:var(--t-pink)}
+.pricing .costbox .cb-gift small{font-size:13px;font-weight:600;color:var(--muted)}
+.pricing .pmob .costbox .cb-gift{padding:6px 6px;border-radius:10px}
+.pricing .pmob .costbox .cb-gift b{font-size:12px;white-space:normal}
+.pricing .pmob .costbox .cb-gift small{font-size:10.5px}
+.pricing .pdesk .costbox .cb-gift{padding:10px 12px;max-width:100%;box-sizing:border-box}
+.pricing .pdesk .costbox .cb-gift b{font-size:17px}
+/* Bỏ nền nhãn tặng; "Tặng 2 tháng đầu" chữ chuyển màu hồng → cam (emoji để ngoài để không bị trong suốt) */
+.pricing .costbox .cb-gift{background:none;padding:0}
+.pricing .costbox .cb-grad{background-image:linear-gradient(90deg,#e0355a,#f2685a 50%,#f59a3c);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.pricing .pdesk .costbox .cb-gift b{font-size:19px}
+.pricing .pmob .costbox .cb-gift b{font-size:13px}
+/* Thanh Tổng đầu tư: ô icon | tiêu đề + mô tả | ô giá vàng có ánh sáng lướt */
+.pricing .costbox .cb-total{position:relative;overflow:hidden;display:flex;align-items:center;gap:24px;padding:22px 24px 22px 26px;color:#fff;background:radial-gradient(120% 180% at 100% 0%,#33508f 0%,#1d2f5c 45%,#0f1a36 100%)}
+.pricing .costbox .cb-total::before{content:'';position:absolute;inset:8px;border:1px solid rgba(227,196,126,.35);border-radius:14px;pointer-events:none}
+.pricing .costbox .cbt-ico{position:relative;flex:none;width:64px;height:64px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;color:#f6d690;background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.04));box-shadow:inset 0 0 0 1px rgba(246,214,144,.35),0 10px 22px -10px rgba(0,0,0,.6)}
+.pricing .costbox .cbt-text{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding-left:24px;border-left:1px solid rgba(246,214,144,.3)}
+.pricing .costbox .cbt-title{font-size:27px;font-weight:900;line-height:1.15;letter-spacing:.04em;text-transform:uppercase}
+.pricing .costbox .cbt-desc{font-size:16px;font-weight:500;color:rgba(244,239,227,.78)}
+.pricing .costbox .cbt-val{position:relative;overflow:hidden;flex:none;padding:16px 34px;border-radius:16px;background:linear-gradient(135deg,#fbe7b8 0%,#e3c47e 45%,#c9a04e 75%,#f0d08a 100%);box-shadow:inset 0 0 0 1px rgba(255,244,214,.75),0 14px 30px -12px rgba(201,160,78,.7)}
+.pricing .costbox .cbt-val b{position:relative;z-index:1;display:block;font-size:40px;font-weight:900;line-height:1;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:#13203f}
+.pricing .costbox .cbt-val::after{content:'';position:absolute;top:0;bottom:0;left:-70%;width:45%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:ctaShine 3.6s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-val::after{animation:none;display:none}}
+/* Mobile: icon + chữ một hàng, ô giá xuống dòng full chiều ngang */
+.pricing .pmob .costbox .cb-total{flex-wrap:wrap;gap:12px 12px;padding:16px 14px}
+.pricing .pmob .costbox .cb-total::before{inset:6px;border-radius:10px}
+.pricing .pmob .costbox .cbt-ico{width:46px;height:46px;border-radius:12px}
+.pricing .pmob .costbox .cbt-ico svg{width:22px;height:22px}
+.pricing .pmob .costbox .cbt-text{padding-left:12px;gap:3px}
+.pricing .pmob .costbox .cbt-title{font-size:16px}
+.pricing .pmob .costbox .cbt-desc{font-size:12.5px}
+.pricing .pmob .costbox .cbt-val{flex-basis:100%;padding:12px;border-radius:12px;text-align:center}
+.pricing .pmob .costbox .cbt-val b{font-size:28px}
+.pricing .pdesk .costbox .cbt-ico svg{width:36px;height:36px}
+/* Ánh sáng chạy quanh viền ô giá tổng: dải conic xoay, mask chỉ giữ phần viền */
+@property --cbt-a{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes cbtSpin{to{--cbt-a:360deg}}
+.pricing .costbox .cbt-val::before{content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;padding:3px;pointer-events:none;
+  background:conic-gradient(from var(--cbt-a),transparent 0deg,transparent 220deg,rgba(255,236,180,.5) 270deg,#fff 315deg,#ffd27a 335deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  filter:drop-shadow(0 0 4px rgba(255,236,180,.9));animation:cbtSpin 3s linear infinite}
+.pricing .pmob .costbox .cbt-val::before{padding:2px}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-val::before{animation:none}}
+/* Vòng sáng nằm ngoài mép ô giá (toả lên nền navy); vệt lướt bên trong đổi sang chạy bằng background-position nên không cần overflow:hidden */
+@keyframes cbtSweep{0%{background-position:160% 0}60%,100%{background-position:-60% 0}}
+.pricing .costbox .cbt-val{overflow:visible}
+.pricing .costbox .cbt-val::after{left:0;right:0;width:auto;transform:none;border-radius:inherit;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%);background-size:250% 100%;animation:cbtSweep 3.6s ease-in-out infinite}
+.pricing .costbox .cbt-val::before{inset:-4px;padding:3px;border-radius:19px;
+  background:conic-gradient(from var(--cbt-a),transparent 0deg,transparent 200deg,rgba(246,214,144,.35) 250deg,#ffe7a8 300deg,#fff 330deg,#ffd27a 345deg,transparent 360deg);
+  filter:drop-shadow(0 0 6px rgba(255,226,150,.95)) drop-shadow(0 0 14px rgba(255,210,120,.55))}
+.pricing .pmob .costbox .cbt-val::before{inset:-3px;padding:2.5px;border-radius:14px}
+/* Ánh sáng chạy viền tốc độ đều: SVG rect bo góc, đoạn sáng chạy theo chu vi bằng stroke-dashoffset
+   (thay cho dải conic xoay — xoay theo góc nên lướt nhanh ở cạnh ngắn, chậm ở giữa cạnh dài) */
+.pricing .costbox .cbt-val::before{content:none}
+.pricing .costbox .cbt-ring{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);overflow:visible;pointer-events:none;z-index:2}
+.pricing .costbox .cbt-ring rect{fill:none;rx:20px;ry:20px;stroke-linecap:round}
+.pricing .costbox .cbt-trail{stroke:#ffe2a0;stroke-width:3;stroke-dasharray:24 76;opacity:.55;filter:drop-shadow(0 0 5px rgba(255,214,130,.9));animation:cbtRunT 4s linear infinite}
+.pricing .costbox .cbt-head{stroke:#fff;stroke-width:3;stroke-dasharray:7 93;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px rgba(255,220,140,.95));animation:cbtRunH 4s linear infinite}
+/* đầu sáng nằm ở đầu đoạn đuôi (lệch 17 = 24 − 7) */
+@keyframes cbtRunT{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes cbtRunH{from{stroke-dashoffset:-17}to{stroke-dashoffset:-117}}
+.pricing .pmob .costbox .cbt-ring{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
+.pricing .pmob .costbox .cbt-ring rect{rx:15px;ry:15px}
+.pricing .pmob .costbox .cbt-trail,.pricing .pmob .costbox .cbt-head{stroke-width:2.5}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-trail,.pricing .costbox .cbt-head{animation:none}}
+.pricing .pdesk .costbox .cbt-ring{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
+.pricing .pdesk .costbox .cbt-ring rect{rx:19px;ry:19px}
+.pricing .costbox .cbt-trail{stroke-dasharray:18 82}
+.pricing .costbox .cbt-head{stroke-dasharray:6 94;animation-name:cbtRunH2}
+@keyframes cbtRunH2{from{stroke-dashoffset:-12}to{stroke-dashoffset:-112}}
+/* Đầu sáng + đuôi dùng CHUNG một animation (cbtRunT) để không bao giờ lệch nhau;
+   vị trí đầu sáng nằm sẵn trong mẫu nét: bỏ trống 12 rồi vẽ 6 = đúng cuối đoạn đuôi 18 */
+.pricing .costbox .cbt-head{stroke-dasharray:0 12 6 82;stroke-linecap:butt;animation-name:cbtRunT}
+/* Mẫu nét không có đoạn dài 0 (tránh chấm trắng): đầu sáng 0→6; đuôi 88→100 nối liền 0→6 (tức −12→6) */
+.pricing .costbox .cbt-head{stroke-dasharray:6 94;stroke-linecap:round}
+.pricing .costbox .cbt-trail{stroke-dasharray:6 82 12 0}
+/* Quầng sáng mềm chạy viền, tốc độ đều: 4 lớp nét cùng tâm (dài dần, mờ dần) → sáng giữa, mờ 2 đầu.
+   Mẫu nét "L/2  100−L  L/2  0" đặt tâm đoạn sáng ở vị trí 0; cả 4 lớp chung animation cbtRunT nên không lệch */
+.pricing .costbox .cbt-ring g{filter:drop-shadow(0 0 5px rgba(255,226,150,.95)) drop-shadow(0 0 14px rgba(255,205,110,.6))}
+.pricing .costbox .cbt-ring rect{stroke-linecap:round;animation:cbtRunT 4s linear infinite}
+.pricing .costbox .cbt-l1{stroke:#ffcf73;stroke-width:4;opacity:.2;stroke-dasharray:16 68 16 0}
+.pricing .costbox .cbt-l2{stroke:#ffdc96;stroke-width:3.5;opacity:.35;stroke-dasharray:10 80 10 0}
+.pricing .costbox .cbt-l3{stroke:#fff0c8;stroke-width:3;opacity:.6;stroke-dasharray:6 88 6 0}
+.pricing .costbox .cbt-l4{stroke:#fff;stroke-width:3;opacity:1;stroke-dasharray:2.5 95 2.5 0}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-ring rect{animation:none}}
+/* 8 lớp: dài 34→2 (đơn vị chu vi = 100), độ mờ tăng dần; màu vàng ấm ra lõi trắng */
+.pricing .costbox .cbt-ring g{filter:blur(.5px) drop-shadow(0 0 5px rgba(255,226,150,.9)) drop-shadow(0 0 14px rgba(255,205,110,.55))}
+.pricing .costbox .cbt-l1{stroke:#ffc865;stroke-width:3;opacity:0.12;stroke-dasharray:17.0 66.0 17.0 0}
+.pricing .costbox .cbt-l2{stroke:#ffcf73;stroke-width:3;opacity:0.12;stroke-dasharray:14.71 70.57 14.71 0}
+.pricing .costbox .cbt-l3{stroke:#ffd88a;stroke-width:3;opacity:0.12;stroke-dasharray:12.43 75.14 12.43 0}
+.pricing .costbox .cbt-l4{stroke:#ffe0a0;stroke-width:3;opacity:0.12;stroke-dasharray:10.14 79.71 10.14 0}
+.pricing .costbox .cbt-l5{stroke:#ffe9bb;stroke-width:3;opacity:0.12;stroke-dasharray:7.86 84.29 7.86 0}
+.pricing .costbox .cbt-l6{stroke:#fff1d4;stroke-width:3;opacity:0.12;stroke-dasharray:5.57 88.86 5.57 0}
+.pricing .costbox .cbt-l7{stroke:#fff8ea;stroke-width:3;opacity:0.12;stroke-dasharray:3.29 93.43 3.29 0}
+.pricing .costbox .cbt-l8{stroke:#ffffff;stroke-width:3;opacity:1;stroke-dasharray:1.0 98.0 1.0 0}
+/* Sáng hơn: mỗi lớp viền 0.24, lõi trắng dài 6 */
+.pricing .costbox .cbt-l1{stroke:#ffc865;stroke-width:3;opacity:0.24;stroke-dasharray:18.0 64.0 18.0 0}
+.pricing .costbox .cbt-l2{stroke:#ffcf73;stroke-width:3;opacity:0.24;stroke-dasharray:15.86 68.29 15.86 0}
+.pricing .costbox .cbt-l3{stroke:#ffd88a;stroke-width:3;opacity:0.24;stroke-dasharray:13.71 72.57 13.71 0}
+.pricing .costbox .cbt-l4{stroke:#ffe0a0;stroke-width:3;opacity:0.24;stroke-dasharray:11.57 76.86 11.57 0}
+.pricing .costbox .cbt-l5{stroke:#ffe9bb;stroke-width:3;opacity:0.24;stroke-dasharray:9.43 81.14 9.43 0}
+.pricing .costbox .cbt-l6{stroke:#fff1d4;stroke-width:3;opacity:0.24;stroke-dasharray:7.29 85.43 7.29 0}
+.pricing .costbox .cbt-l7{stroke:#fff8ea;stroke-width:3.5;opacity:0.24;stroke-dasharray:5.14 89.71 5.14 0}
+.pricing .costbox .cbt-l8{stroke:#ffffff;stroke-width:3.5;opacity:1;stroke-dasharray:3.0 94.0 3.0 0}
+/* Quầng sáng (halo) chạy quanh viền, tốc độ đều: đốm sáng to + nhoè mạnh nằm SAU ô vàng
+   → chỉ phần toả ra ngoài mép hiện lên nền navy. Hai lớp chung animation cbtRunT. */
+.pricing .costbox .cb-total{isolation:isolate}
+.pricing .costbox .cbt-ring{z-index:-1;inset:0;width:100%;height:100%}
+.pricing .costbox .cbt-ring g{filter:none}
+.pricing .costbox .cbt-ring rect{rx:16px;ry:16px;fill:none;stroke-linecap:round;animation:cbtRunT 4.5s linear infinite}
+.pricing .costbox .cbt-halo{stroke:#ffd77e;stroke-width:26;opacity:.85;stroke-dasharray:5 90 5 0;filter:blur(10px)}
+.pricing .costbox .cbt-core{stroke:#fff6dc;stroke-width:12;opacity:.95;stroke-dasharray:2.5 95 2.5 0;filter:blur(5px)}
+.pricing .pmob .costbox .cbt-ring rect{rx:12px;ry:12px}
+.pricing .pmob .costbox .cbt-halo{stroke-width:18;filter:blur(7px)}
+.pricing .pmob .costbox .cbt-core{stroke-width:9;filter:blur(4px)}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-ring rect{animation:none}}
+/* Quầng sáng xoay như bản đầu (conic quanh mép ngoài), nhưng góc xoay được bù theo tỉ lệ ô
+   → vệt sáng đi trên viền với tốc độ đều (đo ô thật: desktop 350×80, mobile 334×58 tính cả viền sáng) */
+@keyframes cbtSpinD{0.0%{--cbt-a:-325.0deg}1.67%{--cbt-a:-305.29deg}3.33%{--cbt-a:-289.37deg}5.0%{--cbt-a:-277.93deg}6.67%{--cbt-a:-269.9deg}8.33%{--cbt-a:-264.17deg}10.0%{--cbt-a:-259.94deg}11.67%{--cbt-a:-256.74deg}13.33%{--cbt-a:-254.23deg}15.0%{--cbt-a:-252.23deg}16.67%{--cbt-a:-250.59deg}18.33%{--cbt-a:-249.24deg}20.0%{--cbt-a:-248.09deg}21.67%{--cbt-a:-244.3deg}23.33%{--cbt-a:-239.68deg}25.0%{--cbt-a:-235.0deg}26.67%{--cbt-a:-230.32deg}28.33%{--cbt-a:-225.7deg}30.0%{--cbt-a:-221.91deg}31.67%{--cbt-a:-220.76deg}33.33%{--cbt-a:-219.41deg}35.0%{--cbt-a:-217.77deg}36.67%{--cbt-a:-215.77deg}38.33%{--cbt-a:-213.26deg}40.0%{--cbt-a:-210.06deg}41.67%{--cbt-a:-205.83deg}43.33%{--cbt-a:-200.1deg}45.0%{--cbt-a:-192.07deg}46.67%{--cbt-a:-180.63deg}48.33%{--cbt-a:-164.71deg}50.0%{--cbt-a:-145.0deg}51.67%{--cbt-a:-125.29deg}53.33%{--cbt-a:-109.37deg}55.0%{--cbt-a:-97.93deg}56.67%{--cbt-a:-89.9deg}58.33%{--cbt-a:-84.17deg}60.0%{--cbt-a:-79.94deg}61.67%{--cbt-a:-76.74deg}63.33%{--cbt-a:-74.23deg}65.0%{--cbt-a:-72.23deg}66.67%{--cbt-a:-70.59deg}68.33%{--cbt-a:-69.24deg}70.0%{--cbt-a:-68.09deg}71.67%{--cbt-a:-64.3deg}73.33%{--cbt-a:-59.68deg}75.0%{--cbt-a:-55.0deg}76.67%{--cbt-a:-50.32deg}78.33%{--cbt-a:-45.7deg}80.0%{--cbt-a:-41.91deg}81.67%{--cbt-a:-40.76deg}83.33%{--cbt-a:-39.41deg}85.0%{--cbt-a:-37.77deg}86.67%{--cbt-a:-35.77deg}88.33%{--cbt-a:-33.26deg}90.0%{--cbt-a:-30.06deg}91.67%{--cbt-a:-25.83deg}93.33%{--cbt-a:-20.1deg}95.0%{--cbt-a:-12.07deg}96.67%{--cbt-a:-0.63deg}98.33%{--cbt-a:15.29deg}100.0%{--cbt-a:35.0deg}}
+@keyframes cbtSpinM{0.0%{--cbt-a:-325.0deg}1.67%{--cbt-a:-300.74deg}3.33%{--cbt-a:-282.98deg}5.0%{--cbt-a:-271.49deg}6.67%{--cbt-a:-264.02deg}8.33%{--cbt-a:-258.94deg}10.0%{--cbt-a:-255.3deg}11.67%{--cbt-a:-252.59deg}13.33%{--cbt-a:-250.51deg}15.0%{--cbt-a:-248.85deg}16.67%{--cbt-a:-247.51deg}18.33%{--cbt-a:-246.41deg}20.0%{--cbt-a:-245.48deg}21.67%{--cbt-a:-243.89deg}23.33%{--cbt-a:-239.47deg}25.0%{--cbt-a:-235.0deg}26.67%{--cbt-a:-230.53deg}28.33%{--cbt-a:-226.11deg}30.0%{--cbt-a:-224.52deg}31.67%{--cbt-a:-223.59deg}33.33%{--cbt-a:-222.49deg}35.0%{--cbt-a:-221.15deg}36.67%{--cbt-a:-219.49deg}38.33%{--cbt-a:-217.41deg}40.0%{--cbt-a:-214.7deg}41.67%{--cbt-a:-211.06deg}43.33%{--cbt-a:-205.98deg}45.0%{--cbt-a:-198.51deg}46.67%{--cbt-a:-187.02deg}48.33%{--cbt-a:-169.26deg}50.0%{--cbt-a:-145.0deg}51.67%{--cbt-a:-120.74deg}53.33%{--cbt-a:-102.98deg}55.0%{--cbt-a:-91.49deg}56.67%{--cbt-a:-84.02deg}58.33%{--cbt-a:-78.94deg}60.0%{--cbt-a:-75.3deg}61.67%{--cbt-a:-72.59deg}63.33%{--cbt-a:-70.51deg}65.0%{--cbt-a:-68.85deg}66.67%{--cbt-a:-67.51deg}68.33%{--cbt-a:-66.41deg}70.0%{--cbt-a:-65.48deg}71.67%{--cbt-a:-63.89deg}73.33%{--cbt-a:-59.47deg}75.0%{--cbt-a:-55.0deg}76.67%{--cbt-a:-50.53deg}78.33%{--cbt-a:-46.11deg}80.0%{--cbt-a:-44.52deg}81.67%{--cbt-a:-43.59deg}83.33%{--cbt-a:-42.49deg}85.0%{--cbt-a:-41.15deg}86.67%{--cbt-a:-39.49deg}88.33%{--cbt-a:-37.41deg}90.0%{--cbt-a:-34.7deg}91.67%{--cbt-a:-31.06deg}93.33%{--cbt-a:-25.98deg}95.0%{--cbt-a:-18.51deg}96.67%{--cbt-a:-7.02deg}98.33%{--cbt-a:10.74deg}100.0%{--cbt-a:35.0deg}}
+.pricing .costbox .cbt-val::before{content:"";animation:cbtSpinD 4s linear infinite}
+.pricing .pmob .costbox .cbt-val::before{animation-name:cbtSpinM}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-val::before{animation:none}}
+/* Ánh sáng viền kiểu bản đầu (đầu trắng + đuôi vàng mờ dần) nhưng chạy theo chu vi → tốc độ & độ dài đuôi luôn đều.
+   14 lớp nét cùng kết thúc ở đầu sáng; stroke-dashoffset animate trên <g> và được các rect kế thừa → một animation duy nhất. */
+.pricing .costbox .cbt-val::before{content:none}
+.pricing .costbox .cbt-tail{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);overflow:visible;pointer-events:none;z-index:2}
+.pricing .costbox .cbt-tail g{stroke-dashoffset:0;animation:cbtTail 4s linear infinite;filter:drop-shadow(0 0 4px rgba(255,236,180,.9)) drop-shadow(0 0 10px rgba(255,214,130,.45))}
+.pricing .costbox .cbt-tail rect{fill:none;rx:20px;ry:20px;stroke-width:3;stroke-linecap:butt}
+.pricing .pmob .costbox .cbt-tail{inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px)}
+.pricing .pmob .costbox .cbt-tail rect{rx:15px;ry:15px;stroke-width:2.5}
+@keyframes cbtTail{to{stroke-dashoffset:-100}}
+@media (prefers-reduced-motion: reduce){.pricing .costbox .cbt-tail g{animation:none}}
+.pricing .costbox .cbt-t0{stroke:rgb(201,160,78);opacity:0.16;stroke-dasharray:0 68.0 32.0 0}
+.pricing .costbox .cbt-t1{stroke:rgb(205,167,92);opacity:0.16;stroke-dasharray:0 70.37 29.63 0}
+.pricing .costbox .cbt-t2{stroke:rgb(209,175,105);opacity:0.16;stroke-dasharray:0 72.74 27.26 0}
+.pricing .costbox .cbt-t3{stroke:rgb(213,182,119);opacity:0.16;stroke-dasharray:0 75.11 24.89 0}
+.pricing .costbox .cbt-t4{stroke:rgb(218,189,132);opacity:0.16;stroke-dasharray:0 77.48 22.52 0}
+.pricing .costbox .cbt-t5{stroke:rgb(222,197,146);opacity:0.16;stroke-dasharray:0 79.85 20.15 0}
+.pricing .costbox .cbt-t6{stroke:rgb(226,204,160);opacity:0.16;stroke-dasharray:0 82.22 17.78 0}
+.pricing .costbox .cbt-t7{stroke:rgb(230,211,173);opacity:0.16;stroke-dasharray:0 84.58 15.42 0}
+.pricing .costbox .cbt-t8{stroke:rgb(234,218,187);opacity:0.16;stroke-dasharray:0 86.95 13.05 0}
+.pricing .costbox .cbt-t9{stroke:rgb(238,226,201);opacity:0.16;stroke-dasharray:0 89.32 10.68 0}
+.pricing .costbox .cbt-t10{stroke:rgb(243,233,214);opacity:0.16;stroke-dasharray:0 91.69 8.31 0}
+.pricing .costbox .cbt-t11{stroke:rgb(247,240,228);opacity:0.16;stroke-dasharray:0 94.06 5.94 0}
+.pricing .costbox .cbt-t12{stroke:rgb(251,248,241);opacity:0.16;stroke-dasharray:0 96.43 3.57 0}
+.pricing .costbox .cbt-t13{stroke:rgb(255,255,255);opacity:1;stroke-dasharray:0 98.8 1.2 0}
+/* 28 lớp cho đuôi mượt (ghi đè bộ 14 lớp ở trên) */
+.pricing .costbox .cbt-t0{stroke:rgb(201,160,78);opacity:0.085;stroke-dasharray:0 68.0 32.0 0}
+.pricing .costbox .cbt-t1{stroke:rgb(203,164,85);opacity:0.085;stroke-dasharray:0 69.13 30.87 0}
+.pricing .costbox .cbt-t2{stroke:rgb(205,167,91);opacity:0.085;stroke-dasharray:0 70.26 29.74 0}
+.pricing .costbox .cbt-t3{stroke:rgb(207,171,98);opacity:0.085;stroke-dasharray:0 71.39 28.61 0}
+.pricing .costbox .cbt-t4{stroke:rgb(209,174,104);opacity:0.085;stroke-dasharray:0 72.52 27.48 0}
+.pricing .costbox .cbt-t5{stroke:rgb(211,178,111);opacity:0.085;stroke-dasharray:0 73.65 26.35 0}
+.pricing .costbox .cbt-t6{stroke:rgb(213,181,117);opacity:0.085;stroke-dasharray:0 74.78 25.22 0}
+.pricing .costbox .cbt-t7{stroke:rgb(215,185,124);opacity:0.085;stroke-dasharray:0 75.91 24.09 0}
+.pricing .costbox .cbt-t8{stroke:rgb(217,188,130);opacity:0.085;stroke-dasharray:0 77.04 22.96 0}
+.pricing .costbox .cbt-t9{stroke:rgb(219,192,137);opacity:0.085;stroke-dasharray:0 78.17 21.83 0}
+.pricing .costbox .cbt-t10{stroke:rgb(221,195,144);opacity:0.085;stroke-dasharray:0 79.3 20.7 0}
+.pricing .costbox .cbt-t11{stroke:rgb(223,199,150);opacity:0.085;stroke-dasharray:0 80.43 19.57 0}
+.pricing .costbox .cbt-t12{stroke:rgb(225,202,157);opacity:0.085;stroke-dasharray:0 81.56 18.44 0}
+.pricing .costbox .cbt-t13{stroke:rgb(227,206,163);opacity:0.085;stroke-dasharray:0 82.69 17.31 0}
+.pricing .costbox .cbt-t14{stroke:rgb(229,209,170);opacity:0.085;stroke-dasharray:0 83.81 16.19 0}
+.pricing .costbox .cbt-t15{stroke:rgb(231,213,176);opacity:0.085;stroke-dasharray:0 84.94 15.06 0}
+.pricing .costbox .cbt-t16{stroke:rgb(233,216,183);opacity:0.085;stroke-dasharray:0 86.07 13.93 0}
+.pricing .costbox .cbt-t17{stroke:rgb(235,220,189);opacity:0.085;stroke-dasharray:0 87.2 12.8 0}
+.pricing .costbox .cbt-t18{stroke:rgb(237,223,196);opacity:0.085;stroke-dasharray:0 88.33 11.67 0}
+.pricing .costbox .cbt-t19{stroke:rgb(239,227,203);opacity:0.085;stroke-dasharray:0 89.46 10.54 0}
+.pricing .costbox .cbt-t20{stroke:rgb(241,230,209);opacity:0.085;stroke-dasharray:0 90.59 9.41 0}
+.pricing .costbox .cbt-t21{stroke:rgb(243,234,216);opacity:0.085;stroke-dasharray:0 91.72 8.28 0}
+.pricing .costbox .cbt-t22{stroke:rgb(245,237,222);opacity:0.085;stroke-dasharray:0 92.85 7.15 0}
+.pricing .costbox .cbt-t23{stroke:rgb(247,241,229);opacity:0.085;stroke-dasharray:0 93.98 6.02 0}
+.pricing .costbox .cbt-t24{stroke:rgb(249,244,235);opacity:0.085;stroke-dasharray:0 95.11 4.89 0}
+.pricing .costbox .cbt-t25{stroke:rgb(251,248,242);opacity:0.085;stroke-dasharray:0 96.24 3.76 0}
+.pricing .costbox .cbt-t26{stroke:rgb(253,251,248);opacity:0.085;stroke-dasharray:0 97.37 2.63 0}
+.pricing .costbox .cbt-t27{stroke:rgb(255,255,255);opacity:1;stroke-dasharray:0 98.5 1.5 0}
